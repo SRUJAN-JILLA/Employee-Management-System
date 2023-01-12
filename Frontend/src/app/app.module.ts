@@ -11,6 +11,8 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { CustomPipePipe } from './pipes/custom-pipe.pipe';
+import { SortDirective } from './directive/sort.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     EmployeeListComponent,
     UpdateEmployeeComponent,
     HomeComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
+    CustomPipePipe,
+    SortDirective
   ],
   imports: [
     BrowserModule,

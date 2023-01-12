@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 export class EmployeeListComponent implements OnInit {
 
   public employees: Employee[];
-  public searchText: any;
+  public selected = 'Search by...';
+  public searchArea = '';
 
   constructor(private employeeService: EmployeeService, private router: Router) { }
 
@@ -34,4 +35,7 @@ export class EmployeeListComponent implements OnInit {
       this.getEmployees();
     })
   }
+  searchBy(){
+    this.searchArea = this.selected + ":";
+    }
 }

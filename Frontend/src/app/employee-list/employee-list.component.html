@@ -1,21 +1,36 @@
-<div class="input-group mb-3">
-    <span color="primary" class="input-group-text" id="inputGroup-sizing-default" style="color: white;background-color: #4e62cf;">Search</span>
+<!-- <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default" style="color: white;background-color: #4e62cf;">Search</span>
     <input type="text" [(ngModel)]="searchText" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+</div> -->
+
+<div class="input-group mb-3">
+    <mat-form-field style="color: #4e62cf;" appearance="fill">
+        <mat-label><b>Search by...</b></mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option>None</mat-option>
+          <mat-option value="firstName" (click)="searchBy()">First name</mat-option>
+          <mat-option value="lastName" (click)="searchBy()">Last name</mat-option>
+          <mat-option value="email" (click)="searchBy()">Email</mat-option>
+          <mat-option value="job" (click)="searchBy()">Job</mat-option>
+        </mat-select>
+      </mat-form-field>
+    <input type="text" [(ngModel)]="searchArea" class="form-control" style="height: 51px;" aria-label="Text input with dropdown button">
   </div>
 <table class = "table table-striped">
     <thead>
         <tr>
-            <th> Employee  Id</th>
-            <th> First Name</th>
-            <th> Last Name </th>
-            <th> Email Id</th>
-            <th> Salary </th>
-            <th> Allocated Job</th>
+            <th [appSort]="employees" data-order="desc" data-name="id"> Employee  Id</th>
+            <th [appSort]="employees" data-order="desc" data-name="firstName"> First Name</th>
+            <th [appSort]="employees" data-order="desc" data-name="lastName"> Last Name </th>
+            <th [appSort]="employees" data-order="desc" data-name="email"> Email Id</th>
+            <th [appSort]="employees" data-order="desc" data-name="salary"> Salary </th>
+            <th [appSort]="employees" data-order="desc" data-name="job"> Allocated Job</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor = "let employee of employees | filter:searchText" >
+        <!--instead of this u can also use this filter:searchText"  -->
+        <tr *ngFor = "let employee of employees | customPipe:searchArea" >
             <td> {{ employee.id }} </td>
             <td> {{ employee.firstName }} </td>
             <td> {{ employee.lastName }} </td>
