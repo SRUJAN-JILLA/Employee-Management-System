@@ -1,3 +1,7 @@
+<div class="input-group mb-3">
+    <span color="primary" class="input-group-text" id="inputGroup-sizing-default" style="color: white;background-color: #4e62cf;">Search</span>
+    <input type="text" [(ngModel)]="searchText" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+  </div>
 <table class = "table table-striped">
     <thead>
         <tr>
@@ -11,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor = "let employee of employees" >
+        <tr *ngFor = "let employee of employees | filter:searchText" >
             <td> {{ employee.id }} </td>
             <td> {{ employee.firstName }} </td>
             <td> {{ employee.lastName }} </td>

@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MaterialModule } from './material/material.module';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    Ng2SearchPipeModule,
     MaterialModule
   ],
   providers: [],
