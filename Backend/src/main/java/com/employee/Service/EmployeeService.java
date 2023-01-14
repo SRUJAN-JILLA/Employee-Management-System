@@ -15,7 +15,7 @@ public class EmployeeService {
 	private EmployeeRepository employeeRepository;
 	
 	@Autowired
-	private SequenceGeneratorService service;
+	private DbSequenceGenr dbSequenceGenr;
 	
 	public List<Employee> findAll() {
 		return this.employeeRepository.findAll();
@@ -42,7 +42,8 @@ public class EmployeeService {
 	}
 
 	public String addEmployee(Employee employee) {
-		employee.setId(service.getSequenceNumber("user_sequence"));
+		//generate sequence
+		employee.setId(dbSequenceGenr.getSequenceNumber(Employee.SEQUENCE_NAME));
 		this.employeeRepository.save(employee);
 		return "added";
 	}
@@ -54,7 +55,6 @@ public class EmployeeService {
 	}
 
 	// Extra
-
 	public void deleteAll() {
 		this.employeeRepository.deleteAll();
 	}

@@ -66,7 +66,7 @@ public class EmployeeController {
 	//
 	// @GetMapping("/employees")
 	// public List<Employee> getAllEmployees() {
-	// Query query = new Query();
+	//	
 	// query.addCriteria(Criteria.where("salary").gt(0));
 	// return mongoTemplate.find(query, Employee.class);
 	// }
