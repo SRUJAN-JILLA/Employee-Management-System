@@ -8,18 +8,27 @@
 <!-- https://sankhadip.medium.com/how-to-sort-table-rows-according-column-in-angular-9-b04fdafb4140 -->
 
 <div class="input-group mb-3">
-    <mat-form-field style="color: #4e62cf;" appearance="fill">
-        <mat-label><b>Search by...</b></mat-label>
-        <mat-select [(value)]="selected">
-          <mat-option>None</mat-option>
-          <mat-option value="firstName" (click)="searchBy()">First name</mat-option>
-          <mat-option value="lastName" (click)="searchBy()">Last name</mat-option>
-          <mat-option value="email" (click)="searchBy()">Email</mat-option>
-          <mat-option value="job" (click)="searchBy()">Job</mat-option>
-        </mat-select>
-      </mat-form-field>
-    <input type="text" [(ngModel)]="searchArea" class="form-control" style="height: 51px;" aria-label="Text input with dropdown button">
-  </div>
+  <mat-form-field style="color: #4e62cf;" appearance="fill">
+    <mat-label><b>Search by...</b></mat-label>
+    <mat-select [(value)]="selected">
+      <mat-option>None</mat-option>
+      <mat-option value="firstName" (click)="searchBy()">First name</mat-option>
+      <mat-option value="lastName" (click)="searchBy()">Last name</mat-option>
+      <mat-option value="email" (click)="searchBy()">Email</mat-option>
+      <mat-option value="job" (click)="searchBy()">Job</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <input type="text" [(ngModel)]="searchArea" class="form-control" style="height: 51px; width: 10px; margin-right: 10px;" aria-label="Text input with dropdown button">
+  <a href="http://localhost:8081/employees/downloadExcel">
+    <i class="fa fa-file-excel-o" style="font-size:33px;padding-top: 15px;"></i>
+  </a>
+  <a href="http://localhost:8081/employees/downloadPdf">
+    <i class="fa fa-file-pdf-o" style="font-size:33px; padding-top: 15px; padding-left: 10px;"></i>
+  </a>
+  <a href="http://localhost:8081/employees/downloadCsv">
+    <i class='fas fa-file-csv' style="font-size:33px; padding-top: 15px; padding-left: 10px;"></i>
+  </a>
+</div>
 <table class = "table table-striped">
     <thead>
         <tr>

@@ -4,8 +4,9 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\add-employee",
+    "\\src\\app\\employee-list",
     "\\src\\app\\update-employee"
   ],
-  "SelectedNode": "\\src\\app\\app.module.ts",
+  "SelectedNode": "\\src\\index.html",
   "PreviewInSolutionExplorer": true
 }
