@@ -1,12 +1,3 @@
-<!-- Normal searching -->
-<!-- <div class="input-group mb-3">
-    <span class="input-group-text" id="inputGroup-sizing-default" style="color: white;background-color: #4e62cf;">Search</span>
-    <input type="text" [(ngModel)]="searchText" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-</div> -->
-
-<!-- Sorting -->
-<!-- https://sankhadip.medium.com/how-to-sort-table-rows-according-column-in-angular-9-b04fdafb4140 -->
-
 <div class="input-group mb-3">
   <mat-form-field style="color: #4e62cf;" appearance="fill">
     <mat-label><b>Search by...</b></mat-label>
@@ -23,7 +14,7 @@
     <i class="fa fa-file-excel-o" style="font-size:33px;padding-top: 15px;"></i>
   </a>
   <a href="http://localhost:8081/employees/downloadPdf">
-    <i class="fa fa-file-pdf-o" style="font-size:33px; padding-top: 15px; padding-left: 10px;"></i>
+    <i (click)="downloadPdf()" class="fa fa-file-pdf-o" style="color:#007BFF; font-size:33px; padding-top: 15px; padding-left: 10px; cursor: pointer;"></i>
   </a>
   <a href="http://localhost:8081/employees/downloadCsv">
     <i class='fas fa-file-csv' style="font-size:33px; padding-top: 15px; padding-left: 10px;"></i>
@@ -32,12 +23,12 @@
 <table class = "table table-striped">
     <thead>
         <tr>
-            <th [appSort]="employees" data-order="desc" data-name="id"> Employee  Id</th>
-            <th [appSort]="employees" data-order="desc" data-name="firstName"> First Name</th>
-            <th [appSort]="employees" data-order="desc" data-name="lastName"> Last Name </th>
-            <th [appSort]="employees" data-order="desc" data-name="email"> Email Id</th>
-            <th [appSort]="employees" data-order="desc" data-name="salary"> Salary </th>
-            <th [appSort]="employees" data-order="desc" data-name="job"> Allocated Job</th>
+            <th [appSort]="employees" data-order="desc" data-name="id" style="cursor:pointer"> Employee  Id</th>
+            <th [appSort]="employees" data-order="desc" data-name="firstName" style="cursor:pointer"> First Name</th>
+            <th [appSort]="employees" data-order="desc" data-name="lastName" style="cursor:pointer"> Last Name </th>
+            <th [appSort]="employees" data-order="desc" data-name="email" style="cursor:pointer"> Email Id</th>
+            <th [appSort]="employees" data-order="desc" data-name="salary" style="cursor:pointer"> Salary </th>
+            <th [appSort]="employees" data-order="desc" data-name="job" style="cursor:pointer"> Allocated Job</th>
             <th></th>
         </tr>
     </thead>
@@ -57,3 +48,15 @@
         </tr>
     </tbody>
 </table>
+<br>
+<br>
+
+
+<!-- Normal searching -->
+<!-- <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default" style="color: white;background-color: #4e62cf;">Search</span>
+    <input type="text" [(ngModel)]="searchText" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+</div> -->
+
+<!-- Sorting -->
+<!-- https://sankhadip.medium.com/how-to-sort-table-rows-according-column-in-angular-9-b04fdafb4140 -->

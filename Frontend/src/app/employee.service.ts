@@ -36,4 +36,9 @@ export class EmployeeService {
     let url = "http://localhost:8081/employees/emailExists";
     return this.httpClient.get<boolean>(`${url}/${email}`)
   }
+
+  downloadPdf(){
+    let url = "http://localhost:8081/employees/downloadPdf";
+    return this.httpClient.get(url, {responseType:'blob' as 'json'});
+  }
 }

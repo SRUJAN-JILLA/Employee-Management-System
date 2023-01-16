@@ -28,6 +28,6 @@ public class DbSequenceGenr {
 		DbSequence counter = mongoOperations.findAndModify(query, update, options().returnNew(true).upsert(true),
 				DbSequence.class);
 
-		return !Objects.isNull(counter) ? counter.getSeq() + 2000 : 1;
+		return !Objects.isNull(counter) ? counter.getSeq() + 100000 : 1;
 	}
 }

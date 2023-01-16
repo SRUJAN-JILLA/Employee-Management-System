@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Employee } from '../employee'
 import { EmployeeService } from '../employee.service'
 import { Router } from '@angular/router';
+import {saveAs} from 'file-saver/dist/fileSaver';
+
 
 @Component({
   selector: 'app-employee-list',
@@ -18,6 +20,15 @@ export class EmployeeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployees();
+  }
+
+  downloadPdf(){
+    this.employeeService.downloadPdf().subscribe(pdf =>{
+      const fileName = "EmployeeList.pdf";
+      saveAs(pdf,fileName);
+   },err =>{
+      console.log(err);
+    })
   }
 
   getEmployees(){
