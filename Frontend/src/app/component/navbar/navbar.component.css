@@ -1,0 +1,12 @@
+.navbar{
+    margin-bottom: 1rem;
+    border-radius: 0%;
+}
+button{
+    margin-left: 10px;
+}
+h1{
+    font-size: 36px;
+    font-family: Roboto Slab;
+    font-weight: 500;
+}

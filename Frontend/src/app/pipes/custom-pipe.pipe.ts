@@ -1,4 +1,4 @@
-import { stringify } from '@angular/compiler/src/util';
+// import { stringify } from '@angular/compiler/src/util';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
@@ -11,7 +11,6 @@ export class CustomPipePipe implements PipeTransform {
     if(filterString.length === 0)
     return employees;
 
-
     const selected = new Set();
 
     if(filterString.includes(":")){
@@ -19,12 +18,20 @@ export class CustomPipePipe implements PipeTransform {
       const column = data[0];
       const searchData = data[1];
       const amount = searchData.length;
+      if(column === "salary"){
+        for(const employee of employees){
+          const check = employee[column].toString().substring(0,amount);
+            if(check === searchData)
+              selected.add(employee);
+         }
+      }else{
       for(const employee of employees){
         const check = employee[column].substring(0,amount);
           if(check.toLowerCase() === searchData.toLowerCase())
             selected.add(employee);
        }return selected;
     } 
+  }
 
     //if no option was selected 
     for(const employee of employees){
@@ -43,10 +50,19 @@ export class CustomPipePipe implements PipeTransform {
         selected.add(employee);
     }
     for(const employee of employees){
+      const check = employee["salary"].toString().substring(0,filterString.length);
+      if(check === filterString)
+        selected.add(employee);
+    }
+    for(const employee of employees){
       const check = employee['job'].substring(0,filterString.length);
+      if(check.toLowerCase() === filterString.toLowerCase())
+        selected.add(employee);
+    }for(const employee of employees){
+      const check = employee['role'].substring(0,filterString.length);
       if(check.toLowerCase() === filterString.toLowerCase())
         selected.add(employee);
     }
     return selected;
-}
+  }
 }

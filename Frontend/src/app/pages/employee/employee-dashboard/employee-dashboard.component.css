@@ -1,0 +1,40 @@
+table {
+  width: 60%;
+  align-items: center;
+  font-size: large;
+  border: 1px solid black;
+}
+
+h1 {
+  text-align: center;
+  border: 1px solid black;
+  width: 60.6%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 38px;
+  margin-bottom: 0%;
+  border-color: rgb(148, 148, 148);
+  background-color: #4C535D;
+  color: #dfe5ed;
+}
+
+.content {
+  background-color: #f5f7fb;
+}
+
+.heading {
+  background-color: #E3EDFA;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.update {
+  text-align: center;
+  font-size: large;
+  width: 61%;
+  margin-left: auto;
+  margin-right: auto;
+}

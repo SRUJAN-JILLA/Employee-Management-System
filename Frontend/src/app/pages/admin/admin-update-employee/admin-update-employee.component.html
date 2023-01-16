@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<app-navbar></app-navbar>
+<br>
+<br>
+<div class="col-md-6 offset-md-3">
+    <h1> Update Employee Details</h1>
+    <br>
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+  
+      <div class="form-group">
+        <input type="text" required #firstName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$" class="form-control"
+               placeholder="First Name" id="firstName" [class.is-invalid]="firstName.invalid && firstName.touched" [(ngModel)]="employee.firstName" name="firstName" ngModel>
+        <div *ngIf="firstName.invalid && firstName.touched">
+          <small class="text-danger" *ngIf="firstName.errors?.required">First name is required.</small>
+          <small class="text-danger" *ngIf="firstName.errors?.pattern">First name should be of length 2-15 and no symbols are allowed otherthan '.', '_'.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <input required type="text" #lastName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$" class="form-control" id="lastName"
+              placeholder="Last Name" [class.is-invalid]="lastName.invalid && lastName.touched" [(ngModel)]="employee.lastName" name="lastName" ngModel>
+        <div *ngIf="lastName.invalid && lastName.touched">
+          <small class="text-danger" *ngIf="lastName.errors?.required">Last name is required.</small>
+          <small class="text-danger" *ngIf="lastName.errors?.pattern">Last name should be of length 2-15 and no symbols are allowed otherthan '.', '_'.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <input required type="text" class="form-control" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #email="ngModel" id="email"
+              placeholder="Email" [class.is-invalid]="email.invalid && email.touched" [(ngModel)]="employee.email" name="email" ngModel>
+        <div *ngIf="email.invalid && email.touched">
+          <small class="text-danger" *ngIf="email.errors?.required">Email is required.</small>
+          <small class="text-danger" *ngIf="email.errors?.pattern">Enter valid emial id.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <input required type="text" class="form-control" pattern="^[0-9]{0,20}$" #salary="ngModel" id="salary"
+              placeholder="Salary" [class.is-invalid]="salary.invalid && salary.touched" [(ngModel)]="employee.salary" name="salary" ngModel>
+        <div *ngIf="salary.invalid && salary.touched">
+          <small class="text-danger" *ngIf="salary.errors?.required">Salary is required.</small>
+          <small class="text-danger" *ngIf="salary.errors?.pattern">Salary should be numeric.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <input required type="text" class="form-control" #job="ngModel" id="job"
+              placeholder="Job" [class.is-invalid]="job.invalid && job.touched" [(ngModel)]="employee.job" name="job" ngModel>
+        <div *ngIf="job.invalid && job.touched">
+          <small class="text-danger" *ngIf="job.errors?.required">Job is required.</small>
+        </div>
+      </div>
+      
+      <div *ngIf="loginService.isLoggedIn() && checkRoleAsAdmin()" class="form-group">
+        <select required type="text" class="form-control" #role="ngModel" id="role"
+        placeholder="Role" [class.is-invalid]="role.invalid && role.touched" [(ngModel)]="employee.role" name="role" ngModel
+         class="custom-select" id="inputGroupSelect02">
+            <option selected>Choose a role</option>
+            <option value="EMPLOYEE">Employee</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+      </div>
+      <button [disabled]="firstName.errors || firstName.invalid || lastName.errors || lastName.invalid || job.errors || job.invalid || salary.errors || salary.invalid || email.errors || email.invalid" class="btn btn-success btn-lg btn-block" type="submit">Update</button>
+      <br>
+      <br>
+    </form>
+  </div>
+  

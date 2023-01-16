@@ -1,0 +1,102 @@
+<app-navbar></app-navbar>
+<br>
+<br>
+<div class="container">
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <div class="input-group-prepend">
+        <span class="input-group-text searchBy" id="inputGroup-sizing-sm">Search by</span>
+      </div>
+      <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split dropButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <div class="dropdown-menu">
+        <div class="dropdown-item" (click)="searchOption('firstName')">First name</div>
+        <div class="dropdown-item" (click)="searchOption('lastName')">Last name </div>
+        <div class="dropdown-item" (click)="searchOption('email')">E-mail</div>
+        <div class="dropdown-item" (click)="searchOption('salary')">Salary</div>
+        <div class="dropdown-item" (click)="searchOption('job')">Job</div>
+        <div *ngIf="checkRoleAsAdmin()" class="dropdown-item" (click)="searchOption('role')">Role</div>
+      </div>
+    </div>
+    <input type="text" [(ngModel)]="searchArea" class="form-control searchBox" aria-label="Text input with segmented dropdown button">
+  
+  <div class="input-group mb-3 float-right downlaodSection">
+    <select #in class="custom-select dropDown" id="inputGroupSelect03">
+      <option selected>Choose...</option>
+      <option value="excel">Excel</option>
+      <option value="pdf">Pdf</option>
+      <option value="csv">Csv</option>
+    </select>
+    <div class="input-group-prepend">
+      <button (click)="download(in.value)" class="downloadButton btn btn-outline-secondary" type="button">Downlaod</button>
+    </div>
+  </div>
+  </div>
+  
+  <table class = "table table-striped">
+      <thead>
+          <tr>
+              <th [appSort]="employees" data-order="desc" data-name="id"> Employee  Id</th>
+              <th [appSort]="employees" data-order="desc" data-name="firstName"> First Name</th>
+              <th [appSort]="employees" data-order="desc" data-name="lastName"> Last Name </th>
+              <th [appSort]="employees" data-order="desc" data-name="email"> Email Id</th>
+              <th [appSort]="employees" data-order="desc" data-name="salary"> Salary </th>
+              <th [appSort]="employees" data-order="desc" data-name="job"> Allocated Job</th>
+              <th *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="role"> Role</th>
+              <th *ngIf="checkRoleAsAdmin()"></th>
+          </tr>
+      </thead>
+      <tbody>
+          <!--instead of this u can also use this filter:searchText"  -->
+          <tr *ngFor = "let employee of employees | customPipe:searchArea" >
+              <td> {{ employee.id }} </td>
+              <td> {{ employee.firstName }} </td>
+              <td> {{ employee.lastName }} </td>
+              <td> {{ employee.email }} </td>
+              <td> {{ employee.salary}} </td>
+              <td> {{ employee.job}} </td>
+              <td *ngIf="checkRoleAsAdmin()"> {{ employee.role }} </td>
+              <td *ngIf="checkRoleAsAdmin()">
+                  <button (click) = "updateEmployee(employee.id)" class = "btn btn-info"> Update</button>
+                  <button (click) = "deleteEmployee(employee.id)" class = "btn btn-danger deleteButton"> Delete</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+  <br>
+  <br>
+</div>
+  
+  <!-- Normal searching -->
+  <!-- <div class="input-group mb-3">
+      <span class="input-group-text" id="inputGroup-sizing-default" style="color: white;background-color: #4e62cf;">Search</span>
+      <input type="text" [(ngModel)]="searchText" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+  </div> -->
+  
+  <!-- Sorting -->
+  <!-- https://sankhadip.medium.com/how-to-sort-table-rows-according-column-in-angular-9-b04fdafb4140 -->
+  
+  <!-- Searching frontend different -->
+  <!-- <div class="input-group mb-3">
+    <mat-form-field style="color: #4e62cf;" appearance="fill">
+      <mat-label><b>Search by...</b></mat-label>
+      <mat-select [(value)]="selected">
+        <mat-option>None</mat-option>
+        <mat-option value="firstName" (click)="searchBy()">First name</mat-option>
+        <mat-option value="lastName" (click)="searchBy()">Last name</mat-option>
+        <mat-option value="email" (click)="searchBy()">Email</mat-option>
+        <mat-option value="job" (click)="searchBy()">Job</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <input type="text" [(ngModel)]="searchArea" class="form-control" style="height: 51px; width: 10px; margin-right: 10px;" aria-label="Text input with dropdown button">
+    <a href="http://localhost:8081/employees/downloadExcel">
+      <i class="fa fa-file-excel-o" style="font-size:33px;padding-top: 15px;"></i>
+    </a>
+    <a href="http://localhost:8081/employees/downloadPdf"> -->
+      <!-- <i (click)="downloadPdf()" class="fa fa-file-pdf-o" style="color:#007BFF; font-size:33px; padding-top: 15px; padding-left: 10px; cursor: pointer;"></i> -->
+    <!-- </a> -->
+    <!-- <a href="http://localhost:8081/employees/downloadCsv">
+      <i class='fas fa-file-csv' style="font-size:33px; padding-top: 15px; padding-left: 10px;"></i>
+    </a>
+  </div> --> 

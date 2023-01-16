@@ -1,0 +1,49 @@
+a:hover{
+    color: #007BFF; 
+}
+.searchBy{
+    background-color:#007BFF;
+    color:aliceblue;
+    height: 35px;
+    border-radius: 0ch;
+    font-size: 15px;
+}
+.dropDown{
+    border-radius:0ch;
+}
+table{
+    font-size: medium;
+}
+.dropButton{
+    height: 34px;
+    width: 30px;
+}
+select{
+    height: 33px;
+}
+.downlaodSection{
+    width: 25%; 
+    padding-left:10px ;
+}
+.downloadButton{
+    background-color:#007BFF;
+    color:aliceblue
+}
+th{
+    cursor:pointer;
+}
+.deleteButton{
+    margin-left: 10px
+}
+button{
+    font-size: 15px;
+}
+option{
+    font-size: 14px;
+}
+.searchBox{
+    font-size: 14px;
+}
+.dropdown-item{
+    font-size: 14px;
+}

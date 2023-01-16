@@ -1,0 +1,90 @@
+<app-navbar></app-navbar>
+<body>
+    <div class="signup-form">
+        <form (ngSubmit) = "formSubmit()" #userForm="ngForm">
+            <h2>Sign Up</h2>
+            <br>
+            <div class="form-group">
+                <input [(ngModel)]="employee.firstName"  [class.is-invalid]="firstName.invalid && firstName.touched" id="firstName" ngModel  
+                required #firstName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$" type="text" class="form-control" name="firstName" placeholder="First Name">
+                <div *ngIf="firstName.invalid && firstName.touched">
+                    <small class="text-danger" *ngIf="firstName.errors?.required">First name is required.</small>
+                    <small class="text-danger" *ngIf="firstName.errors?.pattern">First name should be of length 2-15 and no symbols are allowed otherthan '.', '_'.</small>
+                  </div>
+            </div>
+            <div class="form-group">
+                <input [(ngModel)]="employee.lastName" id="lastName" ngModel pattern="^[a-zA-Z0-9._]{3,15}$" #lastName="ngModel"
+                 required type="text" class="form-control" name="lastName"  [class.is-invalid]="lastName.invalid && lastName.touched" placeholder="Last Name" >
+                <div *ngIf="lastName.invalid && lastName.touched">
+                    <small class="text-danger" *ngIf="lastName.errors?.required">Last name is required.</small>
+                    <small class="text-danger" *ngIf="lastName.errors?.pattern">Last name should be of length 2-15 and no symbols are allowed otherthan '.', '_'.</small>
+                  </div>
+            </div>
+            <div class="form-group">
+                <input [(ngModel)]="employee.email" ngModel #email="ngModel" id="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" 
+                [class.is-invalid]="email.invalid && email.touched" required type="email" class="form-control" name="email" placeholder="Email Address">
+                <small class="text-danger" *ngIf="checkEmail">Email already exsists!</small>
+                <div *ngIf="email.invalid && email.touched">
+                  <small class="text-danger" *ngIf="email.errors?.required">Email is required.</small>
+                  <small class="text-danger" *ngIf="email.errors?.pattern">Enter valid emial id.</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <input [(ngModel)]="employee.password" pattern ="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,20}$" required id="password" #password="ngModel" [class.is-invalid]="password.invalid && password.touched" ngModel
+                type="password" class="form-control" name="password" placeholder="Password">
+                <small class="text-danger" *ngIf="checkPassword">Passwords don't match!</small>
+                <div *ngIf="password.invalid && password.touched">
+                    <small class="text-danger" *ngIf="password.errors?.required">Password is required.</small>
+                    <small class="text-danger" *ngIf="password.errors?.pattern">
+                        Passowrd should be in following pattern.<br> 
+                       <li> At least 1 Uppercase</li>
+                       <li>At least 1 Lowercase</li>
+                       <li>At least 1 Number</li>
+                       <li>At least 1 Symbol, symbol allowed --> !@#$%^&*_=+-</li>
+                       <li>Min 8 chars and Max 12 chars</li>
+                    </small>
+                  </div>
+            </div>
+            <div class="form-group">
+                <input [(ngModel)]="confirmPassword" pattern ="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,20}$" required id="passwordConfirm" #passwordConfirm="ngModel" [class.is-invalid]="passwordConfirm.invalid && passwordConfirm.touched" ngModel
+                type="password" class="form-control" name="passwordConfirm" placeholder="Confirm Password">
+                <small class="text-danger" *ngIf="checkPassword">Passwords don't match!</small>
+                <div *ngIf="passwordConfirm.invalid && passwordConfirm.touched">
+                    <small class="text-danger" *ngIf="passwordConfirm.errors?.required">Password is required.</small>
+                    <small class="text-danger" *ngIf="passwordConfirm.errors?.pattern">
+                        Passowrd should be in following pattern.<br> 
+                       <li> At least 1 Uppercase</li>
+                       <li>At least 1 Lowercase</li>
+                       <li>At least 1 Number</li>
+                       <li>At least 1 Symbol, symbol allowed --> !@#$%^&*_=+-</li>
+                       <li>Min 8 chars and Max 12 chars</li>
+                    </small>
+                  </div>
+            </div>
+
+            <div class="form-group">
+                <input [(ngModel)]="employee.salary" required pattern="^[0-9]{0,20}$" #salary="ngModel" id="salary" 
+                [class.is-invalid]="salary.invalid && salary.touched" ngModel type="text" class="form-control" name="salary" placeholder="Salary" >
+                <div *ngIf="salary.invalid && salary.touched">
+                    <small class="text-danger" *ngIf="salary.errors?.required">Salary is required.</small>
+                    <small class="text-danger" *ngIf="salary.errors?.pattern">Salary should be numeric.</small>
+                  </div>
+            </div>
+            <div class="form-group">
+                <input [(ngModel)]="employee.job" #job="ngModel" id="job" required 
+                [class.is-invalid]="job.invalid && job.touched" type="text" class="form-control" name="job" ngModel placeholder="Job">
+                <div *ngIf="job.invalid && job.touched">
+                    <small class="text-danger" *ngIf="job.errors?.required">Job is required.</small>
+                  </div>
+            </div>
+            <div class="form-group">
+                <button  [disabled]="firstName.errors || firstName.invalid || lastName.errors || lastName.invalid || job.errors || job.invalid || salary.errors || salary.invalid || email.errors || 
+                email.invalid || password.invalid || password.errors || passwordConfirm.invalid || passwordConfirm.errors"  
+                    type="submit" class="btn btn-primary btn-block btn-lg">Sign Up</button>
+            </div>
+        </form>
+        <div class="text-center navToLoginSign">Already have an account? <span (click)="login()" class="login">Login here</span></div>
+    </div>
+  
+    </body>
+    <!-- https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=quick-sign-up-form -->

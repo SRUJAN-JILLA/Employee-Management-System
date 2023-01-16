@@ -10,11 +10,11 @@ export class Sort {
     constructor() {
     }
 
-    public startSort(property, order, type = "") {
+    public startSort(property:any, order:any, type = "") {
         if (order === "desc") {
             this.sortOrder = -1;
         }
-        return (a, b) => {
+        return (a:any, b:any) => {
             if (type === "date") {
                 return this.sortData(new Date(a[property]), new Date(b[property]));
             }
@@ -24,7 +24,7 @@ export class Sort {
         }
     }
 
-    private sortData(a, b) {
+    private sortData(a:any, b:any) {
         if (a < b) {
             return -1 * this.sortOrder;
         } else if (a > b) {

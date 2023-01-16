@@ -1,0 +1,42 @@
+<app-navbar></app-navbar>
+<body>
+    <br>
+    <br>
+    <br><br>
+
+    <div class="signup-form">
+        <form  (ngSubmit) = "formSubmit()" #userForm="ngForm">
+            <div class="modal-header">
+                <div class="avatar"><i class="material-icons">&#xE7FD;</i></div>
+			</div>
+            <h2>Login</h2>
+            <br>
+            <div class="form-group">
+                <input [(ngModel)]="loginData.username" #email="ngModel" ngModel id="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  
+                [class.is-invalid]="email.invalid && email.touched" required type="email"
+                 type="email" class="form-control" name="email" placeholder="Email">
+                 <small class="text-danger" *ngIf="checkEmail">Email does not exsists!</small>
+                 <div *ngIf="email.invalid && email.touched">
+                   <small class="text-danger" *ngIf="email.errors?.required">Email is required.</small>
+                   <small class="text-danger" *ngIf="email.errors?.pattern">Enter valid emial id.</small>
+                 </div>
+            </div>
+            <div class="form-group">
+                <input [(ngModel)]="loginData.password" required id="passwordConfirm" #passwordConfirm="ngModel" [class.is-invalid]="passwordConfirm.invalid && passwordConfirm.touched" ngModel
+                type="password" class="form-control" name="passwordConfirm" placeholder="Password">
+                <small class="text-danger" *ngIf="checkPassword">Incorrect Password!</small>
+                <div *ngIf="passwordConfirm.invalid && passwordConfirm.touched">
+                    <small class="text-danger" *ngIf="passwordConfirm.errors?.required">Password is required.</small>
+                  </div>
+            </div>
+
+            <div class="form-group">
+                <button [disabled]="email.errors || email.invalid || passwordConfirm.errors || passwordConfirm.invalid" 
+                type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
+            </div>
+        </form>
+        <div class="text-center navToLoginSign">Don't have an account? <span (click)="signup()" class="signup">Sign up here</span></div>
+    </div>
+  
+    </body>
+    <!-- https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=quick-sign-up-form -->
