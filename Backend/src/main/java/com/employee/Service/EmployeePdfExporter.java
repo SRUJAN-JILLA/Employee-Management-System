@@ -79,7 +79,7 @@ public class EmployeePdfExporter {
 
 		PdfPTable table = new PdfPTable(6);
 		table.setWidthPercentage(100f);
-		table.setWidths(new float[] { 2.5f, 2.5f, 2.5f, 4.0f, 2.4f , 1.3f});
+		table.setWidths(new float[] { 2.5f, 2.3f, 2.3f, 4.4f, 2.3f , 1.8f});
 		table.setSpacingBefore(10);
 
 		writeTableHeader(table);

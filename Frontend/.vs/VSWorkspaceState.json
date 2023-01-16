@@ -7,10 +7,8 @@
     "\\src\\app\\pages\\admin",
     "\\src\\app\\pages\\admin\\update-employee",
     "\\src\\app\\pages\\employee",
-    "\\src\\app\\pages\\employee\\employee-dashboard",
-    "\\src\\app\\pages\\login",
-    "\\src\\app\\pages\\signup"
+    "\\src\\app\\pages\\employee\\employee-dashboard"
   ],
-  "SelectedNode": "\\src\\app\\pages\\admin\\update-employee\\update-employee.component.ts",
+  "SelectedNode": "\\src\\app\\pages\\admin\\update-employee\\update-employee.component.html",
   "PreviewInSolutionExplorer": false
 }

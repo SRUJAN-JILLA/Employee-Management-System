@@ -60,6 +60,7 @@ export class LoginComponent {
               }
             )
           },(error)=>{
+            console.log("Error!!!!");
             console.log(error);
             alert("Invalid Details!!! Try again.");
             location.reload();

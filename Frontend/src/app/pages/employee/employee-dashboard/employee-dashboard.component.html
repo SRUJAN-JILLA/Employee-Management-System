@@ -1,48 +1,45 @@
 <app-navbar></app-navbar>
-<br>
-<br>
-<br>
+<br><br><br>
 <div class="container ">
-  <div class="row">
-    <div>
-      <h1>My Profile</h1>
+    <div class="row">
+       <div>
+       <h1>My Profile</h1>
+    </div> 
+        <table class = "table table-bordered center">
+            
+            <tbody>
+                <tr>
+                    <th class="heading"> Employee  Id</th>
+                    <td class="content"> {{this.employee.id}} </td>
+                </tr>
+                <tr>
+                    <th class="heading"> First name</th>
+                    <td class="content"> {{this.employee.firstName }}</td>
+                </tr>
+                <tr>
+                    <th class="heading"> Last name</th>
+                    <td class="content"> {{this.employee.lastName }}</td>
+                </tr>
+                <tr>
+                    <th class="heading"> Email</th>
+                    <td class="content"> {{this.employee.email}}</td>
+                </tr>
+                <tr>
+                    <th class="heading"> Salary</th>
+                    <td class="content"> {{this.employee.salary}}</td>
+                </tr>
+                <tr>
+                    <th class="heading"> Job</th>
+                    <td class="content"> {{this.employee.job}}</td>
+                </tr>
+                <tr>
+                    <th class="heading"> Role</th>
+                    <td class="content"> {{this.employee.role}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <table class="table table-bordered center">
-
-      <tbody>
-        <tr>
-          <th class="heading"> Employee  Id</th>
-          <td class="content"> {{this.employee.id}} </td>
-        </tr>
-        <tr>
-          <th class="heading"> First name</th>
-          <td class="content"> {{this.employee.firstName }}</td>
-        </tr>
-        <tr>
-          <th class="heading"> Last name</th>
-          <td class="content"> {{this.employee.lastName }}</td>
-        </tr>
-        <tr>
-          <th class="heading"> Email</th>
-          <td class="content"> {{this.employee.email}}</td>
-        </tr>
-        <tr>
-          <th class="heading"> Salary</th>
-          <td class="content"> {{this.employee.salary}}</td>
-        </tr>
-        <tr>
-          <th class="heading"> Job</th>
-          <td class="content"> {{this.employee.job}}</td>
-        </tr>
-        <tr>
-          <th class="heading"> Role</th>
-          <td class="content"> {{this.employee.role}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="update">
-    <button (click)="updateDetails(this.employee.id)" class="btn btn-secondary btn-lg  btn-block "> <h3>Update Details</h3></button>
-    <button (click)="changePassword(this.employee.id)" class="btn btn-secondary btn-lg  btn-block "> <h3>Change Password</h3></button>
-  </div>
+    <div class="update">
+    <button (click) = "updateDetails(this.employee.id)" class = "btn btn-secondary btn-lg  btn-block "> <h3>Update Details</h3></button>
+</div>
 </div>

@@ -21,7 +21,6 @@ export class AdminUpdateEmployeeComponent {
 
   constructor(public loginService:LoginService, private employeeService:EmployeeService,private route: ActivatedRoute, private router: Router){};
 
-
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     
@@ -36,25 +35,25 @@ export class AdminUpdateEmployeeComponent {
   }
 
   async onSubmit() {
+      
     //checking for email exists or not 
     const res: any = await this.employeeService.emailExists(this.employee.email).toPromise();
 
     this.check = res;
 
-    if (this.email == this.employee.email) {
-      this.saveEmployee();
-      this.goToEmployeeList();
+    if(this.email == this.employee.email){
+    this.saveEmployee();
+    this.goToEmployeeList();
     }
-    else if (this.email != this.employee.email && this.currentEmployee.email == this.email && !res) {
+    else if(this.email != this.employee.email && this.currentEmployee.email == this.email && !res){
       this.saveEmployee();
       alert("You will be logged out! \nSince you have changed your own Email!!")
       this.mainLogout();
     }
-    else if (this.email != this.employee.email && !res) {
+    else if(this.email != this.employee.email && !res){
       this.saveEmployee();
       this.goToEmployeeList();
     }
-
   }
 
   saveEmployee() {
@@ -66,13 +65,14 @@ export class AdminUpdateEmployeeComponent {
     this.temp.role = this.employee.role;
     this.temp.id = this.employee.id;
     this.temp.password = this.employee.password;
+    console.log(this.temp);
     this.employeeService.updateEmployee(this.id,this.temp).subscribe(data => {
     },
       error => console.log(error));
   }
   
   async goToEmployeeList() {
-    await this.delay(1000);
+    await this.delay(3000);
     this.router.navigate(['/employeelist']);
   }
 
@@ -83,8 +83,7 @@ export class AdminUpdateEmployeeComponent {
   checkRoleAsAdmin(){
     return this.currentEmployee.role === "ADMIN";
   }
-
-  mainLogout() {
+  mainLogout(){
     this.loginService.logout();
     this.router.navigate(['/']);
   }

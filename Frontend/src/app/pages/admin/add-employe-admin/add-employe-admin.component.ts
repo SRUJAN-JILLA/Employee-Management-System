@@ -48,7 +48,7 @@ export class AddEmployeAdminComponent {
   }
   
   async goToEmployeeList() {
-    await this.delay(500);
+    await this.delay(30000);
     this.router.navigate(['/employeelist']);
   }
 

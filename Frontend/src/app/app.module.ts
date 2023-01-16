@@ -18,7 +18,6 @@ import { SortDirective } from './directive/sort.directive';
 import { CustomPipePipe } from './pipes/custom-pipe.pipe';
 import { UpdateEmployeeComponent } from './pages/admin/update-employee/update-employee.component';
 import { AdminUpdateEmployeeComponent } from './pages/admin/admin-update-employee/admin-update-employee.component';
-import { ChangePasswordComponent } from './pages/employee/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +33,6 @@ import { ChangePasswordComponent } from './pages/employee/change-password/change
     CustomPipePipe,
     UpdateEmployeeComponent,
     AdminUpdateEmployeeComponent,
-    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

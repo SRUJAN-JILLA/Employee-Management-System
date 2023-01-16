@@ -4,7 +4,6 @@ import { AddEmployeAdminComponent } from './pages/admin/add-employe-admin/add-em
 import { AdminUpdateEmployeeComponent } from './pages/admin/admin-update-employee/admin-update-employee.component';
 import { EmployeeListComponent } from './pages/admin/employee-list/employee-list.component';
 import { UpdateEmployeeComponent } from './pages/admin/update-employee/update-employee.component';
-import { ChangePasswordComponent } from './pages/employee/change-password/change-password.component';
 import { EmployeeDashboardComponent } from './pages/employee/employee-dashboard/employee-dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
@@ -19,8 +18,8 @@ const routes: Routes = [
     pathMatch:'full',
   },
   {
-    path: 'login',
-    component: LoginComponent,
+    path:'login',
+    component:LoginComponent,
     pathMatch:'full',
   },
   {
@@ -56,12 +55,6 @@ const routes: Routes = [
     pathMatch:'full',
     canActivate:[AdminGuard],
   },
-  {
-    path: 'changePassword',
-    component: ChangePasswordComponent,
-    pathMatch: 'full',
-  },
-
 ];
 
 @NgModule({

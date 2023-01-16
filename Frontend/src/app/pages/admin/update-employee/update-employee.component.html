@@ -31,12 +31,13 @@
       <div class="form-group">
         <input required type="text" class="form-control" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #email="ngModel" id="email"
               placeholder="Email" [class.is-invalid]="email.invalid && email.touched" [(ngModel)]="employee.email" name="email" ngModel>
+        <small class="text-danger" *ngIf="check">Email already exsists!</small>
         <div *ngIf="email.invalid && email.touched">
           <small class="text-danger" *ngIf="email.errors?.required">Email is required.</small>
           <small class="text-danger" *ngIf="email.errors?.pattern">Enter valid emial id.</small>
         </div>
       </div>
-  
+
       <div class="form-group">
         <input required type="text" class="form-control" pattern="^[0-9]{0,20}$" #salary="ngModel" id="salary"
               placeholder="Salary" [class.is-invalid]="salary.invalid && salary.touched" [(ngModel)]="employee.salary" name="salary" ngModel>
@@ -63,7 +64,8 @@
             <option value="ADMIN">Admin</option>
           </select>
       </div>
-      <button [disabled]="firstName.errors || firstName.invalid || lastName.errors || lastName.invalid || job.errors || job.invalid || salary.errors || salary.invalid || email.errors || email.invalid" class="btn btn-success btn-lg btn-block" type="submit">Submit</button>
+      <br>
+      <button [disabled]="firstName.errors || firstName.invalid || lastName.errors || lastName.invalid || job.errors || job.invalid || salary.errors || salary.invalid || email.errors || email.invalid" class="btn btn-success btn-lg btn-block" type="submit"><h4>Submit</h4></button>
       <br>
       <br>
     </form>

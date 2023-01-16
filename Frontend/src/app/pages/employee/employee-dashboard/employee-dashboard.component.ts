@@ -12,23 +12,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EmployeeDashboardComponent {
   employee: Employee = new Employee();
 
-  constructor(public loginService: LoginService, private employeeService: EmployeeService, private route: ActivatedRoute, private router: Router) { };
+  constructor(public loginService:LoginService, private employeeService:EmployeeService,private route: ActivatedRoute, private router: Router){};
 
   ngOnInit(): void {
-    this.loginService.getCurrentUser().subscribe(data => {
+    this.loginService.getCurrentUser().subscribe(data=>{
       this.employee = data;
     });
   }
 
-  user(): any {
+  user():any{
     return this.loginService.getUser();
   }
 
-  updateDetails(id: number) {
+  updateDetails(id:number){
     this.router.navigate(['updateEmployee', id]);
   }
-
-  changePassword(id: number) {
-    this.router.navigate(['changePassword']);
-  }
+  
 }

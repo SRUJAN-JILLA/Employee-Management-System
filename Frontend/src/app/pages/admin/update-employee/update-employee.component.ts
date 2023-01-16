@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-
 @Component({
   selector: 'app-update-employee',
   templateUrl: './update-employee.component.html',
@@ -37,25 +36,32 @@ export class UpdateEmployeeComponent {
 
   async onSubmit() {
 
-    
     //checking for email exists or not 
     const res: any = await this.employeeService.emailExists(this.employee.email).toPromise();
 
     this.check = res;
 
-    if (this.currentEmployee.email == this.employee.email) {
+    if(this.currentEmployee.email == this.employee.email && this.currentEmployee.password == this.employee.password){
       this.saveEmployee();
       this.goToEmployeeDashboard();
     }
-    else if (this.currentEmployee.email != this.employee.email && !res) {
+    else if(this.currentEmployee.email == this.employee.email && this.currentEmployee.password != this.employee.password){
+      this.saveEmployee();
+      alert("You will be logged out! Since you have changed Password!!")
+      this.mainLogout();
+    }
+    else if(this.currentEmployee.email != this.employee.email && this.currentEmployee.password == this.employee.password && !res){
       this.saveEmployee();
       alert("You will be logged out! Since you have changed Email!!")
+      this.mainLogout();
+    }else if(this.currentEmployee.email != this.employee.email && this.currentEmployee.password != this.employee.password && !res){
+      this.saveEmployee();
+      alert("You will be logged out! \n Since you have changed both Email and Password!!")
       this.mainLogout();
     }
     else {
       console.log("Email already exists!!!");
     }
-
   }
 
   saveEmployee() {
@@ -66,6 +72,7 @@ export class UpdateEmployeeComponent {
     this.temp.email = this.employee.email;
     this.temp.role = this.employee.role;
     this.temp.id = this.employee.id;
+    this.temp.password = this.employee.password;
     this.employeeService.updateEmployee(this.id,this.temp).subscribe(data => {
     },
       error => console.log(error));
@@ -84,7 +91,7 @@ export class UpdateEmployeeComponent {
     return this.currentEmployee.role === "ADMIN";
   }
 
-  mainLogout() {
+  mainLogout(){
     this.loginService.logout();
     this.router.navigate(['/']);
   }

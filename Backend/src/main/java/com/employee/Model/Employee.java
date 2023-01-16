@@ -1,11 +1,17 @@
 package com.employee.Model;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Document(collection = "employees")
-public class Employee {
+public class Employee implements UserDetails {
 
 	@Transient
 	public static final String SEQUENCE_NAME = "user_sequence";
@@ -17,6 +23,19 @@ public class Employee {
 	private double salary;
 	private String email;
 	private String job;
+	private String password;
+	private String role;
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Employee() {
+	}
 
 	public long getId() {
 		return id;
@@ -66,7 +85,16 @@ public class Employee {
 		this.job = job;
 	}
 
-	public Employee(long id, String firstName, String lastName, double salary, String email, String job) {
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Employee(long id, String firstName, String lastName, double salary, String email, String job,
+			String password, String role) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -74,16 +102,46 @@ public class Employee {
 		this.salary = salary;
 		this.email = email;
 		this.job = job;
-	}
-
-	public Employee() {
-		super();
+		this.password = password;
+		this.role = role;
 	}
 
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary
-				+ ", email=" + email + ", job=" + job + "]";
+				+ ", email=" + email + ", job=" + job + ", password=" + password + ", role=" + role + "]";
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<Authority> set = new HashSet<>();
+		set.add(new Authority(this.getRole()));
+		return set;
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 }
