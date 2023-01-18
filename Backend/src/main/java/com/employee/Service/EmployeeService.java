@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.employee.Model.Employee;
@@ -22,7 +23,9 @@ public class EmployeeService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private DbSequenceGenr dbSequenceGenr;
-
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	// Getting Roles
 	public List<Role> getRoles() {
 		return this.roleRepository.findAll();
@@ -45,16 +48,21 @@ public class EmployeeService {
 
 		// generate sequence and save employee data
 		employee.setId(dbSequenceGenr.getSequenceNumber(Employee.SEQUENCE_NAME));
+		
 		if (employee.getRole() == null)
 			employee.setRole("EMPLOYEE");
 		
+		employee.setPassword(this.bCryptPasswordEncoder.encode(employee.getPassword()));
+		
+		
 		this.employeeRepository.save(employee);
-
+		
+		return "Added";
+		
 		// updating role table about user id
 //		Role role = this.roleRepository.findById("EMPLOYEE").get();
 //		role.getUserIdSet().add(employee.getId());
 //		roleRepository.save(role);
-		return "Added";
 	}
 
 	// Delete Employee
@@ -79,8 +87,10 @@ public class EmployeeService {
 		tempEmployee.setLastName(employee.getLastName());
 		tempEmployee.setSalary(employee.getSalary());
 		tempEmployee.setRole(employee.getRole());
-		tempEmployee.setPassword(employee.getPassword());
-		
+		//while updating everything except password
+		if(employee.getPassword() != null)
+		tempEmployee.setPassword(this.bCryptPasswordEncoder.encode(employee.getPassword()));
+
 		this.employeeRepository.save(tempEmployee);
 		
 		//update in Role repository
