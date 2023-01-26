@@ -41,12 +41,9 @@ export class LoginComponent {
             this.loginService.loginUser(data.token);
 
             this.loginService.getCurrentUser().subscribe(
-              (user:any)=>{
+              (user: any) => {
                 this.loginService.setUser(user);
-
-                 //redirect admin
-                  console.log(user);
-                  console.log(this.loginService.getUserRole())
+                
                  if(this.loginService.getUserRole() == "ADMIN"){
                   this.employee();
                   console.log("you r in admin section")

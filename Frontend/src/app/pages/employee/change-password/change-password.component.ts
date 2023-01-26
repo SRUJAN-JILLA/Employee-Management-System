@@ -20,6 +20,7 @@ export class ChangePasswordComponent {
   constructor(public loginService: LoginService, private employeeService: EmployeeService, private route: ActivatedRoute, private router: Router) { };
 
   ngOnInit(): void {
+
     this.loginService.getCurrentUser().subscribe(data => {
       this.currentEmployee = data;
     });
@@ -32,6 +33,7 @@ export class ChangePasswordComponent {
     } else {
 
       this.checkPassword = false;
+      this.currentEmployee.password = this.password1;
 
       this.saveEmployee();
       alert("You will be logged out! Since you have changed Password!!")
@@ -50,12 +52,15 @@ export class ChangePasswordComponent {
     this.temp.role = this.currentEmployee.role;
     this.temp.id = this.currentEmployee.id;
     this.temp.password = this.password1;
-    console.log(this.temp);
+
     this.employeeService.updateEmployee(this.currentEmployee.id, this.temp).subscribe(data => {
     },
       error => console.log(error));
   }
 
+  employeeDashBoard() {
+    this.router.navigate(['/employee']);
+  }
   mainLogout() {
     this.loginService.logout();
     this.router.navigate(['/']);

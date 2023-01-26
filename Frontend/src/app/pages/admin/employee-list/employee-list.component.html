@@ -17,6 +17,7 @@
         <div class="dropdown-item" (click)="searchOption('salary')">Salary</div>
         <div class="dropdown-item" (click)="searchOption('job')">Job</div>
         <div *ngIf="checkRoleAsAdmin()" class="dropdown-item" (click)="searchOption('role')">Role</div>
+        <div *ngIf="checkRoleAsAdmin()" class="dropdown-item" (click)="searchOption('active')">Active</div>
       </div>
     </div>
     <input type="text" [(ngModel)]="searchArea" class="form-control searchBox" aria-label="Text input with segmented dropdown button">
@@ -36,32 +37,34 @@
   
   <table class = "table table-striped">
       <thead>
-          <tr>
-              <th [appSort]="employees" data-order="desc" data-name="id"> Employee  Id</th>
-              <th [appSort]="employees" data-order="desc" data-name="firstName"> First Name</th>
-              <th [appSort]="employees" data-order="desc" data-name="lastName"> Last Name </th>
-              <th [appSort]="employees" data-order="desc" data-name="email"> Email Id</th>
-              <th [appSort]="employees" data-order="desc" data-name="salary"> Salary </th>
-              <th [appSort]="employees" data-order="desc" data-name="job"> Allocated Job</th>
-              <th *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="role"> Role</th>
-              <th *ngIf="checkRoleAsAdmin()"></th>
-          </tr>
+        <tr>
+          <th [appSort]="employees" data-order="desc" data-name="id"> Employee  Id</th>
+          <th [appSort]="employees" data-order="desc" data-name="firstName"> First Name</th>
+          <th [appSort]="employees" data-order="desc" data-name="lastName"> Last Name </th>
+          <th [appSort]="employees" data-order="desc" data-name="email"> Email Id</th>
+          <th [appSort]="employees" data-order="desc" data-name="salary"> Salary </th>
+          <th [appSort]="employees" data-order="desc" data-name="job"> Allocated Job</th>
+          <th *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="role"> Role</th>
+          <th *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="active"> Active</th>
+          <th *ngIf="checkRoleAsAdmin()"></th>
+        </tr>
       </thead>
       <tbody>
           <!--instead of this u can also use this filter:searchText"  -->
-          <tr *ngFor = "let employee of employees | customPipe:searchArea" >
-              <td> {{ employee.id }} </td>
-              <td> {{ employee.firstName }} </td>
-              <td> {{ employee.lastName }} </td>
-              <td> {{ employee.email }} </td>
-              <td> {{ employee.salary}} </td>
-              <td> {{ employee.job}} </td>
-              <td *ngIf="checkRoleAsAdmin()"> {{ employee.role }} </td>
-              <td *ngIf="checkRoleAsAdmin()">
-                  <button (click) = "updateEmployee(employee.id)" class = "btn btn-info"> Update</button>
-                  <button (click) = "deleteEmployee(employee.id)" class = "btn btn-danger deleteButton"> Delete</button>
-              </td>
-          </tr>
+        <tr *ngFor="let employee of employees | customPipe:searchArea">
+          <td> {{ employee.id }} </td>
+          <td> {{ employee.firstName }} </td>
+          <td> {{ employee.lastName }} </td>
+          <td> {{ employee.email }} </td>
+          <td> {{ employee.salary}} </td>
+          <td> {{ employee.job}} </td>
+          <td *ngIf="checkRoleAsAdmin()"> {{ employee.role }} </td>
+          <td *ngIf="checkRoleAsAdmin()"> <div [ngStyle]="{'background-color': (employee.active) ? 'lightgreen' : 'red'}" class="activeOrNot"></div> </td>
+          <td *ngIf="checkRoleAsAdmin()">
+            <button (click)="updateEmployee(employee.id)" class="btn btn-info"> Update</button>
+            <button (click)="deleteEmployee(employee.id)"  class="btn btn-danger deleteButton"> Delete</button>
+          </td>
+        </tr>
       </tbody>
   </table>
   <br>

@@ -47,3 +47,8 @@ option{
 .dropdown-item{
     font-size: 14px;
 }
+.activeOrNot{
+    width:30px;
+    height:28px;
+    border-style:solid;
+}

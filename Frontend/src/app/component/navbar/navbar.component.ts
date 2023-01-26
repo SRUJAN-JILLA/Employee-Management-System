@@ -13,6 +13,8 @@ export class NavbarComponent {
 
   employee: Employee = new Employee();
   role:string;
+  temp: Employee = new Employee;
+
   constructor(public loginService:LoginService, private employeeService:EmployeeService,private route: ActivatedRoute, private router: Router){};
 
   ngOnInit(): void {
@@ -30,6 +32,7 @@ export class NavbarComponent {
   } 
 
   main(){
+    this.saveEmployee();
     this.loginService.logout();
     this.router.navigate(['/']);
   }
@@ -48,5 +51,19 @@ export class NavbarComponent {
   }
   addEmployee(){
     this.router.navigate(['/addemployeeadmin']);
+  }
+  saveEmployee() {
+    this.temp.firstName = this.employee.firstName;
+    this.temp.lastName = this.employee.lastName;
+    this.temp.job = this.employee.job;
+    this.temp.salary = this.employee.salary;
+    this.temp.email = this.employee.email;
+    this.temp.role = this.employee.role;
+    this.temp.id = this.employee.id;
+    this.temp.password = this.employee.password;
+    this.temp.active = false;
+    this.employeeService.updateEmployee(this.temp.id,this.temp).subscribe(data => {
+    },
+      error => console.log(error));
   }
 }

@@ -7,4 +7,5 @@ export class Employee {
     job:string;
     password:string;
     role:string;
+    active:boolean;
 }

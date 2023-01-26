@@ -22,7 +22,6 @@ export class LoginService {
   
   //login User store token in lcoal storage 
   public loginUser(token:string){
-    console.log("tokken added to local storage")
     localStorage.setItem("token",token);
     return true;
   }
@@ -68,4 +67,11 @@ export class LoginService {
     let user = this.getUser();
     return user.role;
   }
+
+  //set user role
+/*  public setUserRole(role:string) {
+    let user = this.getUser();
+
+    return user.role;
+  }*/
 }

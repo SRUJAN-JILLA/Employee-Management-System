@@ -18,7 +18,7 @@ export class UpdateEmployeeComponent {
   check:boolean;
   temp: Employee = new Employee;
   currentEmployee:Employee = new Employee();
-
+  
   constructor(public loginService:LoginService, private employeeService:EmployeeService,private route: ActivatedRoute, private router: Router){};
 
   ngOnInit(): void {
@@ -32,6 +32,7 @@ export class UpdateEmployeeComponent {
     this.loginService.getCurrentUser().subscribe(data=>{
       this.currentEmployee = data;
     });
+ 
   }
 
   async onSubmit() {
@@ -41,22 +42,13 @@ export class UpdateEmployeeComponent {
 
     this.check = res;
 
-    if(this.currentEmployee.email == this.employee.email && this.currentEmployee.password == this.employee.password){
+    if(this.currentEmployee.email == this.employee.email){
       this.saveEmployee();
       this.goToEmployeeDashboard();
     }
-    else if(this.currentEmployee.email == this.employee.email && this.currentEmployee.password != this.employee.password){
-      this.saveEmployee();
-      alert("You will be logged out! Since you have changed Password!!")
-      this.mainLogout();
-    }
-    else if(this.currentEmployee.email != this.employee.email && this.currentEmployee.password == this.employee.password && !res){
+    else if(this.currentEmployee.email != this.employee.email && !res){
       this.saveEmployee();
       alert("You will be logged out! Since you have changed Email!!")
-      this.mainLogout();
-    }else if(this.currentEmployee.email != this.employee.email && this.currentEmployee.password != this.employee.password && !res){
-      this.saveEmployee();
-      alert("You will be logged out! \n Since you have changed both Email and Password!!")
       this.mainLogout();
     }
     else {
@@ -72,7 +64,7 @@ export class UpdateEmployeeComponent {
     this.temp.email = this.employee.email;
     this.temp.role = this.employee.role;
     this.temp.id = this.employee.id;
-    this.temp.password = this.employee.password;
+    this.temp.active = this.employee.active;
     this.employeeService.updateEmployee(this.id,this.temp).subscribe(data => {
     },
       error => console.log(error));

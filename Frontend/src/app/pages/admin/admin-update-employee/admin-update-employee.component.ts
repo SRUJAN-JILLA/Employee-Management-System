@@ -64,7 +64,8 @@ export class AdminUpdateEmployeeComponent {
     this.temp.email = this.employee.email;
     this.temp.role = this.employee.role;
     this.temp.id = this.employee.id;
-    this.temp.password = this.employee.password;
+    this.temp.active = this.employee.active;
+    
     console.log(this.temp);
     this.employeeService.updateEmployee(this.id,this.temp).subscribe(data => {
     },
@@ -84,6 +85,19 @@ export class AdminUpdateEmployeeComponent {
     return this.currentEmployee.role === "ADMIN";
   }
   mainLogout(){
+    this.temp.firstName = this.employee.firstName;
+    this.temp.lastName = this.employee.lastName;
+    this.temp.job = this.employee.job;
+    this.temp.salary = this.employee.salary;
+    this.temp.email = this.employee.email;
+    this.temp.role = this.employee.role;
+    this.temp.id = this.employee.id;
+    this.temp.password = this.employee.password;
+    this.temp.active = false;
+    console.log(this.temp);
+    this.employeeService.updateEmployee(this.id,this.temp).subscribe(data => {
+    },
+      error => console.log(error));
     this.loginService.logout();
     this.router.navigate(['/']);
   }

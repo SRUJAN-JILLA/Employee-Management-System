@@ -22,7 +22,7 @@ export class SignupComponent implements OnInit {
   async formSubmit() {
     if(this.employee.password !== this.confirmPassword ){
       this.checkPassword = true;
-      console.log("passwords don't mathch");
+      console.log("Passwords don't match");
     }else{
      
     this.checkPassword = false;
