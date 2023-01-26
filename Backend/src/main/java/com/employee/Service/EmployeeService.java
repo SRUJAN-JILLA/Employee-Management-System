@@ -54,6 +54,7 @@ public class EmployeeService {
 		
 		employee.setPassword(this.bCryptPasswordEncoder.encode(employee.getPassword()));
 		
+		employee.setActive(false);
 		
 		this.employeeRepository.save(employee);
 		
@@ -78,6 +79,7 @@ public class EmployeeService {
 	}
 
 	public String employeeUpdate(long id, Employee employee) {
+		System.out.println(employee);
 		Employee tempEmployee = this.employeeRepository.findById(id).get();
 		String role = tempEmployee.getRole();
 		
@@ -87,9 +89,8 @@ public class EmployeeService {
 		tempEmployee.setLastName(employee.getLastName());
 		tempEmployee.setSalary(employee.getSalary());
 		tempEmployee.setRole(employee.getRole());
-		//while updating everything except password
-		if(employee.getPassword() != null)
-		tempEmployee.setPassword(this.bCryptPasswordEncoder.encode(employee.getPassword()));
+		tempEmployee.setActive(employee.isActive());
+
 
 		this.employeeRepository.save(tempEmployee);
 		

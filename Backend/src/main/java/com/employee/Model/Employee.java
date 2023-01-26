@@ -25,6 +25,15 @@ public class Employee implements UserDetails {
 	private String job;
 	private String password;
 	private String role;
+	private boolean active;
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 	public String getRole() {
 		return role;
@@ -93,8 +102,15 @@ public class Employee implements UserDetails {
 		this.password = password;
 	}
 
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary
+				+ ", email=" + email + ", job=" + job + ", password=" + password + ", role=" + role + ", active="
+				+ active + "]";
+	}
+
 	public Employee(long id, String firstName, String lastName, double salary, String email, String job,
-			String password, String role) {
+			String password, String role, boolean active) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -104,12 +120,7 @@ public class Employee implements UserDetails {
 		this.job = job;
 		this.password = password;
 		this.role = role;
-	}
-
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary
-				+ ", email=" + email + ", job=" + job + ", password=" + password + ", role=" + role + "]";
+		this.active = active;
 	}
 
 	@Override
