@@ -25,7 +25,7 @@ public class EmployeeService {
 	private DbSequenceGenr dbSequenceGenr;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	// Getting Roles
 	public List<Role> getRoles() {
 		return this.roleRepository.findAll();
@@ -48,41 +48,52 @@ public class EmployeeService {
 
 		// generate sequence and save employee data
 		employee.setId(dbSequenceGenr.getSequenceNumber(Employee.SEQUENCE_NAME));
-		
+
 		if (employee.getRole() == null)
 			employee.setRole("EMPLOYEE");
-		
+
 		employee.setPassword(this.bCryptPasswordEncoder.encode(employee.getPassword()));
-		
+
 		employee.setActive(false);
-		
+
 		this.employeeRepository.save(employee);
-		
+
 		return "Added";
-		
-		// updating role table about user id
-//		Role role = this.roleRepository.findById("EMPLOYEE").get();
-//		role.getUserIdSet().add(employee.getId());
-//		roleRepository.save(role);
+
 	}
 
 	// Delete Employee
 	public void deleteEmployee(long id) {
-//		String role = this.employeeRepository.findById(id).get().getRole();
-//		Role roleObject = this.roleRepository.findById(role).get();
-//		Set<Long> useridSet = roleObject.getUserIdSet();
-//		useridSet.remove(id);
-//		roleObject.setUserIdSet(useridSet);
-//		this.roleRepository.save(roleObject);
-		
 		this.employeeRepository.deleteById(id);
+	}
+
+	public String changePassword(long id, Employee employee) {
+		Employee tempEmployee = this.employeeRepository.findById(id).get();
+		
+		if(employee.getPassword() != null)
+			tempEmployee.setPassword(this.bCryptPasswordEncoder.encode(employee.getPassword()));
+		
+		tempEmployee.setActive(employee.isActive());
+		this.employeeRepository.save(tempEmployee);
+
+		return "Password Updated";
+	}
+	
+	public String changeActive(long id, Employee employee) {
+		Employee tempEmployee = this.employeeRepository.findById(id).get();
+		
+		tempEmployee.setActive(employee.isActive());
+
+		this.employeeRepository.save(tempEmployee);
+		
+		return "Active" + employee.isActive();
 	}
 
 	public String employeeUpdate(long id, Employee employee) {
 		System.out.println(employee);
 		Employee tempEmployee = this.employeeRepository.findById(id).get();
 		String role = tempEmployee.getRole();
-		
+
 		tempEmployee.setEmail(employee.getEmail());
 		tempEmployee.setFirstName(employee.getFirstName());
 		tempEmployee.setJob(employee.getJob());
@@ -90,34 +101,9 @@ public class EmployeeService {
 		tempEmployee.setSalary(employee.getSalary());
 		tempEmployee.setRole(employee.getRole());
 		tempEmployee.setActive(employee.isActive());
-
-
+		
 		this.employeeRepository.save(tempEmployee);
 		
-		//update in Role repository
-		//need to work on this -> 
-//		if(!role.equals(employee.getRole())) {
-//		//delete it in existing Role object
-//		Role roleObject = this.roleRepository.findById(role).get();
-//		Set<Long> useridSet = roleObject.getUserIdSet();
-//		useridSet.remove(id);
-//		roleObject.setUserIdSet(useridSet);
-//		System.out.println(roleObject);
-//		
-//		this.roleRepository.save(roleObject);
-//
-//		//adding it in new Role object
-//		Role newRoleObject = this.roleRepository.findById(employee.getRole()).get();
-//		Set<Long> newUseridSet = roleObject.getUserIdSet();
-//		System.out.println(newUseridSet + "before adding the new role");
-//
-//		newUseridSet.add(employee.getId());
-//
-//		newRoleObject.setUserIdSet(newUseridSet);
-//		System.out.println(newRoleObject);
-//
-//		this.roleRepository.save(newRoleObject);
-//		}
 		return "Updated";
 	}
 
@@ -146,3 +132,46 @@ public class EmployeeService {
 		this.employeeRepository = employeeRepository;
 	}
 }
+
+//to update the rolerepository
+//this.employeeRepository.save(tempEmployee);
+
+// update in Role repository
+// need to work on this ->
+//if(!role.equals(employee.getRole())) {
+////delete it in existing Role object
+//Role roleObject = this.roleRepository.findById(role).get();
+//Set<Long> useridSet = roleObject.getUserIdSet();
+//useridSet.remove(id);
+//roleObject.setUserIdSet(useridSet);
+//System.out.println(roleObject);
+//
+//this.roleRepository.save(roleObject);
+//
+////adding it in new Role object
+//Role newRoleObject = this.roleRepository.findById(employee.getRole()).get();
+//Set<Long> newUseridSet = roleObject.getUserIdSet();
+//System.out.println(newUseridSet + "before adding the new role");
+//
+//newUseridSet.add(employee.getId());
+//
+//newRoleObject.setUserIdSet(newUseridSet);
+//System.out.println(newRoleObject);
+//
+//this.roleRepository.save(newRoleObject);
+//}
+
+
+//to delete the role
+//String role = this.employeeRepository.findById(id).get().getRole();
+//Role roleObject = this.roleRepository.findById(role).get();
+//Set<Long> useridSet = roleObject.getUserIdSet();
+//useridSet.remove(id);
+//roleObject.setUserIdSet(useridSet);
+//this.roleRepository.save(roleObject);
+
+//adding role
+// updating role table about user id
+//Role role = this.roleRepository.findById("EMPLOYEE").get();
+//role.getUserIdSet().add(employee.getId());
+//roleRepository.save(role);

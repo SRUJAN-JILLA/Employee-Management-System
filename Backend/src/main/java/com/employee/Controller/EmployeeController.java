@@ -50,6 +50,16 @@ public class EmployeeController {
 	public String addEmployee(@RequestBody Employee employee) {
 		return employeeService.addEmployee(employee);
 	}
+	
+	@PutMapping("employees/changePassword/{id}")
+	public String changePassword(@PathVariable("id") long id, @RequestBody Employee employee) {
+		return this.employeeService.changePassword(id, employee);
+	}
+	
+	@PutMapping("employees/changeActive/{id}")
+	public String changeActive(@PathVariable("id") long id,  @RequestBody Employee employee) {
+		return this.employeeService.changeActive(id, employee);
+	}
 
 	@PutMapping("employees/update/{id}")
 	public String employeeUpdate(@PathVariable("id") long id, @RequestBody Employee employee) {
