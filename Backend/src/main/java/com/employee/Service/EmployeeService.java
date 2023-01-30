@@ -42,7 +42,7 @@ public class EmployeeService {
 	public List<Employee> findAll() {
 		return this.employeeRepository.findAll();
 	}
-
+	
 	// Adding Employee
 	public String addEmployee(Employee employee) {
 
@@ -66,7 +66,15 @@ public class EmployeeService {
 	public void deleteEmployee(long id) {
 		this.employeeRepository.deleteById(id);
 	}
-
+	
+	//delete multiple employees
+	public void deleteMultiple(long[] ids) {
+//		for(int i=0;i<ids.length;i++) {
+//			this.employeeRepository.deleteById(ids[i]);
+//		}
+		System.out.println(ids);
+	}
+	
 	public String changePassword(long id, Employee employee) {
 		Employee tempEmployee = this.employeeRepository.findById(id).get();
 		

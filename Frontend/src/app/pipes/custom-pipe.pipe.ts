@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CustomPipePipe implements PipeTransform {
 
+  
   transform(employees: any, filterString: string) {
 
     if (filterString.length === 0)
@@ -30,12 +31,21 @@ export class CustomPipePipe implements PipeTransform {
           if (check === searchData)
             selected.add(employee);
         }
+      }
+      else if (column === "active") {
+        for (const employee of employees) {
+          const check = employee[column].toString().substring(0, amount);
+          if (check === searchData)
+            selected.add(employee);
+        }
       } else {
           for (const employee of employees) {
             const check = employee[column].substring(0, amount);
             if (check.toLowerCase() === searchData.toLowerCase())
               selected.add(employee);
-          } return selected;
+          } 
+          let myArray = Array.from( selected );
+          return myArray;
         }
       }
 
@@ -74,6 +84,7 @@ export class CustomPipePipe implements PipeTransform {
       if (check === filterString.toLowerCase())
         selected.add(employee);
     }
-      return selected;
+    let myArray = Array.from( selected );
+    return myArray;
     }
   }

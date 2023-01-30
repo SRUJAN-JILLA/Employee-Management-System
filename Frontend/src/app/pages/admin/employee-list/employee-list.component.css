@@ -13,6 +13,7 @@ a:hover{
 }
 table{
     font-size: medium;
+    width: 100%;
 }
 .dropButton{
     height: 34px;
@@ -20,6 +21,7 @@ table{
 }
 select{
     height: 33px;
+    font-size:14px;
 }
 .downlaodSection{
     width: 25%; 
@@ -32,8 +34,9 @@ select{
 th{
     cursor:pointer;
 }
-.deleteButton{
-    margin-left: 10px
+
+.deleteButtonMultiple{
+    float: right;
 }
 button{
     font-size: 15px;
@@ -51,4 +54,50 @@ option{
     width:30px;
     height:28px;
     border-style:solid;
+}
+.center{
+    margin-left: 40%;
+}
+.checkBox{
+    width: 26px;
+    height: 24px;
+    margin-top: 0px;
+}
+tr{
+    height: 0px;
+}
+#allSelected{
+    margin-top: -5px;
+}
+.addEmployeeInput{
+    width: 100px;
+    font-size: medium;
+}
+.addEmployeeInputEmail{
+    font-size: medium;
+}
+.buttonCheck{
+    width: 30px;
+    height: 30px;
+    font-size: 2rem;
+    color: aliceblue;
+    background-color: #007BFF;
+    padding: 0%;
+}
+.buttonCancel{
+    width: 30px;
+    height: 30px;
+    font-size: 2rem;
+    color: aliceblue;
+    background-color: rgb(220, 35, 35);
+    padding: 0%;
+    margin-top: 0%;
+
+}
+small{
+    font-size: 10px;
+}
+.tdRow{
+    width: 80px;
+    font-size: medium;
 }

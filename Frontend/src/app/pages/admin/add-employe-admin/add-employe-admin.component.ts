@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { Employee } from 'src/app/classes/employee';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-employe-admin',
@@ -14,8 +12,7 @@ export class AddEmployeAdminComponent {
   employee: Employee = new Employee();
   check:boolean;
 
-  constructor(private employeeService: EmployeeService,
-    private route: ActivatedRoute, private router: Router) { }
+  constructor(private employeeService: EmployeeService, private router: Router) { }
 
   ngOnInit(): void {
     this.employee.role = "Choose a role"
@@ -42,13 +39,8 @@ export class AddEmployeAdminComponent {
       error => console.log(error));
   }
   
-  delay(ms: number): Promise<any> {
-    const dummyObservable = of();
-    return dummyObservable.pipe(delay(ms)).toPromise();
-  }
-  
   async goToEmployeeList() {
-    await this.delay(30000);
+    await new Promise(resolve => setTimeout(resolve, 500)).then(() => console.log("fired"));
     this.router.navigate(['/employeelist']);
   }
 

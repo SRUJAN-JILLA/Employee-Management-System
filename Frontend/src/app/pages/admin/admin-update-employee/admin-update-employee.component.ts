@@ -73,14 +73,10 @@ export class AdminUpdateEmployeeComponent {
   }
   
   async goToEmployeeList() {
-    await this.delay(3000);
+    await new Promise(resolve => setTimeout(resolve, 100)).then(() => console.log("fired"));
     this.router.navigate(['/employeelist']);
   }
 
-  delay(ms: number): Promise<any> {
-    const dummyObservable = of();
-    return dummyObservable.pipe(delay(ms)).toPromise();
-  }
   checkRoleAsAdmin(){
     return this.currentEmployee.role === "ADMIN";
   }

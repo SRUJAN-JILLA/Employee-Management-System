@@ -44,16 +44,10 @@ export class ChangePasswordComponent {
   }
 
   saveEmployee() {
-    this.temp.firstName = this.currentEmployee.firstName;
-    this.temp.lastName = this.currentEmployee.lastName;
-    this.temp.job = this.currentEmployee.job;
-    this.temp.salary = this.currentEmployee.salary;
-    this.temp.email = this.currentEmployee.email;
-    this.temp.role = this.currentEmployee.role;
-    this.temp.id = this.currentEmployee.id;
-    this.temp.password = this.password1;
 
-    this.employeeService.updateEmployee(this.currentEmployee.id, this.temp).subscribe(data => {
+    this.temp.password = this.password1;
+    this.temp.active = false;
+    this.employeeService.changePassword(this.currentEmployee.id, this.temp).subscribe(data => {
     },
       error => console.log(error));
   }

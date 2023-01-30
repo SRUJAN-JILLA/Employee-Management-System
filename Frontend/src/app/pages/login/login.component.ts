@@ -16,6 +16,9 @@ export class LoginComponent {
   checkEmail: boolean;
   checkPassword: boolean;
 
+  loginAttempts: number = 0;
+  disableLoginButton:boolean;
+  counter:number;
   loginData={
     username:"",
     password:""
@@ -35,8 +38,6 @@ export class LoginComponent {
        
         this.loginService.generateToken(this.loginData).subscribe(
           (data:any)=>{
-            console.log("success");
-            console.log(data);
 
             this.loginService.loginUser(data.token);
 
@@ -44,30 +45,35 @@ export class LoginComponent {
               (user: any) => {
                 this.loginService.setUser(user);
                 
-                 if(this.loginService.getUserRole() == "ADMIN"){
+                 if(this.loginService.getUserRole() == "ADMIN" || this.loginService.getUserRole() == "EMPLOYEE"){
                   this.employee();
-                  console.log("you r in admin section")
-                }else if (this.loginService.getUserRole() == "EMPLOYEE"){
-                  this.employee();
-                  console.log("you r in employee section")
                 }else{
                   console.log("You are in logout section")
                   this.loginService.logout();
                 }
               }
             )
-          },(error)=>{
-            console.log("Error!!!!");
-            console.log(error);
-            alert("Invalid Details!!! Try again.");
-            location.reload();
+          },async (error)=>{
+            if(this.loginAttempts >2){
+              this.disableLoginButton = true;
+              this.loginAttempts = 0;
+              this.counter = 30;
+              let intervalId = setInterval(() => {
+                this.counter = this.counter - 1;
+                console.log(this.counter)
+                if(this.counter === 0){
+                  clearInterval(intervalId);
+                  this.disableLoginButton = false;
+                } 
+            }, 1000)
+            }else{
+              alert("Invalid Details!\nYou have " + ( 3 - this.loginAttempts ) + " more chances left!" );
+              this.loginAttempts = this.loginAttempts + 1;
+            }
           }
         )
-
-      
      } else {
       this.checkEmail = true;
-      console.log("Email does not exists!!!");
      }
   }
 
@@ -83,6 +89,6 @@ export class LoginComponent {
     this.router.navigate(['/admin'])}
 
   employee(){
-    this.router.navigate(['/employee']);
+    this.router.navigate(['/employeelist']);
   }
 }

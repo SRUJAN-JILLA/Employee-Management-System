@@ -9,4 +9,47 @@ h1{
     font-size: 36px;
     font-family: Roboto Slab;
     font-weight: 500;
+    margin-top: 15px;
+}
+.heading{
+    background-color: #4C535D;color: white;
+    height: 60px;
+}
+
+a{
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 5px;
+    color: #e3edfa;
+}
+.headingStart{
+    background-color: #e3edfa;
+}
+.isAdmin , .isEmployee{
+    background-color: #4C535D;color: white;
+    height: 65px;
+}
+
+.content{
+    width: 600px;
+}
+.linkadd{
+    width: 115px;
+}
+.logOut{
+    color: #4C535D
+}
+.signUp{
+    width: 70px;
+}
+.isLoggedIn{
+    height: 70px;
+}
+
+/* Extra     */
+.isLoggedIn{
+    background-color: #e3edfa;
+}
+.isLoggedInAdmin,.isLoggedInEmployee{
+    background-color: #4C535D;color: white;
 }

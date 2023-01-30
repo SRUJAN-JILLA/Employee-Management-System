@@ -9,6 +9,8 @@ import { Employee } from '../classes/employee';
 export class LoginService {
 
   private baseURL = "http://localhost:8080";
+  role:string;
+
   constructor(private httpClient: HttpClient) {}
 
   public generateToken(loginData:any){
@@ -62,6 +64,16 @@ export class LoginService {
     return null;
   }
 
+  //save user from navbar component to directly store from db
+  public saveFromNav(role:string){
+    this.role = role;
+  }
+
+  //get data from nav bar initial set up 
+  public getFromNav(){
+    return this.role;
+  }
+
   //get user role
   public getUserRole(){
     let user = this.getUser();
@@ -69,9 +81,10 @@ export class LoginService {
   }
 
   //set user role
-/*  public setUserRole(role:string) {
+ public setUserRole(role:string) {
     let user = this.getUser();
-
+    user.role = role;
+    this.setUser(user);
     return user.role;
-  }*/
+  }
 }

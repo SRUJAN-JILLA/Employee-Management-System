@@ -4,13 +4,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <app-navbar></app-navbar>
 <br>
-<br>
 <div class="col-md-6 offset-md-3">
     <h1> Update Details</h1>
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
   
       <div class="form-group">
-        <label>First Name</label>
+        <label for="firstName">First Name</label>
         <input type="text" required #firstName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$" class="form-control"
                placeholder="First Name" id="firstName" [class.is-invalid]="firstName.invalid && firstName.touched" [(ngModel)]="employee.firstName" name="firstName" ngModel>
         <div *ngIf="firstName.invalid && firstName.touched">
@@ -20,7 +19,7 @@
       </div>
   
       <div class="form-group">
-        <label>Last Name</label>
+        <label for="lastName">Last Name</label>
         <input required type="text" #lastName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$" class="form-control" id="lastName"
               placeholder="Last Name" [class.is-invalid]="lastName.invalid && lastName.touched" [(ngModel)]="employee.lastName" name="lastName" ngModel>
         <div *ngIf="lastName.invalid && lastName.touched">
@@ -30,7 +29,7 @@
       </div>
   
       <div class="form-group">
-        <label>Email</label>
+        <label for="email">Email</label>
         <input required type="text" class="form-control" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #email="ngModel" id="email"
               placeholder="Email" [class.is-invalid]="email.invalid && email.touched" [(ngModel)]="employee.email" name="email" ngModel>
         <small class="text-danger" *ngIf="check">Email already exsists!</small>
@@ -41,7 +40,7 @@
       </div>
 
       <div class="form-group">
-        <label>Salary</label>
+        <label for="salary">Salary</label>
         <input required type="text" class="form-control" pattern="^[0-9]{0,20}$" #salary="ngModel" id="salary"
               placeholder="Salary" [class.is-invalid]="salary.invalid && salary.touched" [(ngModel)]="employee.salary" name="salary" ngModel>
         <div *ngIf="salary.invalid && salary.touched">
@@ -51,7 +50,7 @@
       </div>
   
       <div class="form-group">
-        <label>Job</label>
+        <label for="job">Job</label>
         <input required type="text" class="form-control" #job="ngModel" id="job"
               placeholder="Job" [class.is-invalid]="job.invalid && job.touched" [(ngModel)]="employee.job" name="job" ngModel>
         <div *ngIf="job.invalid && job.touched">
@@ -60,7 +59,7 @@
       </div>
       
       <div *ngIf="loginService.isLoggedIn() && checkRoleAsAdmin()" class="form-group">
-        <label>Role</label>
+        <label for="role">Role</label>
         <select required type="text" class="form-control" #role="ngModel" id="role"
         placeholder="Role" [class.is-invalid]="role.invalid && role.touched" [(ngModel)]="employee.role" name="role" ngModel
          class="custom-select" id="inputGroupSelect02">

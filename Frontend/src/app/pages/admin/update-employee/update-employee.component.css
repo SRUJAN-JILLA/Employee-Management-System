@@ -10,3 +10,6 @@ select{
 h1{
     text-align: center;
  }
+ button{
+    height: 40px;
+ }

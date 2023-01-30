@@ -1,9 +1,5 @@
 <app-navbar></app-navbar>
 <body>
-    <br>
-    <br>
-    <br><br>
-
     <div class="signup-form">
         <form  (ngSubmit) = "formSubmit()" #userForm="ngForm">
             <div class="modal-header">
@@ -15,7 +11,7 @@
                 <input [(ngModel)]="loginData.username" #email="ngModel" ngModel id="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  
                 [class.is-invalid]="email.invalid && email.touched" required type="email"
                  type="email" class="form-control" name="email" placeholder="Email">
-                 <small class="text-danger" *ngIf="checkEmail">Email does not exsists!</small>
+                 <small class="text-danger" *ngIf="checkEmail">Email does not exists!</small>
                  <div *ngIf="email.invalid && email.touched">
                    <small class="text-danger" *ngIf="email.errors?.required">Email is required.</small>
                    <small class="text-danger" *ngIf="email.errors?.pattern">Enter valid emial id.</small>
@@ -29,9 +25,9 @@
                     <small class="text-danger" *ngIf="passwordConfirm.errors?.required">Password is required.</small>
                   </div>
             </div>
-
+            <small class="timer" *ngIf="disableLoginButton" > {{ counter }}  seconds left!!</small> 
             <div class="form-group">
-                <button [disabled]="email.errors || email.invalid || passwordConfirm.errors || passwordConfirm.invalid" 
+                <button [disabled]="disableLoginButton || (email.errors || email.invalid || passwordConfirm.errors || passwordConfirm.invalid) " 
                 type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
             </div>
         </form>

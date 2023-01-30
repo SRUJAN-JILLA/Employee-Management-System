@@ -37,10 +37,13 @@
                     <small class="text-danger" *ngIf="password.errors?.required">Password is required.</small>
                     <small class="text-danger" *ngIf="password.errors?.pattern">
                         Passowrd should be in following pattern.<br> 
+                    <ul>
                        <li> At least 1 Uppercase</li>
                        <li>At least 1 Lowercase</li>
                        <li>At least 1 Number</li>
                        <li>At least 1 Symbol, symbol allowed --> !@#$%^&*_=+-</li>
+                       <li>Min 8 chars and Max 12 chars</li>
+                    </ul>
                     </small>
                   </div>
             </div>
@@ -52,10 +55,13 @@
                     <small class="text-danger" *ngIf="passwordConfirm.errors?.required">Password is required.</small>
                     <small class="text-danger" *ngIf="passwordConfirm.errors?.pattern">
                         Passowrd should be in following pattern.<br> 
+                    <ul>
                        <li> At least 1 Uppercase</li>
                        <li>At least 1 Lowercase</li>
                        <li>At least 1 Number</li>
                        <li>At least 1 Symbol, symbol allowed --> !@#$%^&*_=+-</li>
+                       <li>Min 8 chars and Max 12 chars</li>
+                    </ul>
                     </small>
                   </div>
             </div>

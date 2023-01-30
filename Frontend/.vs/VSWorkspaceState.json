@@ -3,14 +3,14 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\classes",
     "\\src\\app\\pages",
+    "\\src\\app\\pages\\admin",
+    "\\src\\app\\pages\\admin\\employee-list",
     "\\src\\app\\pages\\employee",
+    "\\src\\app\\pages\\employee\\change-password",
     "\\src\\app\\pages\\employee\\employee-dashboard",
-    "\\src\\app\\pages\\login",
-    "\\src\\app\\pipes",
     "\\src\\app\\services"
   ],
-  "SelectedNode": "\\src\\app\\pages\\admin\\add-employe-admin\\add-employe-admin.component.html",
+  "SelectedNode": "\\src\\app\\pages",
   "PreviewInSolutionExplorer": false
 }

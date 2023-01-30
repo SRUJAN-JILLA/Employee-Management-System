@@ -45,7 +45,13 @@ public class EmployeeController {
 		System.out.println(id);
 		this.employeeService.deleteEmployee(id);
 	}
-
+	
+	@DeleteMapping("/employees/multiple")
+	public void deleteMultipleEmployee(@RequestBody long[] ids) {
+		System.out.println(ids);
+		this.employeeService.deleteMultiple(ids);
+	}
+	
 	@PostMapping("/employees/add")
 	public String addEmployee(@RequestBody Employee employee) {
 		return employeeService.addEmployee(employee);

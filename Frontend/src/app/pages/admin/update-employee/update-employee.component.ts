@@ -64,21 +64,17 @@ export class UpdateEmployeeComponent {
     this.temp.email = this.employee.email;
     this.temp.role = this.employee.role;
     this.temp.id = this.employee.id;
-    this.temp.active = this.employee.active;
+    this.temp.active = false;
     this.employeeService.updateEmployee(this.id,this.temp).subscribe(data => {
     },
       error => console.log(error));
   }
   
   async goToEmployeeDashboard() {
-    await this.delay(1000);
+    await new Promise(resolve => setTimeout(resolve, 100)).then(() => console.log("fired"));
     this.router.navigate(['/employee']);
   }
 
-  delay(ms: number): Promise<any> {
-    const dummyObservable = of();
-    return dummyObservable.pipe(delay(ms)).toPromise();
-  }
   checkRoleAsAdmin(){
     return this.currentEmployee.role === "ADMIN";
   }

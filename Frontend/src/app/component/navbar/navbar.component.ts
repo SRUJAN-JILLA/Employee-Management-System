@@ -11,6 +11,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 })
 export class NavbarComponent {
 
+  isAdmin:boolean;
   employee: Employee = new Employee();
   role:string;
   temp: Employee = new Employee;
@@ -21,12 +22,14 @@ export class NavbarComponent {
     this.loginService.getCurrentUser().subscribe(data=>{
       this.employee = data;
       this.role = this.employee.role;
-    });
+      this.loginService.saveFromNav(this.role);
+    },error => {});
   }
 
   login(){
     this.router.navigate(['/login']);
   }
+
   signup(){
     this.router.navigate(['/signup']);
   } 
@@ -64,6 +67,6 @@ export class NavbarComponent {
     this.temp.active = false;
     this.employeeService.updateEmployee(this.temp.id,this.temp).subscribe(data => {
     },
-      error => console.log(error));
+      error => {});
   }
 }
