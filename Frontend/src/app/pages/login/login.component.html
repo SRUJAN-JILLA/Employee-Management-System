@@ -25,7 +25,8 @@
                     <small class="text-danger" *ngIf="passwordConfirm.errors?.required">Password is required.</small>
                   </div>
             </div>
-            <small class="timer" *ngIf="disableLoginButton" > {{ counter }}  seconds left!!</small> 
+            <small class="timer" *ngIf="disableLoginButton" > Your account has been locked due to 5 failed attempts. <br>
+               <small class="timertimer"> Try again in {{ counter }} seconds.</small></small> 
             <div class="form-group">
                 <button [disabled]="disableLoginButton || (email.errors || email.invalid || passwordConfirm.errors || passwordConfirm.invalid) " 
                 type="submit" class="btn btn-primary btn-block btn-lg">Login</button>

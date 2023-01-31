@@ -41,7 +41,7 @@
   <!-- Add Employee & Delete Employee -->
   <div *ngIf="checkRoleAsAdmin()">
     <button (click)="addEmployee()" class="btn btn-primary"> Add Employee</button>
-    <button (click)="deleteMultiple()" [disabled]=" listToDelete.length === 0" class="btn btn-danger deleteButtonMultiple"> Delete Multiple Employee(s)</button>
+    <button (click)="deleteMultiple()" [disabled]=" listToDelete.length === 0" class="btn btn-danger deleteButtonMultiple"> Delete Employee(s)</button>
   </div>
 
   <!-- Table Content -->

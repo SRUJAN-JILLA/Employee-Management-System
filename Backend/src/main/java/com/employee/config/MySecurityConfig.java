@@ -47,7 +47,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().disable().authorizeRequests()
-		.antMatchers("/generate-token", "/employees/add","/employees/emailExists/**")
+		.antMatchers("/generate-token", "/employees/add","/employees/emailExists/**","/employees/loginAttempts/**"
+				,"/employees/lockTimeLeft/**","/employees/lockTime/**")
 				.permitAll().antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated().and()
 				.exceptionHandling().authenticationEntryPoint(unAuthorizedHandler).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -11,6 +11,6 @@
     "\\src\\app\\pages\\employee\\employee-dashboard",
     "\\src\\app\\services"
   ],
-  "SelectedNode": "\\src\\app\\pages",
+  "SelectedNode": "\\src\\app\\app-routing.module.ts",
   "PreviewInSolutionExplorer": false
 }

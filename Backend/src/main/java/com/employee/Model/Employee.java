@@ -1,6 +1,7 @@
 package com.employee.Model;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,24 @@ public class Employee implements UserDetails {
 	private String password;
 	private String role;
 	private boolean active;
+	private long loginAttempts;
+	private Date lockTime;
+
+	public Date getLockTime() {
+		return lockTime;
+	}
+
+	public void setLockTime(Date lockTime) {
+		this.lockTime = lockTime;
+	}
+
+	public long getLoginAttempts() {
+		return loginAttempts;
+	}
+
+	public void setLoginAttempts(long loginAttempts) {
+		this.loginAttempts = loginAttempts;
+	}
 
 	public boolean isActive() {
 		return active;
@@ -102,15 +121,10 @@ public class Employee implements UserDetails {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary
-				+ ", email=" + email + ", job=" + job + ", password=" + password + ", role=" + role + ", active="
-				+ active + "]";
-	}
+	
 
 	public Employee(long id, String firstName, String lastName, double salary, String email, String job,
-			String password, String role, boolean active) {
+			String password, String role, boolean active, long loginAttempts, Date lockTime) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -121,6 +135,15 @@ public class Employee implements UserDetails {
 		this.password = password;
 		this.role = role;
 		this.active = active;
+		this.loginAttempts = loginAttempts;
+		this.lockTime = lockTime;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary
+				+ ", email=" + email + ", job=" + job + ", password=" + password + ", role=" + role + ", active="
+				+ active + ", loginAttempts=" + loginAttempts + ", lockTime=" + lockTime + "]";
 	}
 
 	@Override

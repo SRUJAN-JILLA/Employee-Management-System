@@ -4,8 +4,6 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { LoginService } from 'src/app/services/login.service';
-import { HttpRequest } from '@angular/common/http';
-import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-employee-list',
@@ -43,6 +41,7 @@ export class EmployeeListComponent implements OnInit {
     this.getEmployees();
   }
 
+
   //Update Section
   updateInline(id:number){
     this.checkUpdateEmployee = true;
@@ -71,6 +70,7 @@ export class EmployeeListComponent implements OnInit {
     this.tempUpdate.role = selectedEmployee.role;
     this.tempUpdate.id = selectedEmployee.id;
     this.tempUpdate.active = selectedEmployee.active;
+    this.tempUpdate.loginAttempts = selectedEmployee.loginAttempts;
     
     console.log(this.tempUpdate);
     this.employeeService.updateEmployee(this.tempUpdate.id,this.tempUpdate).subscribe(data => {
@@ -96,6 +96,7 @@ export class EmployeeListComponent implements OnInit {
         await new Promise(resolve => setTimeout(resolve, 500)).then(() => console.log("fired"));
         this.ngOnInit();     
         this.addEmployeeClicked = false;
+        this.newEmployee = new Employee;
       } else {
         console.log("Email already exists!!!");
       }
@@ -110,17 +111,20 @@ export class EmployeeListComponent implements OnInit {
   addEmployee(){
     if(!this.addEmployeeClicked)
     this.addEmployeeClicked = true;
-    else
+    else{
     this.addEmployeeClicked = false;
+    this.newEmployee = new Employee;
+    }
   }
 
   cancelAddEmployee(){
     this.addEmployeeClicked = false;
+    this.newEmployee = new Employee;
   }
 
   //Delete Multiple Employee Section
   async deleteMultiple(){
-    if (confirm("Are you sure to delete these employees!!") == true) {
+    if (confirm("Are you sure!!\nDo you want to delete these employee(s)!!") == true) {
     if(this.allSelected == true){
         this.listToDelete = [];
         this.employees.forEach((element)=>{
@@ -146,8 +150,6 @@ export class EmployeeListComponent implements OnInit {
         this.listToDelete.splice(index, 1);
       }   
     }
-    console.log(this.listToDelete);
-
   }
 
   allSelectedChange(event:any  ){
@@ -166,7 +168,6 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.getEmployeesList().subscribe(data => {
       this.employees = data;
     });
-    await new Promise(resolve => setTimeout(resolve, 500)).then(() => console.log("fired"));
   }
 
   //Search in Table Section

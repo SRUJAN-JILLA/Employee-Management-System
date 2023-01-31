@@ -1,5 +1,6 @@
 package com.employee.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +46,6 @@ public class EmployeeService {
 	
 	// Adding Employee
 	public String addEmployee(Employee employee) {
-
 		// generate sequence and save employee data
 		employee.setId(dbSequenceGenr.getSequenceNumber(Employee.SEQUENCE_NAME));
 
@@ -55,6 +55,12 @@ public class EmployeeService {
 		employee.setPassword(this.bCryptPasswordEncoder.encode(employee.getPassword()));
 
 		employee.setActive(false);
+		
+		employee.setLoginAttempts(0);
+		
+		employee.setLockTime(new Date(2021,1,1));
+
+		System.out.println(employee);
 
 		this.employeeRepository.save(employee);
 
@@ -67,12 +73,35 @@ public class EmployeeService {
 		this.employeeRepository.deleteById(id);
 	}
 	
-	//delete multiple employees
-	public void deleteMultiple(long[] ids) {
-//		for(int i=0;i<ids.length;i++) {
-//			this.employeeRepository.deleteById(ids[i]);
-//		}
-		System.out.println(ids);
+	// set failed login attempt
+	public void setLockTime(String email) {
+		Employee employee = this.employeeRepository.findByEmail(email);
+		
+		employee.setLockTime(new Date());
+		
+		this.employeeRepository.save(employee);
+	}
+	
+	//get how much time left to remove lock in time
+	public long getRestOfLockTime(String email) {
+		Employee employee = this.employeeRepository.findByEmail(email);
+		
+		long lockTimeInMillis = employee.getLockTime().getTime();
+		long currentTimeInMillis = System.currentTimeMillis();
+		
+		return currentTimeInMillis - lockTimeInMillis;
+	}
+
+	// change login attempts 
+	public String changeLoginAttempts(Employee employee) {
+		
+		Employee temp = this.employeeRepository.findByEmail(employee.getEmail());
+		
+		temp.setLoginAttempts(employee.getLoginAttempts());
+		
+		this.employeeRepository.save(temp);		
+		
+		return "Loggin Attempts " + employee.getLoginAttempts();
 	}
 	
 	public String changePassword(long id, Employee employee) {
@@ -96,6 +125,16 @@ public class EmployeeService {
 		
 		return "Active" + employee.isActive();
 	}
+	
+	public String changeActiveByMail(String mail, Employee employee) {
+		Employee tempEmployee = this.employeeRepository.findByEmail(mail);
+		
+		tempEmployee.setActive(employee.isActive());
+
+		this.employeeRepository.save(tempEmployee);
+		
+		return "Active" + employee.isActive();
+	}
 
 	public String employeeUpdate(long id, Employee employee) {
 		System.out.println(employee);
@@ -109,6 +148,7 @@ public class EmployeeService {
 		tempEmployee.setSalary(employee.getSalary());
 		tempEmployee.setRole(employee.getRole());
 		tempEmployee.setActive(employee.isActive());
+		tempEmployee.setLoginAttempts(employee.getLoginAttempts());
 		
 		this.employeeRepository.save(tempEmployee);
 		
@@ -183,3 +223,11 @@ public class EmployeeService {
 //Role role = this.roleRepository.findById("EMPLOYEE").get();
 //role.getUserIdSet().add(employee.getId());
 //roleRepository.save(role);
+
+//delete multiple employees
+//public void deleteMultiple(long[] ids) {
+//	for(int i=0;i<ids.length;i++) {
+//		this.employeeRepository.deleteById(ids[i]);
+//	}
+//	System.out.println(ids);
+//}

@@ -23,10 +23,10 @@ import org.supercsv.prefs.CsvPreference;
 
 import com.employee.Model.Employee;
 import com.employee.Model.Role;
+import com.employee.Repository.EmployeeRepository;
 import com.employee.Service.EmployeeExcelExporter;
 import com.employee.Service.EmployeePdfExporter;
 import com.employee.Service.EmployeeService;
-import com.lowagie.text.DocumentException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -34,6 +34,9 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
 
 	@GetMapping("/employees")
 	public List<Employee> findAll() {
@@ -45,13 +48,7 @@ public class EmployeeController {
 		System.out.println(id);
 		this.employeeService.deleteEmployee(id);
 	}
-	
-	@DeleteMapping("/employees/multiple")
-	public void deleteMultipleEmployee(@RequestBody long[] ids) {
-		System.out.println(ids);
-		this.employeeService.deleteMultiple(ids);
-	}
-	
+		
 	@PostMapping("/employees/add")
 	public String addEmployee(@RequestBody Employee employee) {
 		return employeeService.addEmployee(employee);
@@ -65,6 +62,11 @@ public class EmployeeController {
 	@PutMapping("employees/changeActive/{id}")
 	public String changeActive(@PathVariable("id") long id,  @RequestBody Employee employee) {
 		return this.employeeService.changeActive(id, employee);
+	}
+	
+	@PutMapping("employees/changeActive/mail/{mail}")
+	public String changeActiveByEmail(@PathVariable("mail") String mail,  @RequestBody Employee employee) {
+		return this.employeeService.changeActiveByMail(mail, employee);
 	}
 
 	@PutMapping("employees/update/{id}")
@@ -81,7 +83,30 @@ public class EmployeeController {
 	public Employee findById(@PathVariable("id") long id) {
 		return this.employeeService.findById(id);
 	}
-
+	
+	@GetMapping("/employees/lockTime/{mail}")
+	public String setLockTime(@PathVariable("mail") String mail) {
+		this.employeeService.setLockTime(mail);
+		return "Locked";
+	}
+	
+	@GetMapping("/employees/lockTimeLeft/{mail}")
+	public long getLockTimeLeft(@PathVariable("mail") String mail){
+		return this.employeeService.getRestOfLockTime(mail);
+	}
+	
+	// get Login attempts
+	@GetMapping("/employees/loginAttempts/{mail}")
+	public long getLoginAttempts(@PathVariable("mail") String mail) {
+		return this.employeeRepository.findByEmail(mail).getLoginAttempts();
+	}
+	
+	//set login attempts
+	@PutMapping("/employees/loginAttempts")
+	public void setLoginAttempts( @RequestBody Employee employee) {
+		this.employeeService.changeLoginAttempts(employee);
+	}
+	
 	@DeleteMapping("employees")
 	public void deleteAll() {
 		employeeService.deleteAll();

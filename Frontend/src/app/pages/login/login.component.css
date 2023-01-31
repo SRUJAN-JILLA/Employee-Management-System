@@ -102,10 +102,15 @@ input{
     font-size: 12px;
 }
 .timer{
-    margin-left: 35%;
+    /* margin-left: 35%; */
     color: red;
     font-size: small;
 }
 button{
     margin-top: 15px;
+}
+.timertimer{
+    margin-left: 28%;
+    color: red;
+    font-size: small;
 }

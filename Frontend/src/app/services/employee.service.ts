@@ -30,9 +30,28 @@ export class EmployeeService {
 
   deleteMultipleEmployees(ids:any): Observable<Object> {
     const url =  "http://localhost:8080/employees/multiple";
-    console.log(ids);
     return this.httpClient.delete(`${url}`, ids);
   } 
+
+  getLoginAttempts(mail :string): Observable<number>{
+    const url =  "http://localhost:8080/employees/loginAttempts";
+    return this.httpClient.get<number>(`${url}/${mail}`);
+  }
+
+  setLoginAttempts(employee:Employee){
+    const url =  "http://localhost:8080/employees/loginAttempts";
+    return this.httpClient.put(`${url}`,  employee);
+  }
+
+  setLockTime(mail:string){
+    const url = "http://localhost:8080/employees/lockTime";
+    return this.httpClient.get(`${url}/${mail}`);
+  }
+
+  getLockTimeLeft(mail:string): Observable<number>{
+    const url = "http://localhost:8080/employees/lockTimeLeft";
+    return this.httpClient.get<number>(`${url}/${mail}`);
+  }
 
   getEmployeeById(id: number): Observable<Employee> {
     return this.httpClient.get<Employee>(`${this.baseURL}/${id}`);
@@ -56,5 +75,10 @@ export class EmployeeService {
   changeActive(id: number, employee: Employee){
     let url = "http://localhost:8080/employees/changeActive";
     return this.httpClient.put(`${url}/${id}`, employee);
+  }
+
+  changeActiveByMail(mail: string, employee: Employee){
+    let url = "http://localhost:8080/employees/changeActive/mail";
+    return this.httpClient.put(`${url}/${mail}`, employee);
   }
 }
