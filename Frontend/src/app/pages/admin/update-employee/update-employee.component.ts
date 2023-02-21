@@ -3,8 +3,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/classes/employee';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+
 @Component({
   selector: 'app-update-employee',
   templateUrl: './update-employee.component.html',
@@ -41,19 +40,27 @@ export class UpdateEmployeeComponent {
     const res: any = await this.employeeService.emailExists(this.employee.email).toPromise();
 
     this.check = res;
-
-    if(this.currentEmployee.email == this.employee.email){
-      this.saveEmployee();
-      this.goToEmployeeDashboard();
-    }
-    else if(this.currentEmployee.email != this.employee.email && !res){
-      this.saveEmployee();
-      alert("You will be logged out! Since you have changed Email!!")
-      this.mainLogout();
-    }
-    else {
-      console.log("Email already exists!!!");
-    }
+    if(this.currentEmployee.firstName == this.employee.firstName && 
+      this.currentEmployee.lastName == this.employee.lastName && 
+      this.currentEmployee.email == this.employee.email && 
+      this.currentEmployee.salary == this.employee.salary && 
+      this.currentEmployee.job == this.employee.job && 
+      this.currentEmployee.role == this.employee.role){
+        this.router.navigate(['/employee']);
+    }else{
+              if(this.currentEmployee.email == this.employee.email){
+                this.saveEmployee();
+                this.goToEmployeeDashboard();
+              }
+              else if(this.currentEmployee.email != this.employee.email && !res){
+                this.saveEmployee();
+                alert("You will be logged out! Since you have changed Email!!")
+                this.mainLogout();
+              }
+              else {
+                console.log("Email already exists!!!");
+              }
+      }
   }
 
   saveEmployee() {
@@ -65,13 +72,16 @@ export class UpdateEmployeeComponent {
     this.temp.role = this.employee.role;
     this.temp.id = this.employee.id;
     this.temp.active = false;
-    this.employeeService.updateEmployee(this.id,this.temp).subscribe(data => {
+    this.temp.notifications = this.employee.notifications;
+    
+    this.employeeService.updateEmployee(this.temp.id,this.temp,this.currentEmployee.firstName
+      ,this.currentEmployee.id,this.temp.firstName).subscribe(data => {
     },
       error => console.log(error));
   }
   
   async goToEmployeeDashboard() {
-    await new Promise(resolve => setTimeout(resolve, 100)).then(() => console.log("fired"));
+    await new Promise(resolve => setTimeout(resolve, 100)).then(() =>{});
     this.router.navigate(['/employee']);
   }
 

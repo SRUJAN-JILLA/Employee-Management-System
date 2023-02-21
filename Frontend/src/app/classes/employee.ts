@@ -9,4 +9,5 @@ export class Employee {
     role:string;
     active:boolean;
     loginAttempts: number;
+    notifications: string[];
 }

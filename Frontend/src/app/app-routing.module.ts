@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddEmployeAdminComponent } from './pages/admin/add-employe-admin/add-employe-admin.component';
-import { AdminUpdateEmployeeComponent } from './pages/admin/admin-update-employee/admin-update-employee.component';
 import { EmployeeListComponent } from './pages/admin/employee-list/employee-list.component';
 import { UpdateEmployeeComponent } from './pages/admin/update-employee/update-employee.component';
 import { ChangePasswordComponent } from './pages/employee/change-password/change-password.component';
@@ -37,12 +35,6 @@ const routes: Routes = [
     canActivate:[EmployeeGuard],
   },
   {
-    path:'addemployeeadmin',
-    component:AddEmployeAdminComponent,
-    pathMatch:'full',
-    canActivate:[AdminGuard],
-  },
-  {
     path:'employeelist',
     component:EmployeeListComponent,
     pathMatch:'full',
@@ -53,12 +45,6 @@ const routes: Routes = [
     component:UpdateEmployeeComponent,
     pathMatch:'full',
     canActivate:[EmployeeGuard],
-  },
-  {
-    path:'adminUpdateEmployee/:id',
-    component:AdminUpdateEmployeeComponent,
-    pathMatch:'full',
-    canActivate:[AdminGuard],
   },
   {
     path:'changePassword',

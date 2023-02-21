@@ -38,9 +38,14 @@ export class EmployeeListComponent implements OnInit {
       this.role = this.currentEmployee.role;
       this.saveEmployee();
     });
+
+    this.employeeService.getSubscription().subscribe({
+      next: (event: string) => {
+          this.ngOnInit();
+      }
+  });  
     this.getEmployees();
   }
-
 
   //Update Section
   updateInline(id:number){
@@ -56,7 +61,7 @@ export class EmployeeListComponent implements OnInit {
     this.checkEmailUpdate = res;
 
     this.saveUpdateEmployee(selectedEmployee);
-    await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
+    await new Promise(resolve => setTimeout(resolve, 300)).then(() => {});
     this.ngOnInit();
     this.checkUpdateEmployee = false;
   }
@@ -72,10 +77,10 @@ export class EmployeeListComponent implements OnInit {
     this.tempUpdate.active = selectedEmployee.active;
     this.tempUpdate.loginAttempts = selectedEmployee.loginAttempts;
     
-    console.log(this.tempUpdate);
-    this.employeeService.updateEmployee(this.tempUpdate.id,this.tempUpdate).subscribe(data => {
+    this.employeeService.updateEmployee(this.tempUpdate.id,this.tempUpdate,this.currentEmployee.firstName
+      ,this.currentEmployee.id,this.tempUpdate.firstName).subscribe(data => {
     },
-      error => console.log(error));
+      error => {});
   }
 
   cancelUpdateEmployee(){
@@ -93,7 +98,8 @@ export class EmployeeListComponent implements OnInit {
       if (!res) {
         this.newEmployee.password = "56Password9333@3";
         this.addSaveEmployee();
-        await new Promise(resolve => setTimeout(resolve, 500)).then(() => console.log("fired"));
+
+        await new Promise(resolve => setTimeout(resolve, 300)).then(() => {});
         this.ngOnInit();     
         this.addEmployeeClicked = false;
         this.newEmployee = new Employee;
@@ -103,9 +109,10 @@ export class EmployeeListComponent implements OnInit {
   }
 
   addSaveEmployee() {
-    this.employeeService.addEmployee(this.newEmployee).subscribe(data => {
+    this.employeeService.addEmployee(this.newEmployee,this.currentEmployee.firstName,this.currentEmployee.id)
+    .subscribe(data => {
     },
-      error => console.log(error));
+      error =>{});
   }
   
   addEmployee(){
@@ -136,8 +143,13 @@ export class EmployeeListComponent implements OnInit {
       this.employeeService.deleteEmployee(id).subscribe( data => {
       })
     })
-    await new Promise(resolve => setTimeout(resolve, 500)).then(() => console.log("fired"));
+    
+    await new Promise(resolve => setTimeout(resolve, 1000)).then(() =>{});
     this.getEmployees();
+    this.employeeService.getNotificationsAfterDelete(
+      this.currentEmployee.firstName,this.currentEmployee.id,
+      this.listToDelete).subscribe(data =>{
+      })
   }
   }
 

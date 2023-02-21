@@ -14,16 +14,15 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { authIntercepterProviders } from './services/auth.intercepter';
 import { EmployeeDashboardComponent } from './pages/employee/employee-dashboard/employee-dashboard.component';
 import { EmployeeListComponent } from './pages/admin/employee-list/employee-list.component';
-import { AddEmployeAdminComponent } from './pages/admin/add-employe-admin/add-employe-admin.component';
 import { SortDirective } from './directive/sort.directive';
 import { CustomPipePipe } from './pipes/custom-pipe.pipe';
 import { UpdateEmployeeComponent } from './pages/admin/update-employee/update-employee.component';
-import { AdminUpdateEmployeeComponent } from './pages/admin/admin-update-employee/admin-update-employee.component';
 import { ChangePasswordComponent } from './pages/employee/change-password/change-password.component';
 import { ErrorPageComponent } from './pages/employee/error-page/error-page.component';
 import { CustomPipeForEmployeePipe } from './pipes/custom-pipe-for-employee.pipe';
 import { PageNotFoundComponent } from './pages/employee/page-not-found/page-not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NotificationComponent } from './component/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -34,15 +33,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MainComponent,
     EmployeeDashboardComponent,
     EmployeeListComponent,
-    AddEmployeAdminComponent,
     SortDirective,
     CustomPipePipe,
     UpdateEmployeeComponent,
-    AdminUpdateEmployeeComponent,
     ChangePasswordComponent,
     ErrorPageComponent,
     CustomPipeForEmployeePipe,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    NotificationComponent
     ],
   imports: [
     BrowserModule,

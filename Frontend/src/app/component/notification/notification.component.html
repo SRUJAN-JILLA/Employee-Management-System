@@ -1,0 +1,28 @@
+<div *ngIf="getNotificationLength() === 0" class="dropdown icon">
+  <a id="dLabel" role="button"  data-toggle="dropdown">
+    <i class="glyphicon glyphicon-bell"></i>
+    <sup>{{getNotificationLength()}}</sup>
+  </a>
+</div>
+<div  *ngIf="getNotificationLength() !== 0" class="dropdown icon">
+  <a id="dLabel" role="button"  data-toggle="dropdown">
+    <i class="glyphicon glyphicon-bell"></i>
+    <sup>{{getNotificationLength()}}</sup>
+  </a>
+  <ul class="dropdown-menu notifications dropdown-menu-right" role="menu" 
+  aria-labelledby="dLabel">
+    <div class="notifications-wrapper">
+        <div class="notification-item">
+          <div class="" ><div class="notificationHeading">Notifications</div>
+             <button type="button" (click)="deleteNotifications()" style="float: right;" class="btn btn-outline-danger btn-md clearButton">
+              Clear
+            </button>
+            <hr>
+          </div>
+          <div *ngFor="let notification of notificationList" 
+            class="dropdown-item notifications">{{notification}}
+          </div>
+        </div>
+    </div>
+  </ul>
+</div>

@@ -66,7 +66,8 @@ public class EmployeeExcelExporter {
 		font.setFontHeight(14);
 		style.setFont(font);
 
-		for (Employee employee : listEmployee) {
+		for (int i=0;i<this.listEmployee.size();i++) {
+			Employee employee = this.listEmployee.get(i);
 			Row row = sheet.createRow(rowCount++);
 			int columnCount = 0;
 

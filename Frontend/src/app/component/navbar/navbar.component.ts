@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild, ElementRef} from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { Employee } from 'src/app/classes/employee';
@@ -15,8 +15,8 @@ export class NavbarComponent {
   employee: Employee = new Employee();
   role:string;
   temp: Employee = new Employee;
-
-  constructor(public loginService:LoginService, private employeeService:EmployeeService,private route: ActivatedRoute, private router: Router){};
+  constructor(public loginService:LoginService, private employeeService:EmployeeService,
+    private route: ActivatedRoute, private router: Router){};
 
   ngOnInit(): void {
     this.loginService.getCurrentUser().subscribe(data=>{
@@ -24,6 +24,12 @@ export class NavbarComponent {
       this.role = this.employee.role;
       this.loginService.saveFromNav(this.role);
     },error => {});
+
+    this.employeeService.subscribe()
+    .subscribe({
+        next: (event) => {
+        }
+    });  
   }
 
   login(){
@@ -63,6 +69,5 @@ export class NavbarComponent {
     this.employeeService.changeActive(this.temp.id,this.temp).subscribe(data => {
     },
       error => {});
-  }
-
+  } 
 }

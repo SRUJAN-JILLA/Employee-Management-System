@@ -2,6 +2,8 @@ package com.employee.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -21,7 +23,7 @@ public class EmployeeRepositoryTests {
 
 	@BeforeEach
 	public void betoeEach() {
-		Employee temp = new Employee(1, "ftemp", "ltemp", 460000, "temp@gmail.com", "fse", "56Password9333@3", "EMPLOYEE", true, 0);
+		Employee temp = new Employee(1, "ftemp", "ltemp", 460000, "temptest@gmail.com", "fse", "56Password9333@3", "EMPLOYEE", true, 0, new Date(),new ArrayList<>());
 		this.employeeRepository.save(temp);
 	}
 
@@ -29,8 +31,8 @@ public class EmployeeRepositoryTests {
 	@Test
 	public void saveEmployeeTest() {
 
-		Employee temp = new Employee(2, "temp", "temp", 460000, "temp1@gmail.com", "fse", "56Password9333@3",
-				"EMPLOYEE", true, 0);
+		Employee temp = new Employee(2, "temp", "temp", 460000, "temptest2@gmail.com", "fse", "56Password9333@3",
+				"EMPLOYEE", true, 0,new Date(),new ArrayList<>());
 
 		Employee savedEmployee = this.employeeRepository.save(temp);
 
@@ -64,7 +66,7 @@ public class EmployeeRepositoryTests {
 	@Test
 	public void getEmployeeByEmail() {
 		
-		Employee employeeDb = this.employeeRepository.findByEmail("temp@gmail.com");
+		Employee employeeDb = this.employeeRepository.findByEmail("temptest@gmail.com");
 
 		assertThat(employeeDb).isNotNull();
 	}
@@ -72,7 +74,7 @@ public class EmployeeRepositoryTests {
 	// jUnit test to delete employee
 	@Test
 	public void deleteEmployeeByIdTest() {
-		Employee emp1 = new Employee(2, "temp", "temp", 460000, "temp1@gmail.com", "fse", "56Password9333@3", "EMPLOYEE", true, 0);
+		Employee emp1 = new Employee(2, "temp", "temp", 460000, "temptest2@gmail.com", "fse", "56Password9333@3", "EMPLOYEE", true, 0, new Date(),new ArrayList<>());
 
 		this.employeeRepository.save(emp1);
 
@@ -86,7 +88,7 @@ public class EmployeeRepositoryTests {
 	@Test
 	public void updateEmployeeTest() {
 
-		Employee employeeDb = this.employeeRepository.findByEmail("temp@gmail.com");
+		Employee employeeDb = this.employeeRepository.findByEmail("temptest@gmail.com");
 		employeeDb.setEmail("newEmail@gmail.com");
 		
 		Employee updateedEmployee = this.employeeRepository.save(employeeDb);

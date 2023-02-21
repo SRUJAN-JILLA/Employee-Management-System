@@ -41,7 +41,7 @@ export class SignupComponent implements OnInit {
 
   saveEmployee() {
     console.log(this.employee)
-    this.employeeService.addEmployee(this.employee).subscribe(data => {
+    this.employeeService.addEmployee(this.employee,"null",0).subscribe(data => {
       console.log(data);
     },
       error => console.log(error));

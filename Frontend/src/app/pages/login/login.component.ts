@@ -39,8 +39,8 @@ export class LoginComponent {
 
         //checking if the user is locked or unlocked
         this.getFailedLoginAttempt(this.loginData.username);
-        console.log(this.milliSecondsFromFailedAttempt)
-        await new Promise(resolve => setTimeout(resolve, 500)).then(() => console.log("fired"));
+        await new Promise(resolve => setTimeout(resolve, 500  )).then(() => {});
+        console.log(this.milliSecondsFromFailedAttempt);
 
         if(this.milliSecondsFromFailedAttempt > 30000){
 
@@ -50,11 +50,12 @@ export class LoginComponent {
             this.loginService.loginUser(data.token);
 
             this.loginService.getCurrentUser().subscribe(
-              (user: any) => {
+              async (user: any) => {
                 this.loginService.setUser(user);
-                
                  if(this.loginService.getUserRole() == "ADMIN" || this.loginService.getUserRole() == "EMPLOYEE"){
                   this.changeActive();
+                  this.setLoginAttempts(0);
+                  await new Promise(resolve => setTimeout(resolve, 50)).then(() =>{});
                   this.employee();
                 }else{
                   console.log("You are in logout section")
@@ -63,14 +64,15 @@ export class LoginComponent {
               }
             )
           },async (error)=>{
-            this.getLoginAttempts(this.loginData.username)
+            this.getLoginAttempts(this.loginData.username);
+            await new Promise(resolve => setTimeout(resolve, 300)).then(() => {});
             if(this.currentLogginAttempts>3){
-              console.log("u r in all failed test")
+              console.log("U r in timer");
               this.disableLoginButton = true;
               this.setLockTime(this.loginData.username);
+              await new Promise(resolve => setTimeout(resolve, 300)).then(() =>{});
               this.setLoginAttempts(0);
               this.counter = 30;
-              console.log("counter started")
               let intervalId = setInterval(() => {
                 this.counter = this.counter - 1;
                 if(this.counter === 0){
@@ -79,14 +81,16 @@ export class LoginComponent {
                 } 
               }, 1000)
             }else{
+              this.getLoginAttempts(this.loginData.username);
+              await new Promise(resolve => setTimeout(resolve, 300)).then(() => {});
               alert("Invalid Details!\nYou have " + ( 4 - this.currentLogginAttempts ) + " more chances left!" );
               this.setLoginAttempts(this.currentLogginAttempts + 1);
             }
           }
         )}else{
           // account is locked 
-          console.log("u r here")
-          console.log(this.milliSecondsFromFailedAttempt)
+          console.log("U r in locked timer")
+          console.log(this.milliSecondsFromFailedAttempt);
           let timeLeft = 30000 - this.milliSecondsFromFailedAttempt;
           this.disableLoginButton = true;
           this.setLoginAttempts(0);
@@ -111,7 +115,6 @@ export class LoginComponent {
   }
 
   setLoginAttempts(loginAttempts:number){
-    
     let temp = new Employee;
 
     temp.email = this.loginData.username;
@@ -125,13 +128,11 @@ export class LoginComponent {
   getFailedLoginAttempt(mail:string){
     this.employeeService.getLockTimeLeft(mail).subscribe(data=>{
          this.milliSecondsFromFailedAttempt = data;
-         console.log(data);
     })
   }
 
   setLockTime(mail:string){
     this.employeeService.setLockTime(mail).subscribe(data =>{
-
     })
   }
   
@@ -159,5 +160,4 @@ export class LoginComponent {
     },
       error => {});
   }
-
 }
