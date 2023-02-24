@@ -22,7 +22,6 @@ import { ErrorPageComponent } from './pages/employee/error-page/error-page.compo
 import { CustomPipeForEmployeePipe } from './pipes/custom-pipe-for-employee.pipe';
 import { PageNotFoundComponent } from './pages/employee/page-not-found/page-not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NotificationComponent } from './component/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +39,6 @@ import { NotificationComponent } from './component/notification/notification.com
     ErrorPageComponent,
     CustomPipeForEmployeePipe,
     PageNotFoundComponent,
-    NotificationComponent
     ],
   imports: [
     BrowserModule,

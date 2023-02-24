@@ -12,24 +12,24 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class EmployeeListComponent implements OnInit {
 
-  employees: Employee[];
+  employees: Employee[] = [];
   selected = 'Search by...';
   searchArea = '';
   currentEmployee:Employee= new Employee();
-  role:string;
+  role:string="";
   temp: Employee = new Employee;
   tempUpdate: Employee = new Employee;
   p:number = 1;
   listToDelete:number[] = [];
-  enableDeleteButton:boolean;
-  addEmployeeClicked:boolean;
+  enableDeleteButton:boolean=false;
+  addEmployeeClicked:boolean=false;
   newEmployee: Employee = new Employee();
-  checkEmail:boolean;
-  checkUpdateEmployee:boolean;
-  selectedIdToUpdate:number;
-  checkEmailUpdate:boolean;
-  allSelected:boolean;
-
+  checkEmail:boolean=false;
+  checkUpdateEmployee:boolean=false;
+  selectedIdToUpdate:number=0;
+  checkEmailUpdate:boolean=false;
+  allSelected:boolean=false;
+  test:boolean;
   constructor(public loginService:LoginService, private employeeService: EmployeeService, private router: Router) { }
 
   ngOnInit(): void {
@@ -38,30 +38,19 @@ export class EmployeeListComponent implements OnInit {
       this.role = this.currentEmployee.role;
       this.saveEmployee();
     });
-
-    this.employeeService.getSubscription().subscribe({
-      next: (event: string) => {
-          this.ngOnInit();
-      }
-  });  
-    this.getEmployees();
+    this.getEmployees(); 
   }
-
+  
   //Update Section
   updateInline(id:number){
     this.checkUpdateEmployee = true;
     this.selectedIdToUpdate = id;
   }
 
-  async updateEmployeeCheck(selectedEmployee:Employee){
+  updateEmployeeCheck(selectedEmployee:Employee){
     
-    //checking for email exists or not 
-    const res: any = await this.employeeService.emailExists(selectedEmployee.email).toPromise();
-
-    this.checkEmailUpdate = res;
-
     this.saveUpdateEmployee(selectedEmployee);
-    await new Promise(resolve => setTimeout(resolve, 300)).then(() => {});
+    // await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
     this.ngOnInit();
     this.checkUpdateEmployee = false;
   }
@@ -77,10 +66,9 @@ export class EmployeeListComponent implements OnInit {
     this.tempUpdate.active = selectedEmployee.active;
     this.tempUpdate.loginAttempts = selectedEmployee.loginAttempts;
     
-    this.employeeService.updateEmployee(this.tempUpdate.id,this.tempUpdate,this.currentEmployee.firstName
-      ,this.currentEmployee.id,this.tempUpdate.firstName).subscribe(data => {
-    },
-      error => {});
+    console.log(this.tempUpdate);
+    this.employeeService.updateEmployee(this.tempUpdate.id,this.tempUpdate).subscribe(data => {
+    });
   }
 
   cancelUpdateEmployee(){
@@ -98,8 +86,9 @@ export class EmployeeListComponent implements OnInit {
       if (!res) {
         this.newEmployee.password = "56Password9333@3";
         this.addSaveEmployee();
+        console.log(this.newEmployee);
 
-        await new Promise(resolve => setTimeout(resolve, 300)).then(() => {});
+        await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
         this.ngOnInit();     
         this.addEmployeeClicked = false;
         this.newEmployee = new Employee;
@@ -109,10 +98,9 @@ export class EmployeeListComponent implements OnInit {
   }
 
   addSaveEmployee() {
-    this.employeeService.addEmployee(this.newEmployee,this.currentEmployee.firstName,this.currentEmployee.id)
+    this.employeeService.addEmployee(this.newEmployee)
     .subscribe(data => {
-    },
-      error =>{});
+    });
   }
   
   addEmployee(){
@@ -131,7 +119,7 @@ export class EmployeeListComponent implements OnInit {
 
   //Delete Multiple Employee Section
   async deleteMultiple(){
-    if (confirm("Are you sure!!\nDo you want to delete these employee(s)!!") == true) {
+    if ((confirm("Are you sure!!\nDo you want to delete these employee(s)!!") == true) || this.test == false) {
     if(this.allSelected == true){
         this.listToDelete = [];
         this.employees.forEach((element)=>{
@@ -143,13 +131,8 @@ export class EmployeeListComponent implements OnInit {
       this.employeeService.deleteEmployee(id).subscribe( data => {
       })
     })
-    
-    await new Promise(resolve => setTimeout(resolve, 1000)).then(() =>{});
+    await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
     this.getEmployees();
-    this.employeeService.getNotificationsAfterDelete(
-      this.currentEmployee.firstName,this.currentEmployee.id,
-      this.listToDelete).subscribe(data =>{
-      })
   }
   }
 
@@ -183,10 +166,6 @@ export class EmployeeListComponent implements OnInit {
   }
 
   //Search in Table Section
-  searchBy(){
-    this.searchArea = this.selected + ":";
-  }
-
   searchOption(option: string){
     this.searchArea = option+":";
   }
@@ -208,9 +187,6 @@ export class EmployeeListComponent implements OnInit {
       const blob = new Blob([xls]);
       const fileName = `Employees-list_${(new Date().toJSON().slice(0,10))}.xlsx`
       saveAs(blob, fileName)
-    },
-    error => {
-      console.log('error');
     });
   }
 
@@ -220,18 +196,14 @@ export class EmployeeListComponent implements OnInit {
     const blob = new Blob([csv], {type:'text/csv'});
     const fileName = `Employee-list_${(new Date().toJSON().slice(0,10))}.csv`
     saveAs(blob, fileName)
-  },
-  error => {
-    console.log('error');
   });
   }
 
   downloadPdf(){
     this.employeeService.download("pdf").subscribe(pdf =>{
       const fileName = `Employee-list_${(new Date().toJSON().slice(0,10))}.pdf`;
+      if(this.test == false)
       saveAs(pdf,fileName);
-    },err =>{
-      console.log(err);
     })
   }
 
@@ -239,26 +211,10 @@ export class EmployeeListComponent implements OnInit {
   checkRoleAsAdmin(){
     return this.role === "ADMIN";
   }
-
-  checkRoleAsEmployee(){
-    return this.role === "EMPLOYEE";
-  }
-
+  
   saveEmployee() {
     this.temp.active = true;  
     this.employeeService.changeActive(this.currentEmployee.id, this.temp).subscribe(data => {
-    },
-      error => {});
-  }
-
-  //Old Way to update and delete code
-  updateEmployee(id: number){
-    this.router.navigate(['adminUpdateEmployee', id]);
-  }
-
-  deleteEmployee(id: number){
-    this.employeeService.deleteEmployee(id).subscribe( data => {
-      this.getEmployees();
-    })
+    });
   }
 }

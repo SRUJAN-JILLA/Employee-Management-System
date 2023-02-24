@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/classes/employee';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -11,13 +11,13 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class ChangePasswordComponent {
 
-  checkPassword: boolean;
+  checkPassword: boolean=false;
   currentEmployee: Employee = new Employee();
-  password1: string;
-  confirmPassword: string;
+  password1: string="";
+  confirmPassword: string="";
   temp: Employee = new Employee;
 
-  constructor(public loginService: LoginService, private employeeService: EmployeeService, private route: ActivatedRoute, private router: Router) { };
+  constructor(public loginService: LoginService, private employeeService: EmployeeService, private router: Router) { };
 
   ngOnInit(): void {
 
@@ -29,7 +29,6 @@ export class ChangePasswordComponent {
   formSubmit() {
     if (this.password1 !== this.confirmPassword) {
       this.checkPassword = true;
-      console.log("Passwords don't match");
     } else {
 
       this.checkPassword = false;
@@ -48,13 +47,9 @@ export class ChangePasswordComponent {
     this.temp.password = this.password1;
     this.temp.active = false;
     this.employeeService.changePassword(this.currentEmployee.id, this.temp).subscribe(data => {
-    },
-      error => console.log(error));
+    });
   }
 
-  employeeDashBoard() {
-    this.router.navigate(['/employee']);
-  }
   mainLogout() {
     this.loginService.logout();
     this.router.navigate(['/']);

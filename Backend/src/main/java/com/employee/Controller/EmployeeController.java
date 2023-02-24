@@ -4,16 +4,12 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
@@ -35,26 +27,16 @@ import com.employee.Service.EmployeeExcelExporter;
 import com.employee.Service.EmployeePdfExporter;
 import com.employee.Service.EmployeeService;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders="*")
 @RestController
 public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
 
-	@RequestMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
-	public SseEmitter subscribe() {
-		return this.employeeService.subscribe();
-	}
-
-	@GetMapping("/employees/notifications/{id}")
-	public List<String> getNotification(@PathVariable("id") long id) {
-		return this.employeeService.getNotifications(id);
-	}
-
-	@DeleteMapping("/employees/notifications/{id}")
-	public void deleteNotifications(@PathVariable("id") long id) {
-		this.employeeService.deleteNotifications(id);
+	public EmployeeController(EmployeeService employeeService) {
+		super();
+		this.employeeService = employeeService;
 	}
 
 	@GetMapping("/employees")
@@ -64,22 +46,13 @@ public class EmployeeController {
 
 	@DeleteMapping("/employees/{id}")
 	public void deleteEmployee(@PathVariable("id") long id) {
-		System.out.println("delete controller");
+		System.out.println(id);
 		this.employeeService.deleteEmployee(id);
 	}
-	
-	@PutMapping("/employees/getNotificationsAfterDelete/{adminName}/{adminId}")
-	public String addToNotiListAdminDeleteEmployee(
-			@PathVariable("adminName") String adminName,
-			@PathVariable("adminId") long adminId,
-			@RequestBody List<Long> employeeIds) {
-		return this.employeeService.addToNotiListAdminDeleteEmployee(adminName, adminId , employeeIds);
-	}
-	
-	@PostMapping("/employees/add/{adminName}/{adminId}")
-	public String addEmployee(@RequestBody Employee employee, @PathVariable("adminName") String adminName,
-			@PathVariable("adminId") long adminId) throws ParseException {
-		return employeeService.addEmployee(employee, adminName, adminId);
+
+	@PostMapping("/employees/add")
+	public String addEmployee(@RequestBody Employee employee) throws ParseException {
+		return employeeService.addEmployee(employee);
 	}
 
 	@PutMapping("employees/changePassword/{id}")
@@ -97,11 +70,9 @@ public class EmployeeController {
 		return this.employeeService.changeActiveByMail(mail, employee);
 	}
 
-	@PutMapping("employees/update/{id}/{adminName}/{adminId}/{employeeName}")
-	public String employeeUpdate(@PathVariable("id") long id, @PathVariable("adminName") String adminName,
-			@PathVariable("adminId") long adminId, @PathVariable("employeeName") String employeeName,
-			@RequestBody Employee employee) {
-		return this.employeeService.employeeUpdate(adminName, adminId, id, employee);
+	@PutMapping("employees/update/{id}")
+	public String employeeUpdate(@PathVariable("id") long id,@RequestBody Employee employee) {
+		return this.employeeService.employeeUpdate( id, employee);
 	}
 
 	@GetMapping("/employees/emailExists/{email}")
@@ -133,23 +104,25 @@ public class EmployeeController {
 
 	// set login attempts
 	@PutMapping("/employees/loginAttempts")
-	public void setLoginAttempts(@RequestBody Employee employee) {
-		this.employeeService.changeLoginAttempts(employee);
+	public String setLoginAttempts(@RequestBody Employee employee) {
+		return this.employeeService.changeLoginAttempts(employee);
 	}
 
 	// Export all
 	@GetMapping("/employees/download/{form}")
-	public void download(@PathVariable("form") String form, HttpServletResponse response) throws IOException {
+	public String download(@PathVariable("form") String form, HttpServletResponse response) throws IOException {
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 		String currentDateTime = dateFormatter.format(new Date());
 		String headerKey = "Content-Disposition";
 		List<Employee> listEmployee = this.employeeService.findAll();
+
 		if (form.equals("pdf")) {
 			response.setContentType("application/pdf");
 			String headerValue = "attachment; filename=Employees_" + currentDateTime + ".pdf";
 			response.setHeader(headerKey, headerValue);
 			EmployeePdfExporter exporter = new EmployeePdfExporter(listEmployee);
 			exporter.export(response);
+
 		} else if (form.equals("excel")) {
 			String headerValue = "attachment; filename=Employees_" + currentDateTime + ".xlsx";
 			response.setHeader(headerKey, headerValue);
@@ -168,7 +141,11 @@ public class EmployeeController {
 			for (Employee employee : listEmployee) {
 				csvWriter.write(employee, nameMapping);
 			}
+
 			csvWriter.close();
 		}
+		return "Download";
+
 	}
+
 }

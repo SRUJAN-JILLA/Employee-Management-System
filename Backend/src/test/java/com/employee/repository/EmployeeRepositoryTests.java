@@ -2,7 +2,6 @@ package com.employee.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class EmployeeRepositoryTests {
 
 	@BeforeEach
 	public void betoeEach() {
-		Employee temp = new Employee(1, "ftemp", "ltemp", 460000, "temptest@gmail.com", "fse", "56Password9333@3", "EMPLOYEE", true, 0, new Date(),new ArrayList<>());
+		Employee temp = new Employee(1, "ftemp", "ltemp", 460000, "temptest@gmail.com", "fse", "56Password9333@3", "EMPLOYEE", true, 0, new Date());
 		this.employeeRepository.save(temp);
 	}
 
@@ -32,7 +31,7 @@ public class EmployeeRepositoryTests {
 	public void saveEmployeeTest() {
 
 		Employee temp = new Employee(2, "temp", "temp", 460000, "temptest2@gmail.com", "fse", "56Password9333@3",
-				"EMPLOYEE", true, 0,new Date(),new ArrayList<>());
+				"EMPLOYEE", true, 0,new Date());
 
 		Employee savedEmployee = this.employeeRepository.save(temp);
 
@@ -74,7 +73,7 @@ public class EmployeeRepositoryTests {
 	// jUnit test to delete employee
 	@Test
 	public void deleteEmployeeByIdTest() {
-		Employee emp1 = new Employee(2, "temp", "temp", 460000, "temptest2@gmail.com", "fse", "56Password9333@3", "EMPLOYEE", true, 0, new Date(),new ArrayList<>());
+		Employee emp1 = new Employee(2, "temp", "temp", 460000, "temptest2@gmail.com", "fse", "56Password9333@3", "EMPLOYEE", true, 0, new Date());
 
 		this.employeeRepository.save(emp1);
 

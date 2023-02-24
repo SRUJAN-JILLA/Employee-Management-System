@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/classes/employee';
-import { ActivatedRoute, Router, TitleStrategy } from '@angular/router';
+import {  Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -11,13 +11,14 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class LoginComponent {
 
-  emailAddress :string;
-  confirmPassword:string;
-  checkEmail: boolean;
-  checkPassword: boolean;
-
-  disableLoginButton:boolean;
-  counter:number;
+  emailAddress :string="";
+  confirmPassword:string="";
+  checkEmail: boolean=false;
+  checkPassword: boolean=false;
+  test:boolean;
+  test2:boolean = false;
+  disableLoginButton:boolean=false;
+  counter:number=0;
   currentLogginAttempts: number = 0;
   loginData={
     username:"",
@@ -25,12 +26,11 @@ export class LoginComponent {
   }
   milliSecondsFromFailedAttempt:number = 0;
 
-  constructor(private employeeService:EmployeeService,private loginService:LoginService, private route: ActivatedRoute, private router: Router){};
+  constructor(private employeeService:EmployeeService,private loginService:LoginService, private router: Router){};
 
   async formSubmit(){
      //checking for email exists or not 
      const emailExists: any = await this.employeeService.emailExists(this.loginData.username).toPromise();
-     
      //chcek if email exists 
      if (emailExists) {
       
@@ -39,10 +39,11 @@ export class LoginComponent {
 
         //checking if the user is locked or unlocked
         this.getFailedLoginAttempt(this.loginData.username);
-        await new Promise(resolve => setTimeout(resolve, 500  )).then(() => {});
+        await new Promise(resolve => setTimeout(resolve, 500)).then(() =>{});
+
         console.log(this.milliSecondsFromFailedAttempt);
 
-        if(this.milliSecondsFromFailedAttempt > 30000){
+        if(this.milliSecondsFromFailedAttempt > 30000 && this.test2 == false){
 
         this.loginService.generateToken(this.loginData).subscribe(
           (data:any)=>{
@@ -55,7 +56,7 @@ export class LoginComponent {
                  if(this.loginService.getUserRole() == "ADMIN" || this.loginService.getUserRole() == "EMPLOYEE"){
                   this.changeActive();
                   this.setLoginAttempts(0);
-                  await new Promise(resolve => setTimeout(resolve, 50)).then(() =>{});
+                  // await new Promise(resolve => setTimeout(resolve, 100)).then(() => console.log("fired"));
                   this.employee();
                 }else{
                   console.log("You are in logout section")
@@ -65,14 +66,15 @@ export class LoginComponent {
             )
           },async (error)=>{
             this.getLoginAttempts(this.loginData.username);
-            await new Promise(resolve => setTimeout(resolve, 300)).then(() => {});
+            await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
             if(this.currentLogginAttempts>3){
               console.log("U r in timer");
               this.disableLoginButton = true;
               this.setLockTime(this.loginData.username);
-              await new Promise(resolve => setTimeout(resolve, 300)).then(() =>{});
+              await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
               this.setLoginAttempts(0);
               this.counter = 30;
+              if(this.test == false){
               let intervalId = setInterval(() => {
                 this.counter = this.counter - 1;
                 if(this.counter === 0){
@@ -80,9 +82,10 @@ export class LoginComponent {
                   this.disableLoginButton = false;
                 } 
               }, 1000)
+              }
             }else{
               this.getLoginAttempts(this.loginData.username);
-              await new Promise(resolve => setTimeout(resolve, 300)).then(() => {});
+              await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
               alert("Invalid Details!\nYou have " + ( 4 - this.currentLogginAttempts ) + " more chances left!" );
               this.setLoginAttempts(this.currentLogginAttempts + 1);
             }
@@ -95,6 +98,7 @@ export class LoginComponent {
           this.disableLoginButton = true;
           this.setLoginAttempts(0);
           this.counter = Math.floor(timeLeft/1000);
+          if(this.test == false){
           let intervalId = setInterval(() => {
            this.counter = this.counter - 1;
             if(this.counter === 0){
@@ -102,7 +106,7 @@ export class LoginComponent {
               this.disableLoginButton = false;
             } 
         }, 1000)
-        }
+        }}
      } else {
       this.checkEmail = true;
      }
@@ -140,13 +144,6 @@ export class LoginComponent {
     this.router.navigate(['/signup']);
   } 
 
-  home(){
-    this.router.navigate(['/home']);
-  }
-
-  admin(){
-    this.router.navigate(['/admin'])}
-
   employee(){
     this.router.navigate(['/employeelist']);
   }
@@ -157,7 +154,6 @@ export class LoginComponent {
     temp.email = this.loginData.username;
     temp.active = true;
     this.employeeService.changeActiveByMail(temp.email,temp).subscribe(data => {
-    },
-      error => {});
+    });
   }
 }

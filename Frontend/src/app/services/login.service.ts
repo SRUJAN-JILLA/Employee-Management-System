@@ -9,7 +9,7 @@ import { Employee } from '../classes/employee';
 export class LoginService {
 
   private baseURL = "http://localhost:8080";
-  role:string;
+  role:string ="";
 
   constructor(private httpClient: HttpClient) {}
 
@@ -50,8 +50,9 @@ export class LoginService {
   }
 
   //set user details
-  public setUser(user:any){
+  public setUser(user:Employee){
     localStorage.setItem("user", JSON.stringify(user));
+    return user;
   }
 
   //get user
@@ -67,6 +68,7 @@ export class LoginService {
   //save user from navbar component to directly store from db
   public saveFromNav(role:string){
     this.role = role;
+    return role;
   }
 
   //get data from nav bar initial set up 

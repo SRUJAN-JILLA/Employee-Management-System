@@ -30,15 +30,6 @@ public class Employee implements UserDetails {
 	private boolean active;
 	private long loginAttempts;
 	private Date lockTime;
-	private List<String> notifications;
-
-	public List<String> getNotifications() {
-		return notifications;
-	}
-
-	public void setNotifications(List<String> notifications) {
-		this.notifications = notifications;
-	}
 
 	public Date getLockTime() {
 		return lockTime;
@@ -135,13 +126,11 @@ public class Employee implements UserDetails {
 	public String toString() {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary
 				+ ", email=" + email + ", job=" + job + ", password=" + password + ", role=" + role + ", active="
-				+ active + ", loginAttempts=" + loginAttempts + ", lockTime=" + lockTime + ", notifications="
-				+ notifications + "]";
+				+ active + ", loginAttempts=" + loginAttempts + ", lockTime=" + lockTime + "]";
 	}
 
 	public Employee(long id, String firstName, String lastName, double salary, String email, String job,
-			String password, String role, boolean active, long loginAttempts, Date lockTime,
-			List<String> notifications) {
+			String password, String role, boolean active, long loginAttempts, Date lockTime) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -154,7 +143,6 @@ public class Employee implements UserDetails {
 		this.active = active;
 		this.loginAttempts = loginAttempts;
 		this.lockTime = lockTime;
-		this.notifications = notifications;
 	}
 
 	@Override

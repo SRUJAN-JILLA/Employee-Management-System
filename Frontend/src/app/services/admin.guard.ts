@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AdminGuard implements CanActivate {
 
-  role:string;
+  role:string="";
 
   constructor(private loginService:LoginService,private router:Router){}
 

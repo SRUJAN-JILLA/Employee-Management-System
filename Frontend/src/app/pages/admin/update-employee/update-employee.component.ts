@@ -11,13 +11,14 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class UpdateEmployeeComponent {
 
-  id: number;
+  id: number=0;
   employee: Employee = new Employee();
-  email:string
-  check:boolean;
+  email:string="";
+  check:boolean=false;
   temp: Employee = new Employee;
   currentEmployee:Employee = new Employee();
-  
+   test:boolean;
+   res:any
   constructor(public loginService:LoginService, private employeeService:EmployeeService,private route: ActivatedRoute, private router: Router){};
 
   ngOnInit(): void {
@@ -26,7 +27,7 @@ export class UpdateEmployeeComponent {
     this.employeeService.getEmployeeById(this.id).subscribe(data => {
       this.employee = data;
       this.email = this.employee.email;
-    }, error => console.log(error));
+    });
 
     this.loginService.getCurrentUser().subscribe(data=>{
       this.currentEmployee = data;
@@ -37,28 +38,26 @@ export class UpdateEmployeeComponent {
   async onSubmit() {
 
     //checking for email exists or not 
-    const res: any = await this.employeeService.emailExists(this.employee.email).toPromise();
-
-    this.check = res;
-    if(this.currentEmployee.firstName == this.employee.firstName && 
-      this.currentEmployee.lastName == this.employee.lastName && 
-      this.currentEmployee.email == this.employee.email && 
-      this.currentEmployee.salary == this.employee.salary && 
-      this.currentEmployee.job == this.employee.job && 
-      this.currentEmployee.role == this.employee.role){
+     this.res = await this.employeeService.emailExists(this.employee.email).toPromise();
+ 
+    this.check = this.res;
+    if(this.checkSameOrNot()){
         this.router.navigate(['/employee']);
     }else{
               if(this.currentEmployee.email == this.employee.email){
                 this.saveEmployee();
                 this.goToEmployeeDashboard();
               }
-              else if(this.currentEmployee.email != this.employee.email && !res){
+              else if(this.currentEmployee.email != this.employee.email && !this.res){
+                console.log(this.currentEmployee.email);
+                console.log(this.employee.email);
+                console.log(this.res);
                 this.saveEmployee();
                 alert("You will be logged out! Since you have changed Email!!")
                 this.mainLogout();
               }
               else {
-                console.log("Email already exists!!!");
+                // console.log("Email already exists!!!");
               }
       }
   }
@@ -72,12 +71,9 @@ export class UpdateEmployeeComponent {
     this.temp.role = this.employee.role;
     this.temp.id = this.employee.id;
     this.temp.active = false;
-    this.temp.notifications = this.employee.notifications;
     
-    this.employeeService.updateEmployee(this.temp.id,this.temp,this.currentEmployee.firstName
-      ,this.currentEmployee.id,this.temp.firstName).subscribe(data => {
-    },
-      error => console.log(error));
+    this.employeeService.updateEmployee(this.temp.id,this.temp).subscribe(data => {
+    });
   }
   
   async goToEmployeeDashboard() {
@@ -92,5 +88,14 @@ export class UpdateEmployeeComponent {
   mainLogout(){
     this.loginService.logout();
     this.router.navigate(['/']);
+  }
+
+  checkSameOrNot(){
+    return  (this.currentEmployee.firstName == this.employee.firstName && 
+      this.currentEmployee.lastName == this.employee.lastName && 
+      this.currentEmployee.email == this.employee.email && 
+      this.currentEmployee.salary == this.employee.salary && 
+      this.currentEmployee.job == this.employee.job && 
+      this.currentEmployee.role == this.employee.role);
   }
 }

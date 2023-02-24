@@ -8,12 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MainComponent {
 
-  constructor(private route: ActivatedRoute, private router: Router){};
-
-  signup(){
-    this.router.navigate(['/signup']);
-  }
-
+  constructor(private router: Router){};
+  
   login(){
     this.router.navigate(['/login']);
   }

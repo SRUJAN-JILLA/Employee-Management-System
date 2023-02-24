@@ -32,13 +32,7 @@ export class CustomPipePipe implements PipeTransform {
             selected.add(employee);
         }
       }
-      else if (column === "active") {
-        for (const employee of employees) {
-          const check = employee[column].toString().substring(0, amount);
-          if (check === searchData)
-            selected.add(employee);
-        }
-      } else {
+    else {
           for (const employee of employees) {
             const check = employee[column].substring(0, amount);
             if (check.toLowerCase() === searchData.toLowerCase())

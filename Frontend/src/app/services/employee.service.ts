@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Employee } from '../classes/employee';
 import {Observable} from 'rxjs';
-import { map } from 'rxjs/operators';
 // import 'rxjs/add/operator/map';
-import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -13,65 +11,26 @@ export class EmployeeService {
 
   private baseURL = "http://localhost:8080/employees";
   constructor(private httpClient: HttpClient) {}
-  private subscription:any;
 
-  subscribe(): Subject<any> {
-    let eventSource = new EventSource("http://localhost:8080/subscribe");
-    
-    let subscription = new Subject();
-    eventSource.addEventListener("notifications", event=> {
-        subscription.next(event);
-    });
-    this.subscription = subscription;
-    return subscription;
-  }
-  
-  getSubscription(){
-    return this.subscription;
-  }
-
-  addEmployee(employee: Employee,
-    adminName:string, adminId:number): Observable<Object> {
+  addEmployee(employee: Employee): Observable<Object> {
     let url = "http://localhost:8080/employees/add";
-    return this.httpClient.post(`${url}/${adminName}/${adminId}`,employee);
+    return this.httpClient.post(`${url}`,employee);
   }
-
   
   getEmployeesList(): Observable<Employee[]> {
     return this.httpClient.get<Employee[]>(`${this.baseURL}`);
   }
 
-  updateEmployee(id: number,
-     employee: Employee,
-     adminName:string,
-     adminId:number,
-     employeeName:string) {
+  updateEmployee(id: number, employee: Employee) {
     let url = "http://localhost:8080/employees/update";
-    return this.httpClient.put(`${url}/${id}/${adminName}/${adminId}/${employeeName}`, employee);
+    return this.httpClient.put(`${url}/${id}`, employee);
   }
   
   deleteEmployee(id: number): Observable<Object> {
     return this.httpClient.delete(`${this.baseURL}/${id}`);
   }
 
-  getNotificationsAfterDelete(
-    adminName : string,
-    adminId : number,
-    employeeIds : number[]
-  ): Observable<Object>{
-    let url = "http://localhost:8080/employees/getNotificationsAfterDelete";
-    return this.httpClient.put(`${url}/${adminName}/${adminId}`,employeeIds);
-  }
-
-  getNotifications(id:number):Observable<string[]>{
-    let url = "http://localhost:8080/employees/notifications";
-    return this.httpClient.get<string[]>(`${url}/${id}`);
-  }
-
-  deleteNotifications(id:number){
-    let url = "http://localhost:8080/employees/notifications";
-    return this.httpClient.delete(`${url}/${id}`);
-  }
+  
   getLoginAttempts(mail :string): Observable<number>{
     const url =  "http://localhost:8080/employees/loginAttempts";
     return this.httpClient.get<number>(`${url}/${mail}`);

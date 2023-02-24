@@ -8,21 +8,18 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent{
 
   public employee: Employee = new Employee();
-  checkEmail: boolean;
-  checkPassword: boolean;
+  checkEmail: boolean=false;
+  checkPassword: boolean=false;
   confirmPassword:any;
-
-  constructor(private employeeService:EmployeeService,private route: ActivatedRoute, private router: Router){};
-
-  ngOnInit(): void {}
+  
+  constructor(private employeeService:EmployeeService, private router: Router){};
 
   async formSubmit() {
     if(this.employee.password !== this.confirmPassword ){
       this.checkPassword = true;
-      console.log("Passwords don't match");
     }else{
      
     this.checkPassword = false;
@@ -40,11 +37,8 @@ export class SignupComponent implements OnInit {
    }
 
   saveEmployee() {
-    console.log(this.employee)
-    this.employeeService.addEmployee(this.employee,"null",0).subscribe(data => {
-      console.log(data);
-    },
-      error => console.log(error));
+    this.employeeService.addEmployee(this.employee).subscribe(data => {
+    });
   }
 
   login(){

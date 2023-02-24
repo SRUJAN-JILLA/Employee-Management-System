@@ -15,21 +15,21 @@
         <div class="dropdown-item" (click)="searchOption('lastName')">Last name </div>
         <div class="dropdown-item" (click)="searchOption('email')">E-mail</div>
         <div class="dropdown-item" (click)="searchOption('salary')">Salary</div>
-        <div class="dropdown-item" (click)="searchOption('job')">Job</div>
-        <div *ngIf="checkRoleAsAdmin()" class="dropdown-item" (click)="searchOption('role')">Role</div>
+        <div class="dropdown-item" id="jobSearchOption" (click)="searchOption('job')">Job</div>
+        <div *ngIf="checkRoleAsAdmin()" id="role" class="dropdown-item" (click)="searchOption('role')">Role</div>
         <div *ngIf="checkRoleAsAdmin()" class="dropdown-item" (click)="searchOption('active')">Active</div>
       </div>
     </div>
-    <input type="text" [(ngModel)]="searchArea" class="form-control searchBox" aria-label="Text input with segmented dropdown button">
+    <input type="text" [(ngModel)]="searchArea" class="form-control searchBox" id="searchBox" aria-label="Text input with segmented dropdown button">
   
   <!-- Download part -->
   <div class="input-group mb-3 float-right downlaodSection">
     <label for="inputGroupSelect">.</label>
     <select #in class="custom-select dropDown" id="inputGroupSelect">
       <option selected>Choose...</option>
-      <option value="excel">Excel</option>
-      <option value="pdf">Pdf</option>
-      <option value="csv">Csv</option>
+      <option value="excel" id="Excel">Excel</option>
+      <option value="pdf" id="pdf">Pdf</option>
+      <option value="csv" id="csv">Csv</option>
     </select>
     <div class="input-group-prepend">
       <button (click)="download(in.value)" class="downloadButton btn btn-outline-secondary" type="button">Downlaod</button>
@@ -39,8 +39,8 @@
 
   <!-- Add Employee & Delete Employee -->
   <div *ngIf="checkRoleAsAdmin()">
-    <button (click)="addEmployee()" class="btn btn-primary"> Add Employee</button>
-    <button (click)="deleteMultiple()" [disabled]=" listToDelete.length === 0" class="btn btn-danger deleteButtonMultiple"> Delete Employee(s)</button>
+    <button (click)="addEmployee()" class="btn btn-primary" id="addEmployee"> Add Employee</button>
+    <button (click)="deleteMultiple()" [disabled]=" listToDelete.length === 0" class="btn btn-danger deleteButtonMultiple" id="deleteEmployees"> Delete Employee(s)</button>
   </div>
 
   <!-- Table Content -->
@@ -52,15 +52,15 @@
               <input (change)="allSelectedChange($event)" id="allSelected" class="form-check-input checkBox"  type="checkbox">
             </div>
           </th>
-          <th [appSort]="employees" data-order="desc" data-name="id"> Employee  Id</th>
-          <th [appSort]="employees" data-order="desc" data-name="firstName"> First Name</th>
-          <th [appSort]="employees" data-order="desc" data-name="lastName"> Last Name </th>
-          <th [appSort]="employees" data-order="desc" data-name="email"> Email Id</th>
-          <th [appSort]="employees" data-order="desc" data-name="salary"> Salary </th>
-          <th [appSort]="employees" data-order="desc" data-name="job"> Job</th>
-          <th *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="role"> Role</th>
-          <th *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="active"> Active</th>
-          <th *ngIf="checkRoleAsAdmin()"></th>
+          <th  id="sort" [appSort]="employees" data-order="desc" data-name="id"> Employee  Id</th>
+          <th class="sort" [appSort]="employees" data-order="desc" data-name="firstName"> First Name</th>
+          <th class="sort" [appSort]="employees" data-order="desc" data-name="lastName"> Last Name </th>
+          <th class="sort" [appSort]="employees" data-order="desc" data-name="email"> Email Id</th>
+          <th class="sort" [appSort]="employees" data-order="desc" data-name="salary"> Salary </th>
+          <th class="sort" [appSort]="employees" data-order="desc" data-name="job"> Job</th>
+          <th class="sort" *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="role"> Role</th>
+          <th class="sort" *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="active"> Active</th>
+          <th class="sort" *ngIf="checkRoleAsAdmin()"></th>
         </tr>
       </thead>
       <tbody>
@@ -125,10 +125,10 @@
           <td> 
             <button [disabled]="firstName.errors || firstName.invalid || lastName.errors || lastName.invalid || job.errors || job.invalid || salary.errors || salary.invalid || email.errors || email.invalid"
              class="btn btn-light btn-block buttonCheck" type="submit">
-              <i (click)="addEmployeeCheck()" class="bi bi-check check"></i>
+              <i (click)="addEmployeeCheck()" id="addSubmit" class="bi bi-check check"></i>
             </button>
             <button class="btn btn-light btn-block buttonCancel" type="submit">
-               <i (click)="cancelAddEmployee()" class="bi bi-x cancle"></i>
+               <i (click)="cancelAddEmployee()" id="canceladd" class="bi bi-x cancle"></i>
             </button>
            </td>
         </tr>
@@ -136,10 +136,10 @@
         <!-- Table Content -->
         <!-- This includes with update and not updating as well -->
         <!--instead of this u can also use this filter:searchText" (checkRoleAsAdmin() ? (employees | customPipe:searchArea) : (employees | customPipeForEmployee:serachArea))-->
-        <tr *ngFor="let employee of (checkRoleAsAdmin() ? (employees  | customPipe:searchArea | paginate: { itemsPerPage: 6, currentPage: p } ) : (employees | customPipeForEmployee:searchArea  | paginate: { itemsPerPage: 6, currentPage: p } ))  ">
+        <tr class="employeeRow" *ngFor="let employee of (checkRoleAsAdmin() ? (employees  | customPipe:searchArea | paginate: { itemsPerPage: 6, currentPage: p } ) : (employees | customPipeForEmployee:searchArea  | paginate: { itemsPerPage: 6, currentPage: p } ))  ">
           <td *ngIf="checkRoleAsAdmin()">
             <div class="form-check">
-              <input *ngIf="currentEmployee.id !== employee.id" class="form-check-input checkBox" 
+              <input *ngIf="currentEmployee.id !== employee.id" id="employeeCheckBox" class="form-check-input checkBox" 
               [checked]="allSelected" (change)="eachSelected($event, employee.id)" type="checkbox">
             </div>
           </td>
@@ -196,15 +196,15 @@
           </td>
           <td *ngIf="checkRoleAsAdmin()"> <div [ngStyle]="{'background-color': (employee.active) ? 'lightgreen' : 'red'}" class="activeOrNot"></div> </td>
           <td *ngIf="checkRoleAsAdmin()">
-            <button *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) " (click)="updateInline(employee.id)" class="btn btn-info"> Update</button>
+            <button *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) " (click)="updateInline(employee.id)" class="btn btn-info" id="update"> Update</button>
             <!-- This is a reference to privious delete -->
             <!-- <button (click)="deleteEmployee(employee.id)"  class="btn btn-danger deleteButton"> Delete</button> -->
             <div *ngIf="checkUpdateEmployee && (selectedIdToUpdate===employee.id)">
-            <button class="btn btn-light btn-block buttonCheck" type="submit">
-               <i (click)="updateEmployeeCheck(employee)" class="bi bi-check check"></i>
+            <button class="btn btn-light btn-block buttonCheck" type="submit"  >
+               <i (click)="updateEmployeeCheck(employee)" id="updatesubmit" class="bi bi-check check"></i>
              </button>
              <button class="btn btn-light btn-block buttonCancel" type="submit">
-                <i (click)="cancelUpdateEmployee()" class="bi bi-x cancle"></i>
+                <i (click)="cancelUpdateEmployee()" id="cancelUpdate" class="bi bi-x cancle"></i>
              </button>
             </div>
           </td>
