@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -43,20 +44,21 @@ public class EmployeeServiceTests {
 	@BeforeEach
 	public void setUp() {
 		this.employee = new Employee(1, "fthis.employee", "lthis.employee", 460000, "thisemployee@gmail.com", "fse",
-				"56Password9333@3", "EMPLOYEE", true, 0, new Date());
+				"56Password9333@3", "EMPLOYEE", true, 0, new Date(), new ArrayList<>());
 	}
-
+	
+	/* Should test repository is valid or not */
 	@Test
 	public void testRepository() {
 		this.employeeService.findAll();
 		verify(this.employeeRepository).findAll();
 	}
 
-	// save Employee
+	/* should test to save Employee */
 	@Test
 	public void saveEmployee() throws ParseException {
 
-		String ans = this.employeeService.addEmployee(this.employee);
+		String ans = this.employeeService.addEmployee(this.employee, "sad", 0);
 
 		assertThat(ans).isNotNull();
 		verify(this.employeeRepository).save(this.employee);
@@ -64,11 +66,11 @@ public class EmployeeServiceTests {
 		verify(this.bCryptPasswordEncoder).encode("56Password9333@3");
 	}
 
-	// save employee if role is null
+	/* should test to save employee if role is null */
 	@Test
 	public void saveEmployeeRoleNull() throws ParseException {
 		this.employee.setRole(null);
-		String ans = this.employeeService.addEmployee(this.employee);
+		String ans = this.employeeService.addEmployee(this.employee, "sd", 0);
 
 		assertThat(ans).isNotNull();
 		verify(this.employeeRepository).save(this.employee);
@@ -76,12 +78,12 @@ public class EmployeeServiceTests {
 		verify(this.bCryptPasswordEncoder).encode("56Password9333@3");
 	}
 
-	// Get all employees
+	/* should test to Get all employees */
 	@Test
 	public void getAllEMployees() {
 
 		Employee employee2 = new Employee(2, "fthis.employee", "lthis.employee", 460000, "this.employee@gmail.com",
-				"fse", "56Password9333@3", "EMPLOYEE", true, 0, new Date());
+				"fse", "56Password9333@3", "EMPLOYEE", true, 0, new Date(), new ArrayList<>());
 		this.employeeRepository.save(employee2);
 
 		// checking for the methods used internally
@@ -90,7 +92,8 @@ public class EmployeeServiceTests {
 		assertThat(employees).isNotNull();
 		verify(this.employeeRepository).findAll();
 	}
-
+	
+	/* Should test to delete an employee based on id */
 	@Test
 	public void deleteById() {
 
@@ -99,7 +102,7 @@ public class EmployeeServiceTests {
 		verify(this.employeeRepository).deleteById((long) 1);
 	}
 
-	// set failed login attempt
+	/* should test to set failed login attempt */
 	@Test
 	public void setLocktime() {
 
@@ -110,7 +113,8 @@ public class EmployeeServiceTests {
 		verify(this.employeeRepository).findByEmail("thisemployee@gmail.com");
 		verify(this.employeeRepository).save(this.employee);
 	}
-
+	
+	/* Should test to get rest of lock time */
 	@Test
 	public void getRestOfLockTime() {
 
@@ -121,9 +125,10 @@ public class EmployeeServiceTests {
 		assertThat(ans).isNotNull();
 		verify(this.employeeRepository).findByEmail("thisemployee@gmail.com");
 	}
-
+	
+	/* Should test to change loggin attempts */
 	@Test
-	public void loginAttempts() {
+	public void chagneLoginAttempts() {
 		when(this.employeeRepository.findByEmail("thisemployee@gmail.com")).thenReturn(employee);
 
 		String ans = this.employeeService.changeLoginAttempts(employee);
@@ -132,7 +137,8 @@ public class EmployeeServiceTests {
 		verify(this.employeeRepository).findByEmail("thisemployee@gmail.com");
 		verify(this.employeeRepository).save(this.employee);
 	}
-
+	
+	/* Should test to change password */
 	@Test
 	public void changePassword() {
 
@@ -145,7 +151,8 @@ public class EmployeeServiceTests {
 		verify(this.employeeRepository).findById((long) 1);
 
 	}
-
+	
+	/* Should test to change active to true or false based on id */
 	@Test
 	public void changeActive() {
 		when(this.employeeRepository.findById((long) 1)).thenReturn(Optional.of(employee));
@@ -157,7 +164,8 @@ public class EmployeeServiceTests {
 		verify(this.employeeRepository).findById((long) 1);
 
 	}
-
+	
+	/* Should test to change active to true or false based on mail */
 	@Test
 	public void changeActiveByMail() {
 		when(this.employeeRepository.findByEmail("thisemployee@gmail.com")).thenReturn(employee);
@@ -167,7 +175,8 @@ public class EmployeeServiceTests {
 		assertThat(ans).isNotNull();
 		verify(this.employeeRepository).save(this.employee);
 	}
-
+	
+	/* Should test to get login attempts */
 	@Test
 	public void getLoginAttempts() {
 		when(this.employeeRepository.findByEmail("thisemployee@gmail.com")).thenReturn(employee);
@@ -176,26 +185,26 @@ public class EmployeeServiceTests {
 
 		assertThat(ans).isNotNull();
 	}
-
+	
+	/* Should test to update employee */
 	@Test
 	public void employeeUpdate() {
 		when(this.employeeRepository.findById((long) 1)).thenReturn(Optional.of(employee));
 
-		String ans = this.employeeService.employeeUpdate((long) 1, employee);
+		String ans = this.employeeService.employeeUpdate("SAdas", (long) 1, 0, employee);
 
 		assertThat(ans).isNotNull();
 	}
-
+	
+	/* Should test to find employee by mail*/
 	@Test
 	public void findByEmail() {
 		when(this.employeeRepository.findByEmail("thisemployee@gmail.com")).thenReturn(employee);
-
 		boolean ans = this.employeeService.findByEmail("thisemployee@gmail.com");
-
 		assertThat(ans).isNotNull();
-
 	}
 
+	/* Should test to find employee by id */ 
 	@Test
 	public void findById() {
 		when(this.employeeRepository.findById((long) 1)).thenReturn(Optional.of(employee));
@@ -204,6 +213,5 @@ public class EmployeeServiceTests {
 
 		assertThat(ans).isNotNull();
 		verify(this.employeeRepository).findById((long) 1);
-
 	}
 }

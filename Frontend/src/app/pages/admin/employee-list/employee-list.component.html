@@ -1,13 +1,12 @@
-<br>
-<br *ngIf="!checkRoleAsAdmin()">
 <!-- Searching part -->
 <div class="container">
-<div class="input-group mb-3">
+  <div class="input-group mb-3">
     <div class="input-group-prepend">
       <div class="input-group-prepend">
         <span class="input-group-text searchBy" id="inputGroup-sizing-sm">Search by</span>
       </div>
-      <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split dropButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split dropButton"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="sr-only">Toggle Dropdown</span>
       </button>
       <div class="dropdown-menu">
@@ -15,207 +14,226 @@
         <div class="dropdown-item" (click)="searchOption('lastName')">Last name </div>
         <div class="dropdown-item" (click)="searchOption('email')">E-mail</div>
         <div class="dropdown-item" (click)="searchOption('salary')">Salary</div>
-        <div class="dropdown-item" id="jobSearchOption" (click)="searchOption('job')">Job</div>
-        <div *ngIf="checkRoleAsAdmin()" id="role" class="dropdown-item" (click)="searchOption('role')">Role</div>
-        <div *ngIf="checkRoleAsAdmin()" class="dropdown-item" (click)="searchOption('active')">Active</div>
+        <div class="dropdown-item" (click)="searchOption('job')">Job</div>
+        <div *ngIf="isAdmin" class="dropdown-item" (click)="searchOption('role')">Role</div>
+        <div *ngIf="isAdmin" class="dropdown-item" (click)="searchOption('active')">Active</div>
       </div>
     </div>
-    <input type="text" [(ngModel)]="searchArea" class="form-control searchBox" id="searchBox" aria-label="Text input with segmented dropdown button">
-  
-  <!-- Download part -->
-  <div class="input-group mb-3 float-right downlaodSection">
-    <label for="inputGroupSelect">.</label>
-    <select #in class="custom-select dropDown" id="inputGroupSelect">
-      <option selected>Choose...</option>
-      <option value="excel" id="Excel">Excel</option>
-      <option value="pdf" id="pdf">Pdf</option>
-      <option value="csv" id="csv">Csv</option>
-    </select>
-    <div class="input-group-prepend">
-      <button (click)="download(in.value)" class="downloadButton btn btn-outline-secondary" type="button">Downlaod</button>
+    <input type="text" [(ngModel)]="searchArea" class="form-control searchBox"
+      aria-label="Text input with segmented dropdown button">
+
+    <!-- Download part -->
+    <div class="input-group mb-3 float-right downlaodSection">
+      <label for="inputGroupSelect">.</label>
+      <select #in class="custom-select dropDown" id="inputGroupSelect">
+        <option selected>Choose...</option>
+        <option value="excel">Excel</option>
+        <option value="pdf">Pdf</option>
+        <option value="csv">Csv</option>
+      </select>
+      <div class="input-group-prepend">
+        <button (click)="download(in.value)" class="downloadButton btn btn-outline-secondary"
+          type="button">Downlaod</button>
+      </div>
     </div>
-  </div>
   </div>
 
   <!-- Add Employee & Delete Employee -->
-  <div *ngIf="checkRoleAsAdmin()">
-    <button (click)="addEmployee()" class="btn btn-primary" id="addEmployee"> Add Employee</button>
-    <button (click)="deleteMultiple()" [disabled]=" listToDelete.length === 0" class="btn btn-danger deleteButtonMultiple" id="deleteEmployees"> Delete Employee(s)</button>
+  <div *ngIf="isAdmin">
+    <button (click)="addEmployee()" class="btn btn-primary"> Add Employee</button>
+    <button (click)="deleteMultiple()" [disabled]=" listToDelete.length === 0"
+      class="btn btn-danger deleteButtonMultiple"> Delete Employee(s)</button>
   </div>
 
   <!-- Table Content -->
-  <table class = "table table-striped">
-      <thead>
-        <tr>
-          <th *ngIf="checkRoleAsAdmin()"> 
-            <div class="form-check">
-              <input (change)="allSelectedChange($event)" id="allSelected" class="form-check-input checkBox"  type="checkbox">
-            </div>
-          </th>
-          <th  id="sort" [appSort]="employees" data-order="desc" data-name="id"> Employee  Id</th>
-          <th class="sort" [appSort]="employees" data-order="desc" data-name="firstName"> First Name</th>
-          <th class="sort" [appSort]="employees" data-order="desc" data-name="lastName"> Last Name </th>
-          <th class="sort" [appSort]="employees" data-order="desc" data-name="email"> Email Id</th>
-          <th class="sort" [appSort]="employees" data-order="desc" data-name="salary"> Salary </th>
-          <th class="sort" [appSort]="employees" data-order="desc" data-name="job"> Job</th>
-          <th class="sort" *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="role"> Role</th>
-          <th class="sort" *ngIf="checkRoleAsAdmin()" [appSort]="employees" data-order="desc" data-name="active"> Active</th>
-          <th class="sort" *ngIf="checkRoleAsAdmin()"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Adding New Employee -->
-        <tr *ngIf="checkRoleAsAdmin() && addEmployeeClicked">
-          <td> </td>
-          <td><input type="text" disabled class="addEmployeeInput" > </td>
-          <td>
-            <input type="text" required #firstName="ngModel" 
-            pattern="^[a-zA-Z0-9._]{3,15}$" class="form-control addEmployeeInput"
-            id="firstName" [class.is-invalid]="firstName.invalid && firstName.touched" 
-            [(ngModel)]="newEmployee.firstName" name="firstName" ngModel> 
-            <div *ngIf="firstName.invalid && firstName.touched">
-              <small class="text-danger" *ngIf="firstName.errors?.required">Name is required.</small>
-              <small class="text-danger" *ngIf="firstName.errors?.pattern">First name should be of length 2-15 and no symbols are allowed otherthan '.', '_'.</small>
-            </div>
-          </td>
-          <td>
-            <input required type="text" #lastName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$" class="form-control addEmployeeInput" id="lastName"
-            [class.is-invalid]="lastName.invalid && lastName.touched" [(ngModel)]="newEmployee.lastName" name="lastName" ngModel>
-              <div *ngIf="lastName.invalid && lastName.touched">
-                <small class="text-danger" *ngIf="lastName.errors?.required">Name is required.</small>
-                <small class="text-danger" *ngIf="lastName.errors?.pattern">Last name should be of length 2-15 and no symbols are allowed otherthan '.', '_'.</small>
-              </div>
-         </td>
-          <td>
-            <input required type="text" class="form-control" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #email="ngModel" id="email"
-            [class.is-invalid]="email.invalid && email.touched" [(ngModel)]="newEmployee.email" name="email" ngModel class="form-control addEmployeeInputEmail">
-            <small class="text-danger" *ngIf="checkEmail">Email already exsists!</small>
-            <div *ngIf="email.invalid && email.touched">
-              <small class="text-danger" *ngIf="email.errors?.required">Email is required.</small>
-              <small class="text-danger" *ngIf="email.errors?.pattern">Enter valid emial id.</small>
-            </div>
-          </td>
-          <td>
-            <input required type="text" class="form-control" pattern="^[0-9]{0,20}$" #salary="ngModel" id="salary"
-            [class.is-invalid]="salary.invalid && salary.touched" [(ngModel)]="newEmployee.salary" name="salary" ngModel  class="form-control addEmployeeInput">
-            <div *ngIf="salary.invalid && salary.touched">
-              <small class="text-danger" *ngIf="salary.errors?.required">Salary is required.</small>
-              <small class="text-danger" *ngIf="salary.errors?.pattern">Salary should be numeric.</small>
-            </div>
-          </td>
-          <td class="tdRow">
-            <input required type="text"  #job="ngModel" id="job"
-            [class.is-invalid]="job.invalid && job.touched" [(ngModel)]="newEmployee.job" name="job" ngModel class="form-control tdRow">
-            <div *ngIf="job.invalid && job.touched">
-              <small class="text-danger" *ngIf="job.errors?.required">Job is required.</small>
-            </div> 
-          </td>
-          <td>
-            <select required type="text" class="form-control" #role="ngModel" id="role"
-            [class.is-invalid]="role.invalid && role.touched" [(ngModel)]="newEmployee.role" name="role" ngModel  class="form-control addEmployeeInput"
-              class="custom-select" id="inputGroupSelect02">
-                 <option selected>Choose a role</option>
-                 <option value="EMPLOYEE">Employee</option>
-                 <option value="ADMIN">Admin</option>
-               </select> 
-          </td>
-          <td> 
-            <div [ngStyle]="{'background-color':'red'}" class="activeOrNot"></div> 
-          </td>
-          <td> 
-            <button [disabled]="firstName.errors || firstName.invalid || lastName.errors || lastName.invalid || job.errors || job.invalid || salary.errors || salary.invalid || email.errors || email.invalid"
-             class="btn btn-light btn-block buttonCheck" type="submit">
-              <i (click)="addEmployeeCheck()" id="addSubmit" class="bi bi-check check"></i>
-            </button>
-            <button class="btn btn-light btn-block buttonCancel" type="submit">
-               <i (click)="cancelAddEmployee()" id="canceladd" class="bi bi-x cancle"></i>
-            </button>
-           </td>
-        </tr>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th *ngIf="isAdmin">
+          <div class="form-check">
+            <input (change)="allSelectedChange($event)" id="allSelected" class="form-check-input checkBox"
+              type="checkbox">
+          </div>
+        </th>
+        <th [appSort]="employees" data-order="desc" data-name="id"> Employee Id</th>
+        <th [appSort]="employees" data-order="desc" data-name="firstName"> First Name</th>
+        <th [appSort]="employees" data-order="desc" data-name="lastName"> Last Name </th>
+        <th [appSort]="employees" data-order="desc" data-name="email"> Email Id</th>
+        <th [appSort]="employees" data-order="desc" data-name="salary"> Salary </th>
+        <th [appSort]="employees" data-order="desc" data-name="job"> Job</th>
+        <th *ngIf="isAdmin" [appSort]="employees" data-order="desc" data-name="role"> Role</th>
+        <th *ngIf="isAdmin" [appSort]="employees" data-order="desc" data-name="active"> Active</th>
+        <th *ngIf="isAdmin"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Adding New Employee -->
+      <tr *ngIf="isAdmin && addEmployeeClicked">
+        <td> </td>
+        <td><input type="text" disabled class="addEmployeeInput"> </td>
+        <td>
+          <input type="text" required #firstName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$"
+            class="form-control addEmployeeInput" id="firstName"
+            [class.is-invalid]="firstName.invalid && firstName.touched" [(ngModel)]="newEmployee.firstName"
+            name="firstName" ngModel>
+          <div *ngIf="firstName.invalid && firstName.touched">
+            <small class="text-danger" *ngIf="firstName.errors?.required">Name is required.</small>
+            <small class="text-danger" *ngIf="firstName.errors?.pattern">First name should be of length 2-15 and no
+              symbols are allowed otherthan '.', '_'.</small>
+          </div>
+        </td>
+        <td>
+          <input required type="text" #lastName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$"
+            class="form-control addEmployeeInput" id="lastName"
+            [class.is-invalid]="lastName.invalid && lastName.touched" [(ngModel)]="newEmployee.lastName" name="lastName"
+            ngModel>
+          <div *ngIf="lastName.invalid && lastName.touched">
+            <small class="text-danger" *ngIf="lastName.errors?.required">Name is required.</small>
+            <small class="text-danger" *ngIf="lastName.errors?.pattern">Last name should be of length 2-15 and no
+              symbols are allowed otherthan '.', '_'.</small>
+          </div>
+        </td>
+        <td>
+          <input required type="text" class="form-control" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+            #email="ngModel" id="email" [class.is-invalid]="email.invalid && email.touched"
+            [(ngModel)]="newEmployee.email" name="email" ngModel class="form-control addEmployeeInputEmail">
+          <small class="text-danger" *ngIf="checkEmail">Email already exsists!</small>
+          <div *ngIf="email.invalid && email.touched">
+            <small class="text-danger" *ngIf="email.errors?.required">Email is required.</small>
+            <small class="text-danger" *ngIf="email.errors?.pattern">Enter valid emial id.</small>
+          </div>
+        </td>
+        <td>
+          <input required type="text" class="form-control" pattern="^[0-9]{0,20}$" #salary="ngModel" id="salary"
+            [class.is-invalid]="salary.invalid && salary.touched" [(ngModel)]="newEmployee.salary" name="salary" ngModel
+            class="form-control addEmployeeInput">
+          <div *ngIf="salary.invalid && salary.touched">
+            <small class="text-danger" *ngIf="salary.errors?.required">Salary is required.</small>
+            <small class="text-danger" *ngIf="salary.errors?.pattern">Salary should be numeric.</small>
+          </div>
+        </td>
+        <td class="tdRow">
+          <input required type="text" #job="ngModel" id="job" [class.is-invalid]="job.invalid && job.touched"
+            [(ngModel)]="newEmployee.job" name="job" ngModel class="form-control tdRow">
+          <div *ngIf="job.invalid && job.touched">
+            <small class="text-danger" *ngIf="job.errors?.required">Job is required.</small>
+          </div>
+        </td>
+        <td>
+          <select required type="text" class="form-control" #role="ngModel" id="role"
+            [class.is-invalid]="role.invalid && role.touched" [(ngModel)]="newEmployee.role" name="role" ngModel
+            class="form-control addEmployeeInput" class="custom-select" id="inputGroupSelect02">
+            <option selected>Choose a role</option>
+            <option value="EMPLOYEE">Employee</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </td>
+        <td>
+          <div class="activeOrNot"></div>
+        </td>
+        <td>
+          <button
+            [disabled]="firstName.errors || firstName.invalid || lastName.errors || lastName.invalid || job.errors || job.invalid || salary.errors || salary.invalid || email.errors || email.invalid"
+            class="btn btn-light btn-block buttonCheck" type="submit">
+            <i (click)="addEmployeeCheck()" class="bi bi-check check"></i>
+          </button>
+          <button class="btn btn-light btn-block buttonCancel" type="submit">
+            <i (click)="cancelAddEmployee()" class="bi bi-x cancle"></i>
+          </button>
+        </td>
+      </tr>
 
-        <!-- Table Content -->
-        <!-- This includes with update and not updating as well -->
-        <!--instead of this u can also use this filter:searchText" (checkRoleAsAdmin() ? (employees | customPipe:searchArea) : (employees | customPipeForEmployee:serachArea))-->
-        <tr class="employeeRow" *ngFor="let employee of (checkRoleAsAdmin() ? (employees  | customPipe:searchArea | paginate: { itemsPerPage: 6, currentPage: p } ) : (employees | customPipeForEmployee:searchArea  | paginate: { itemsPerPage: 6, currentPage: p } ))  ">
-          <td *ngIf="checkRoleAsAdmin()">
-            <div class="form-check">
-              <input *ngIf="currentEmployee.id !== employee.id" id="employeeCheckBox" class="form-check-input checkBox" 
-              [checked]="allSelected" (change)="eachSelected($event, employee.id)" type="checkbox">
-            </div>
-          </td>
-          <td> {{ employee.id }} </td>
-          <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "> {{ employee.firstName }} </td>
-          <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
-            <input type="text" required #firstName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$" class="form-control addEmployeeInput"
-            placeholder="First Name" id="firstName" [class.is-invalid]="firstName.invalid && firstName.touched" [(ngModel)]="employee.firstName" name="firstName" ngModel>
-              <div *ngIf="firstName.invalid && firstName.touched">
-                <small class="text-danger" *ngIf="firstName.errors?.required">First name is required.</small>
-                <small class="text-danger" *ngIf="firstName.errors?.pattern">First name should be of length 2-15 and no symbols are allowed otherthan '.', '_'.</small>
-              </div> 
-          </td>
-          <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "> {{ employee.lastName }} </td>
-          <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
-            <input required type="text" #lastName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$" class="form-control addEmployeeInput" id="lastName"
-              placeholder="Last Name" [class.is-invalid]="lastName.invalid && lastName.touched" [(ngModel)]="employee.lastName" name="lastName" ngModel>
-                <div *ngIf="lastName.invalid && lastName.touched">
-                  <small class="text-danger" *ngIf="lastName.errors?.required">Last name is required.</small>
-                  <small class="text-danger" *ngIf="lastName.errors?.pattern">Last name should be of length 2-15 and no symbols are allowed otherthan '.', '_'.</small>
-                </div>
-          </td>
-          <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id))"> {{ employee.email }} </td>
-          <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
-            <input disabled required type="text" class="form-control addEmployeeInputEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #email="ngModel" id="email"
-              placeholder="Email" [class.is-invalid]="email.invalid && email.touched" [(ngModel)]="employee.email" name="email" ngModel>
-          </td>
-          <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "> {{ employee.salary}} </td>
-          <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
-            <input required type="text" class="form-control addEmployeeInput" pattern="^[0-9]{0,20}$" #salary="ngModel" id="salary"
-              placeholder="Salary" [class.is-invalid]="salary.invalid && salary.touched" [(ngModel)]="employee.salary" name="salary" ngModel>
-              <div *ngIf="salary.invalid && salary.touched">
-                <small class="text-danger" *ngIf="salary.errors?.required">Salary is required.</small>
-                <small class="text-danger" *ngIf="salary.errors?.pattern">Salary should be numeric.</small>
-              </div>
-          </td>
-          <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "> {{ employee.job}} </td>
-          <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
-            <input required type="text" class="form-control addEmployeeInput" #job="ngModel" id="job"
-            placeholder="Job" [class.is-invalid]="job.invalid && job.touched" [(ngModel)]="employee.job" name="job" ngModel>
-              <div *ngIf="job.invalid && job.touched">
-                <small class="text-danger" *ngIf="job.errors?.required">Job is required.</small>
-              </div>
-          </td>
-          <td *ngIf="checkRoleAsAdmin() && !(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "> {{ employee.role }} </td>
-          <td *ngIf="checkRoleAsAdmin() && (checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
-            <select required type="text" class="form-control" #role="ngModel" id="role"
-            placeholder="Role" [class.is-invalid]="role.invalid && role.touched" [(ngModel)]="employee.role" name="role" ngModel
+      <!-- Table Content -->
+      <tr
+        *ngFor="let employee of (isAdmin ? (employees  | customPipe:searchArea | paginate: { itemsPerPage: 6, currentPage: currentPage } ) : (employees | customPipeForEmployee:searchArea  | paginate: { itemsPerPage: 6, currentPage: currentPage } ))  ">
+        <td *ngIf="isAdmin">
+          <div class="form-check">
+            <input *ngIf="currentEmployee.id !== employee.id" class="form-check-input checkBox" [checked]="allSelected"
+              (change)="eachSelected($event, employee.id)" type="checkbox">
+          </div>
+        </td>
+        <td> {{ employee.id }} </td>
+        <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "> {{ employee.firstName }} </td>
+        <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
+          <input type="text" required #firstName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$"
+            class="form-control addEmployeeInput" placeholder="First Name" id="firstName"
+            [class.is-invalid]="firstName.invalid && firstName.touched" [(ngModel)]="employee.firstName"
+            name="firstName" ngModel>
+          <div *ngIf="firstName.invalid && firstName.touched">
+            <small class="text-danger" *ngIf="firstName.errors?.required">First name is required.</small>
+            <small class="text-danger" *ngIf="firstName.errors?.pattern">First name should be of length 2-15 and no
+              symbols are allowed otherthan '.', '_'.</small>
+          </div>
+        </td>
+        <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "> {{ employee.lastName }} </td>
+        <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
+          <input required type="text" #lastName="ngModel" pattern="^[a-zA-Z0-9._]{3,15}$"
+            class="form-control addEmployeeInput" id="lastName" placeholder="Last Name"
+            [class.is-invalid]="lastName.invalid && lastName.touched" [(ngModel)]="employee.lastName" name="lastName"
+            ngModel>
+          <div *ngIf="lastName.invalid && lastName.touched">
+            <small class="text-danger" *ngIf="lastName.errors?.required">Last name is required.</small>
+            <small class="text-danger" *ngIf="lastName.errors?.pattern">Last name should be of length 2-15 and no
+              symbols are allowed otherthan '.', '_'.</small>
+          </div>
+        </td>
+        <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id))"> {{ employee.email }} </td>
+        <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
+          <input disabled required type="text" class="form-control addEmployeeInputEmail"
+            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #email="ngModel" id="email" placeholder="Email"
+            [class.is-invalid]="email.invalid && email.touched" [(ngModel)]="employee.email" name="email" ngModel>
+        </td>
+        <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "> {{ employee.salary}} </td>
+        <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
+          <input required type="text" class="form-control addEmployeeInput" pattern="^[0-9]{0,20}$" #salary="ngModel"
+            id="salary" placeholder="Salary" [class.is-invalid]="salary.invalid && salary.touched"
+            [(ngModel)]="employee.salary" name="salary" ngModel>
+          <div *ngIf="salary.invalid && salary.touched">
+            <small class="text-danger" *ngIf="salary.errors?.required">Salary is required.</small>
+            <small class="text-danger" *ngIf="salary.errors?.pattern">Salary should be numeric.</small>
+          </div>
+        </td>
+        <td *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "> {{ employee.job}} </td>
+        <td *ngIf="(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
+          <input required type="text" class="form-control addEmployeeInput" #job="ngModel" id="job" placeholder="Job"
+            [class.is-invalid]="job.invalid && job.touched" [(ngModel)]="employee.job" name="job" ngModel>
+          <div *ngIf="job.invalid && job.touched">
+            <small class="text-danger" *ngIf="job.errors?.required">Job is required.</small>
+          </div>
+        </td>
+        <td *ngIf="isAdmin && !(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
+          {{ employee.role }} </td>
+        <td *ngIf="isAdmin && (checkUpdateEmployee && (selectedIdToUpdate===employee.id)) ">
+          <select required type="text" class="form-control" #role="ngModel" id="role" placeholder="Role"
+            [class.is-invalid]="role.invalid && role.touched" [(ngModel)]="employee.role" name="role" ngModel
             class="custom-select" id="inputGroupSelect02">
             <option selected>Choose a role</option>
             <option value="EMPLOYEE">Employee</option>
             <option value="ADMIN">Admin</option>
           </select>
-          </td>
-          <td *ngIf="checkRoleAsAdmin()"> <div [ngStyle]="{'background-color': (employee.active) ? 'lightgreen' : 'red'}" class="activeOrNot"></div> </td>
-          <td *ngIf="checkRoleAsAdmin()">
-            <button *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) " (click)="updateInline(employee.id)" class="btn btn-info" id="update"> Update</button>
-            <!-- This is a reference to privious delete -->
-            <!-- <button (click)="deleteEmployee(employee.id)"  class="btn btn-danger deleteButton"> Delete</button> -->
-            <div *ngIf="checkUpdateEmployee && (selectedIdToUpdate===employee.id)">
-            <button class="btn btn-light btn-block buttonCheck" type="submit"  >
-               <i (click)="updateEmployeeCheck(employee)" id="updatesubmit" class="bi bi-check check"></i>
-             </button>
-             <button class="btn btn-light btn-block buttonCancel" type="submit">
-                <i (click)="cancelUpdateEmployee()" id="cancelUpdate" class="bi bi-x cancle"></i>
-             </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+        </td>
+        <td *ngIf="isAdmin">
+          <div [ngStyle]="{'background-color': (employee.active) ? 'lightgreen' : 'red'}" class="activeOrNot"></div>
+        </td>
+        <td *ngIf="isAdmin">
+          <button *ngIf="!(checkUpdateEmployee && (selectedIdToUpdate===employee.id)) "
+            (click)="updateInline(employee.id)" class="btn btn-info"> Update</button>
+          <div *ngIf="checkUpdateEmployee && (selectedIdToUpdate===employee.id)">
+            <button class="btn btn-light btn-block buttonCheck" type="submit">
+              <i (click)="updateEmployeeCheck(employee)" class="bi bi-check check"></i>
+            </button>
+            <button class="btn btn-light btn-block buttonCancel" type="submit">
+              <i (click)="cancelUpdateEmployee()" class="bi bi-x cancle"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
   </table>
-  <br *ngIf="!checkRoleAsAdmin()">
+  <br *ngIf="!isAdmin">
   <!-- Pagination -->
   <div class="center">
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
   </div>
   <br>
 </div>
-  

@@ -34,6 +34,7 @@ class DbSequenceGenrTests {
 	@Mock
 	private DbSequence dbSequence;
 	
+	/* Should generate next id */
 	@Test
 	void getSequenceNumber() {
 		

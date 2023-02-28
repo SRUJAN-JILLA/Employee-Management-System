@@ -2,88 +2,79 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { Employee } from '../classes/employee';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  private baseURL = "http://localhost:8080";
-  role:string ="";
+  role: string;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
-  public generateToken(loginData:any){
-    return this.httpClient.post(`${this.baseURL}/generate-token`,loginData);
+  /* Should generate token */
+  public generateToken(loginData: any) {
+    let url = environment.generateTokenUrl;
+    return this.httpClient.post(`${url}`, loginData);
   }
 
-  //current user which is logged in 
-  public getCurrentUser():Observable<Employee>{
-    return this.httpClient.get<Employee>(`${this.baseURL}/current-user`);
+  /* Should return current user which is logged in */
+  public getCurrentUser(): Observable<Employee> {
+    let url = environment.currentUserUrl
+    return this.httpClient.get<Employee>(`${url}`);
   }
-  
-  //login User store token in lcoal storage 
-  public loginUser(token:string){
-    localStorage.setItem("token",token);
+
+  /* Should store token in local storage */
+  public loginUser(token: string) {
+    localStorage.setItem("token", token);
     return true;
   }
 
-  //isLogin or not
-  public isLoggedIn(){
+  /* Should check if the user is logged in or not */  
+  public isLoggedIn() {
     let tokenStr = localStorage.getItem("token");
-    if(tokenStr == undefined || tokenStr == '' || tokenStr == null){
+    if (tokenStr == undefined || tokenStr == '' || tokenStr == null) {
       return false;
     }
     return true;
   }
 
-  //logout : remove token from local storage
-  public logout(){
+  /* Should remove token from local storage */
+  public logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     return true;
   }
-  
-  //get token
-  public getToken(){
+
+  /* Should return token from local storage */
+  public getToken() {
     return localStorage.getItem("token");
   }
 
-  //set user details
-  public setUser(user:Employee){
+  /* Should set User in local storage */
+  public setUser(user: any) {
     localStorage.setItem("user", JSON.stringify(user));
-    return user;
   }
 
-  //get user
-  public getUser(){
-    let userStr =  localStorage.getItem("user");
-    if(userStr != null){
+  /* Should get User from local storage */
+  public getUser() {
+    let userStr = localStorage.getItem("user");
+    if (userStr != null) {
       return JSON.parse(userStr);
     }
     this.logout();
     return null;
   }
 
-  //save user from navbar component to directly store from db
-  public saveFromNav(role:string){
-    this.role = role;
-    return role;
-  }
-
-  //get data from nav bar initial set up 
-  public getFromNav(){
-    return this.role;
-  }
-
-  //get user role
-  public getUserRole(){
+  /* Should return role */
+  public getUserRole() {
     let user = this.getUser();
     return user.role;
   }
 
-  //set user role
- public setUserRole(role:string) {
+  /* Should set role */
+  public setUserRole(role: string) {
     let user = this.getUser();
     user.role = role;
     this.setUser(user);

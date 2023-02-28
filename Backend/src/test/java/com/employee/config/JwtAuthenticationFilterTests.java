@@ -1,8 +1,10 @@
 package com.employee.config;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.FilterChain;
@@ -41,29 +43,23 @@ class JwtAuthenticationFilterTests {
 	@Mock
 	private Employee employee;
 
-//	@Mock
-//	private HttpServletRequest request;
-//
-//	@Mock
-//	private HttpServletResponse response;
-
 	@Mock
 	private FilterChain filterChain;
 
 	@BeforeEach
 	public void setUp() {
 		this.employee = new Employee(1, "fthis.employee", "lthis.employee", 460000, "thisemployee@gmail.com", "fse",
-				"56Password9333@3", "EMPLOYEE", true, 0, new Date());
+				"56Password9333@3", "EMPLOYEE", true, 0, new Date(), new ArrayList<>());
 	}
-
+	
+	/* Should test if filter for JWT is working or not */
 	@Test
-	void doFilterInternalNotValid() throws ServletException, IOException {
+	void doFilterInternalTest() throws ServletException, IOException {
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
 		FilterChain filterChain = mock(FilterChain.class);
 
 		this.jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
-
+		verify(request).getHeader("Authorization");
 	}
-
 }

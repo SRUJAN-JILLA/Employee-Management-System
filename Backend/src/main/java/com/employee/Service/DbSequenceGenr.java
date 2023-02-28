@@ -19,6 +19,7 @@ public class DbSequenceGenr {
 	@Autowired
 	private MongoOperations mongoOperations;
 
+	/* Should return a new Employee Id */
 	public long getSequenceNumber(String sequenceName) {
 		// get sequence no
 		Query query = new Query(Criteria.where("id").is(sequenceName));

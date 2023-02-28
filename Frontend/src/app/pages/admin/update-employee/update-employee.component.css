@@ -1,15 +1,19 @@
-input{
-    font-size: medium;
+input {
+  font-size: medium;
 }
-select{
-    font-size: medium;
+
+select {
+  font-size: medium;
 }
-select{
-    height: 35px;
+
+select {
+  height: 35px;
 }
-h1{
-    text-align: center;
- }
- button{
-    height: 40px;
- }
+
+h1 {
+  text-align: center;
+}
+
+button {
+  height: 40px;
+}

@@ -1,103 +1,127 @@
-a:hover{
-    color: #007BFF; 
-}
-.searchBy{
-    background-color:#007BFF;
-    color:aliceblue;
-    height: 35px;
-    border-radius: 0ch;
-    font-size: 15px;
-}
-.dropDown{
-    border-radius:0ch;
-}
-table{
-    font-size: medium;
-    width: 100%;
-}
-.dropButton{
-    height: 34px;
-    width: 30px;
-}
-select{
-    height: 33px;
-    font-size:14px;
-}
-.downlaodSection{
-    width: 25%; 
-    padding-left:10px ;
-}
-.downloadButton{
-    background-color:#007BFF;
-    color:aliceblue
-}
-th{
-    cursor:pointer;
+a:hover {
+  color: #007BFF;
 }
 
-.deleteButtonMultiple{
-    float: right;
+.searchBy {
+  background-color: #007BFF;
+  color: aliceblue;
+  height: 35px;
+  border-radius: 0ch;
+  font-size: 15px;
 }
-button{
-    font-size: 15px;
+
+.dropDown {
+  border-radius: 0ch;
 }
-option{
-    font-size: 14px;
+
+table {
+  font-size: medium;
+  width: 100%;
 }
-.searchBox{
-    font-size: 14px;
+
+.dropButton {
+  height: 34px;
+  width: 30px;
 }
-.dropdown-item{
-    font-size: 14px;
+
+select {
+  height: 33px;
+  font-size: 14px;
 }
-.activeOrNot{
-    width:30px;
-    height:28px;
-    border-style:solid;
+
+.downlaodSection {
+  width: 25%;
+  padding-left: 10px;
 }
-.center{
-    margin-left: 40%;
+
+.downloadButton {
+  background-color: #007BFF;
+  color: aliceblue
 }
-.checkBox{
-    width: 26px;
-    height: 24px;
-    margin-top: 0px;
+
+th {
+  cursor: pointer;
 }
-tr{
-    height: 0px;
+
+.deleteButtonMultiple {
+  float: right;
 }
-#allSelected{
-    margin-top: -5px;
+
+button {
+  font-size: 15px;
 }
-.addEmployeeInput{
-    width: 100px;
-    font-size: medium;
+
+option {
+  font-size: 14px;
 }
-.addEmployeeInputEmail{
-    font-size: medium;
+
+.searchBox {
+  font-size: 14px;
 }
-.buttonCheck{
-    width: 30px;
-    height: 30px;
-    font-size: 2rem;
-    color: aliceblue;
-    background-color: #007BFF;
-    padding: 0%;
+
+.dropdown-item {
+  font-size: 14px;
 }
-.buttonCancel{
-    width: 30px;
-    height: 30px;
-    font-size: 2rem;
-    color: aliceblue;
-    background-color: rgb(220, 35, 35);
-    padding: 0%;
-    margin-top: 0%;
+
+.activeOrNot {
+  width: 30px;
+  height: 28px;
+  border-style: solid;
+  background-color:red;
+}
+
+.center {
+  margin-left: 40%;
+}
+
+.checkBox {
+  width: 26px;
+  height: 24px;
+  margin-top: 0px;
+}
+
+tr {
+  height: 0px;
+}
+
+#allSelected {
+  margin-top: -5px;
+}
+
+.addEmployeeInput {
+  width: 100px;
+  font-size: medium;
+}
+
+.addEmployeeInputEmail {
+  font-size: medium;
+}
+
+.buttonCheck {
+  width: 30px;
+  height: 30px;
+  font-size: 2rem;
+  color: aliceblue;
+  background-color: #007BFF;
+  padding: 0%;
+}
+
+.buttonCancel {
+  width: 30px;
+  height: 30px;
+  font-size: 2rem;
+  color: aliceblue;
+  background-color: rgb(220, 35, 35);
+  padding: 0%;
+  margin-top: 0%;
 
 }
-small{
-    font-size: 10px;
+
+small {
+  font-size: 10px;
 }
-.tdRow{
-    width: 80px;
-    font-size: medium;
+
+.tdRow {
+  width: 80px;
+  font-size: medium;
 }

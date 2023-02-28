@@ -15,15 +15,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
+	/* Should return user based on userName(Email) */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Employee employee = this.employeeRepository.findByEmail(username);
-		if(employee == null)
-		{
-			System.out.println("User not found");
+		if (employee == null) {
 			throw new UsernameNotFoundException("No user found!");
 		}
 		return employee;
 	}
-
 }

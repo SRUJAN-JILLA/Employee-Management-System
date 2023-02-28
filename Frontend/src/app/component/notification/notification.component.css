@@ -1,68 +1,77 @@
-.notifications{
-    font-size: small;
+.notifications {
+  font-size: small;
+  min-width: 350px;
 }
-.dropdown {
-    display:inline-block;
-    /* margin-left:20px; */
-    padding:10px;
-  }
 
-.notificationHeading{
+.dropdown {
+  display: inline-block;
+  padding: 10px;
+}
+
+.notificationHeading {
   margin-left: 15px;
   font-size: medium;
   margin-top: 12px;
   font-weight: 500;
 }
-b{
+
+b {
   margin-top: 40px;
 }
-hr{
+
+hr {
   margin-top: 20px;
 }
-.clearButton{
+
+.clearButton {
   margin-right: 10px;
   width: 60px;
   height: auto;
   font-size: 13px;
   margin-top: -23px;
 }
+
 .glyphicon-bell {
-   
-    font-size:1.5rem;
-  }
-  #dLabel{
-    width: 200px;
-  }
-  
-  .icon{
-    width: 50px;
-    margin-top: 13px;
-  }
-  .notifications-wrapper {
-     overflow:auto;
-      max-height:250px;
-    }
-    
- .menu-title {
-     color:black;
-     font-size:1.5rem;
-      display:inline-block;
-      }
- 
-.glyphicon-circle-arrow-right {
-      margin-left:10px;     
-   }
-  
-.item-title {
-  
- font-size:1.3rem;
- color:#000;
-    
+  font-size: 1.5rem;
 }
+
+#dLabel {
+  width: 150px;
+}
+
+.icon {
+  width: 50px;
+  margin-top: 13px;
+}
+
+.notifications-wrapper {
+  overflow: auto;
+  max-height: 250px;
+}
+
+.menu-title {
+  color: black;
+  font-size: 1.5rem;
+  display: inline-block;
+}
+
+.glyphicon-circle-arrow-right {
+  margin-left: 10px;
+}
+
+.item-title {
+  font-size: 1.3rem;
+  color: #000;
+}
+
 .notifications a.content {
- text-decoration:none;
- }
-    
+  text-decoration: none;
+}
+
 .notification-item {
- border-radius:4px;
- }
+  border-radius: 4px;
+}
+
+sup {
+  font-size: 12px;
+}

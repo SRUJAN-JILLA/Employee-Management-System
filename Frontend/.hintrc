@@ -3,6 +3,26 @@
     "development"
   ],
   "hints": {
+    "axe/aria": [
+      "default",
+      {
+        "aria-required-children": "off"
+      }
+    ],
+    "no-inline-styles": "off",
+    "axe/parsing": [
+      "default",
+      {
+        "duplicate-id-aria": "off",
+        "duplicate-id-active": "off"
+      }
+    ],
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
+    ],
     "axe/forms": [
       "default",
       {
@@ -14,12 +34,6 @@
       "default",
       {
         "button-name": "off"
-      }
-    ],
-    "axe/parsing": [
-      "default",
-      {
-        "duplicate-id-active": "off"
       }
     ]
   }

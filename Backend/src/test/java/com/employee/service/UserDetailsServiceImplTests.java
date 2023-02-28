@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,9 +38,10 @@ class UserDetailsServiceImplTests {
 	@BeforeEach
 	public void setUp() {
 		this.employee = new Employee(1, "fthis.employee", "lthis.employee", 460000, "thisemployee@gmail.com", "fse",
-				"56Password9333@3", "EMPLOYEE", true, 0, new Date());
+				"56Password9333@3", "EMPLOYEE", true, 0, new Date(), new ArrayList<>());
 	}
-
+	
+	/* SHOULD test to load user by user name */
 	@Test
 	public void loadUserByUsername() throws UsernameNotFoundException {
 		when(this.employeeRepository.findByEmail("thisemployee@gmail.com")).thenReturn(employee);
@@ -48,20 +50,16 @@ class UserDetailsServiceImplTests {
 
 		assertThat(result).isNotNull();
 		verify(this.employeeRepository).findByEmail("thisemployee@gmail.com");
-
 	}
 
-	// test for negative response
+	/* should test for negative response */
 	@Test
 	public void loadUserByUsernameNegative() throws UsernameNotFoundException {
 		when(this.employeeRepository.findByEmail("thisemployee@gmail.com")).thenReturn(null);
 
-//		doThrow(UsernameNotFoundException.class).when(this.userDetailsServiceImpl).loadUserByUsername("thisemployee@gmail.com");
 		assertThrows(UsernameNotFoundException.class, () -> {
 			this.userDetailsServiceImpl.loadUserByUsername("thisemployee@gmail.com");
 		});
 		verify(this.employeeRepository).findByEmail("thisemployee@gmail.com");
-
 	}
-
 }

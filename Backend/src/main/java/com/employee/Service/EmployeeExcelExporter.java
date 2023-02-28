@@ -20,11 +20,13 @@ public class EmployeeExcelExporter {
 	private XSSFSheet sheet;
 	private List<Employee> listEmployee;
 
+	/* Should create the workbook for excel file */
 	public EmployeeExcelExporter(List<Employee> listEmployee) {
 		this.listEmployee = listEmployee;
 		workbook = new XSSFWorkbook();
 	}
 
+	/* Should create the Header line for excel file */
 	private void writeHeaderLine() {
 		sheet = workbook.createSheet("Employees");
 
@@ -45,6 +47,7 @@ public class EmployeeExcelExporter {
 
 	}
 
+	/* Should create cell for excel file */
 	private void createCell(Row row, int columnCount, Object value, CellStyle style) {
 		sheet.autoSizeColumn(columnCount);
 		Cell cell = row.createCell(columnCount);
@@ -58,6 +61,7 @@ public class EmployeeExcelExporter {
 		cell.setCellStyle(style);
 	}
 
+	/* Should write data for excel file */
 	private void writeDataLines() {
 		int rowCount = 1;
 
@@ -66,7 +70,7 @@ public class EmployeeExcelExporter {
 		font.setFontHeight(14);
 		style.setFont(font);
 
-		for (int i=0;i<this.listEmployee.size();i++) {
+		for (int i = 0; i < this.listEmployee.size(); i++) {
 			Employee employee = this.listEmployee.get(i);
 			Row row = sheet.createRow(rowCount++);
 			int columnCount = 0;
@@ -80,6 +84,7 @@ public class EmployeeExcelExporter {
 		}
 	}
 
+	/* Should export excel file */
 	public void export(HttpServletResponse response) throws IOException {
 		writeHeaderLine();
 		writeDataLines();
@@ -89,6 +94,5 @@ public class EmployeeExcelExporter {
 		workbook.close();
 
 		outputStream.close();
-
 	}
 }

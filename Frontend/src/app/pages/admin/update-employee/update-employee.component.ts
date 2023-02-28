@@ -11,91 +11,84 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class UpdateEmployeeComponent {
 
-  id: number=0;
+  id: number;
   employee: Employee = new Employee();
-  email:string="";
-  check:boolean=false;
-  temp: Employee = new Employee;
-  currentEmployee:Employee = new Employee();
-   test:boolean;
-   res:any
-  constructor(public loginService:LoginService, private employeeService:EmployeeService,private route: ActivatedRoute, private router: Router){};
+  email: string
+  checkEmailExists: boolean;
+  tempEmployeeUpdate: Employee = new Employee;
+  currentEmployee: Employee = new Employee();
+  isAdmin: boolean;
+  constructor(public loginService: LoginService, private employeeService: EmployeeService, private route: ActivatedRoute, private router: Router) { };
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    
+
     this.employeeService.getEmployeeById(this.id).subscribe(data => {
       this.employee = data;
       this.email = this.employee.email;
     });
-
-    this.loginService.getCurrentUser().subscribe(data=>{
+    this.loginService.getCurrentUser().subscribe(data => {
       this.currentEmployee = data;
     });
- 
   }
 
+  /* Should validate and update Employee*/
   async onSubmit() {
 
     //checking for email exists or not 
-     this.res = await this.employeeService.emailExists(this.employee.email).toPromise();
- 
-    this.check = this.res;
-    if(this.checkSameOrNot()){
-        this.router.navigate(['/employee']);
-    }else{
-              if(this.currentEmployee.email == this.employee.email){
-                this.saveEmployee();
-                this.goToEmployeeDashboard();
-              }
-              else if(this.currentEmployee.email != this.employee.email && !this.res){
-                console.log(this.currentEmployee.email);
-                console.log(this.employee.email);
-                console.log(this.res);
-                this.saveEmployee();
-                alert("You will be logged out! Since you have changed Email!!")
-                this.mainLogout();
-              }
-              else {
-                // console.log("Email already exists!!!");
-              }
+    const res: any = await this.employeeService.emailExists(this.employee.email).toPromise();
+
+    this.checkEmailExists = res;
+    if (this.currentEmployee.firstName == this.employee.firstName &&
+      this.currentEmployee.lastName == this.employee.lastName &&
+      this.currentEmployee.email == this.employee.email &&
+      this.currentEmployee.salary == this.employee.salary &&
+      this.currentEmployee.job == this.employee.job &&
+      this.currentEmployee.role == this.employee.role) {
+      this.router.navigate(['/employee']);
+    } else {
+      if (this.currentEmployee.email == this.employee.email) {
+        this.saveEmployee();
+        this.goToEmployeeDashboard();
       }
+      else if (this.currentEmployee.email != this.employee.email && !res) {
+        this.saveEmployee();
+        alert("You will be logged out! Since you have changed Email!!")
+        this.mainLogout();
+      }
+    }
   }
 
+  /* Should update Employee*/
   saveEmployee() {
-    this.temp.firstName = this.employee.firstName;
-    this.temp.lastName = this.employee.lastName;
-    this.temp.job = this.employee.job;
-    this.temp.salary = this.employee.salary;
-    this.temp.email = this.employee.email;
-    this.temp.role = this.employee.role;
-    this.temp.id = this.employee.id;
-    this.temp.active = false;
-    
-    this.employeeService.updateEmployee(this.temp.id,this.temp).subscribe(data => {
-    });
+    this.tempEmployeeUpdate.firstName = this.employee.firstName;
+    this.tempEmployeeUpdate.lastName = this.employee.lastName;
+    this.tempEmployeeUpdate.job = this.employee.job;
+    this.tempEmployeeUpdate.salary = this.employee.salary;
+    this.tempEmployeeUpdate.email = this.employee.email;
+    this.tempEmployeeUpdate.role = this.employee.role;
+    this.tempEmployeeUpdate.id = this.employee.id;
+    this.tempEmployeeUpdate.active = false;
+    this.tempEmployeeUpdate.notifications = this.employee.notifications;
+
+    this.employeeService.updateEmployee(this.tempEmployeeUpdate.id, this.tempEmployeeUpdate, this.currentEmployee.firstName
+      , this.currentEmployee.id, this.tempEmployeeUpdate.firstName).subscribe(data => {
+      });
   }
-  
+
+  /* Should navigate to employee dashboard page*/
   async goToEmployeeDashboard() {
-    await new Promise(resolve => setTimeout(resolve, 100)).then(() =>{});
     this.router.navigate(['/employee']);
   }
 
-  checkRoleAsAdmin(){
+  /* check if Role is admin or not */
+  checkRoleAsAdmin() {
     return this.currentEmployee.role === "ADMIN";
   }
 
-  mainLogout(){
+  /* Should navigate to main page*/
+  mainLogout() {
     this.loginService.logout();
     this.router.navigate(['/']);
-  }
-
-  checkSameOrNot(){
-    return  (this.currentEmployee.firstName == this.employee.firstName && 
-      this.currentEmployee.lastName == this.employee.lastName && 
-      this.currentEmployee.email == this.employee.email && 
-      this.currentEmployee.salary == this.employee.salary && 
-      this.currentEmployee.job == this.employee.job && 
-      this.currentEmployee.role == this.employee.role);
   }
 }

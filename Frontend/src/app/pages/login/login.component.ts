@@ -11,149 +11,149 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class LoginComponent {
 
-  emailAddress :string="";
-  confirmPassword:string="";
-  checkEmail: boolean=false;
-  checkPassword: boolean=false;
-  test:boolean;
-  test2:boolean = false;
-  disableLoginButton:boolean=false;
-  counter:number=0;
+  emailAddress: string;
+  confirmPassword: string;
+  checkEmail: boolean;
+  checkPassword: boolean;
+
+  disableLoginButton: boolean;
+  counter: number;
   currentLogginAttempts: number = 0;
-  loginData={
-    username:"",
-    password:""
+  loginData = {
+    username: "",
+    password: ""
   }
-  milliSecondsFromFailedAttempt:number = 0;
+  milliSecondsFromFailedAttempt: number = 0;
 
-  constructor(private employeeService:EmployeeService,private loginService:LoginService, private router: Router){};
+  constructor(private employeeService: EmployeeService, private loginService: LoginService, private router: Router) { };
 
-  async formSubmit(){
-     //checking for email exists or not 
-     const emailExists: any = await this.employeeService.emailExists(this.loginData.username).toPromise();
-     //chcek if email exists 
-     if (emailExists) {
-      
-       this.checkEmail = false;    
-       this.checkPassword = false;
+  /* On Submit it should validate and login the user */
+  async formSubmit() {
+    //checking for email exists or not 
+    const emailExists: any = await this.employeeService.emailExists(this.loginData.username).toPromise();
 
-        //checking if the user is locked or unlocked
-        this.getFailedLoginAttempt(this.loginData.username);
-        await new Promise(resolve => setTimeout(resolve, 500)).then(() =>{});
+    //chcek if email exists 
+    if (emailExists) {
 
-        console.log(this.milliSecondsFromFailedAttempt);
+      this.checkEmail = false;
+      this.checkPassword = false;
 
-        if(this.milliSecondsFromFailedAttempt > 30000 && this.test2 == false){
+      //checking if the user is locked or unlocked
+      this.getFailedLoginAttempt(this.loginData.username);
+      await new Promise(resolve => setTimeout(resolve, 500)).then(() => { });
+
+      if (this.milliSecondsFromFailedAttempt > 30000) {
 
         this.loginService.generateToken(this.loginData).subscribe(
-          (data:any)=>{
+          (data: any) => {
 
             this.loginService.loginUser(data.token);
 
             this.loginService.getCurrentUser().subscribe(
               async (user: any) => {
                 this.loginService.setUser(user);
-                 if(this.loginService.getUserRole() == "ADMIN" || this.loginService.getUserRole() == "EMPLOYEE"){
+                if (this.loginService.getUserRole() == "ADMIN" || this.loginService.getUserRole() == "EMPLOYEE") {
                   this.changeActive();
                   this.setLoginAttempts(0);
-                  // await new Promise(resolve => setTimeout(resolve, 100)).then(() => console.log("fired"));
+                  await new Promise(resolve => setTimeout(resolve, 500)).then(() => { });
                   this.employee();
-                }else{
-                  console.log("You are in logout section")
+                } else {
                   this.loginService.logout();
                 }
               }
             )
-          },async (error)=>{
+          }, async (error) => {
             this.getLoginAttempts(this.loginData.username);
-            await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
-            if(this.currentLogginAttempts>3){
-              console.log("U r in timer");
+            await new Promise(resolve => setTimeout(resolve, 300)).then(() => { });
+            if (this.currentLogginAttempts > 3) {
               this.disableLoginButton = true;
               this.setLockTime(this.loginData.username);
-              await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
+              await new Promise(resolve => setTimeout(resolve, 300)).then(() => { });
               this.setLoginAttempts(0);
               this.counter = 30;
-              if(this.test == false){
               let intervalId = setInterval(() => {
                 this.counter = this.counter - 1;
-                if(this.counter === 0){
+                if (this.counter === 0) {
                   clearInterval(intervalId);
                   this.disableLoginButton = false;
-                } 
+                }
               }, 1000)
-              }
-            }else{
+            } else {
               this.getLoginAttempts(this.loginData.username);
-              await new Promise(resolve => setTimeout(resolve, 300)).then(() => console.log("fired"));
-              alert("Invalid Details!\nYou have " + ( 4 - this.currentLogginAttempts ) + " more chances left!" );
+              await new Promise(resolve => setTimeout(resolve, 300)).then(() => { });
+              alert("Invalid Details!\nYou have " + (4 - this.currentLogginAttempts) + " more chances left!");
               this.setLoginAttempts(this.currentLogginAttempts + 1);
             }
           }
-        )}else{
-          // account is locked 
-          console.log("U r in locked timer")
-          console.log(this.milliSecondsFromFailedAttempt);
-          let timeLeft = 30000 - this.milliSecondsFromFailedAttempt;
-          this.disableLoginButton = true;
-          this.setLoginAttempts(0);
-          this.counter = Math.floor(timeLeft/1000);
-          if(this.test == false){
-          let intervalId = setInterval(() => {
-           this.counter = this.counter - 1;
-            if(this.counter === 0){
-              clearInterval(intervalId);
-              this.disableLoginButton = false;
-            } 
+        )
+      } else {
+        // account is locked 
+        let timeLeft = 30000 - this.milliSecondsFromFailedAttempt;
+        this.disableLoginButton = true;
+        this.setLoginAttempts(0);
+        this.counter = Math.floor(timeLeft / 1000);
+        let intervalId = setInterval(() => {
+          this.counter = this.counter - 1;
+          if (this.counter === 0) {
+            clearInterval(intervalId);
+            this.disableLoginButton = false;
+          }
         }, 1000)
-        }}
-     } else {
+      }
+    } else {
       this.checkEmail = true;
-     }
+    }
   }
 
- getLoginAttempts(mail: string){
-    this.employeeService.getLoginAttempts(mail).subscribe(data =>{
-      this.currentLogginAttempts = data    
+  /* Should get login attempts */
+  getLoginAttempts(mail: string) {
+    this.employeeService.getLoginAttempts(mail).subscribe(data => {
+      this.currentLogginAttempts = data
     })
   }
 
-  setLoginAttempts(loginAttempts:number){
+  /* Should set login attempts */
+  setLoginAttempts(loginAttempts: number) {
     let temp = new Employee;
 
     temp.email = this.loginData.username;
     temp.loginAttempts = loginAttempts;
 
-    this.employeeService.setLoginAttempts(temp).subscribe(data =>{
-    this.currentLogginAttempts = loginAttempts;
+    this.employeeService.setLoginAttempts(temp).subscribe(data => {
+      this.currentLogginAttempts = loginAttempts;
     });
   }
 
-  getFailedLoginAttempt(mail:string){
-    this.employeeService.getLockTimeLeft(mail).subscribe(data=>{
-         this.milliSecondsFromFailedAttempt = data;
+  /* Should return milliSecondsFromFailedAttempt */
+  getFailedLoginAttempt(mail: string) {
+    this.employeeService.getLockTimeLeft(mail).subscribe(data => {
+      this.milliSecondsFromFailedAttempt = data;
     })
   }
 
-  setLockTime(mail:string){
-    this.employeeService.setLockTime(mail).subscribe(data =>{
+  /* Should set lock time in db for faild attempts */
+  setLockTime(mail: string) {
+    this.employeeService.setLockTime(mail).subscribe(data => {
     })
   }
-  
-  signup(){
+
+  /* Should navigate to signup page*/
+  signup() {
     this.router.navigate(['/signup']);
-  } 
+  }
 
-  employee(){
+  /* Should navigate to employee page*/
+  employee() {
     this.router.navigate(['/employeelist']);
   }
 
+  /* Should change active to true */
   changeActive() {
-    let temp:Employee = new Employee;
+    let temp: Employee = new Employee;
 
     temp.email = this.loginData.username;
     temp.active = true;
-    this.employeeService.changeActiveByMail(temp.email,temp).subscribe(data => {
+    this.employeeService.changeActiveByMail(temp.email, temp).subscribe(data => {
     });
   }
 }

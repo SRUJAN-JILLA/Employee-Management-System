@@ -1,5 +1,5 @@
-import {Component, ViewChild, ElementRef} from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core'
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { Employee } from 'src/app/classes/employee';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -11,46 +11,49 @@ import { EmployeeService } from 'src/app/services/employee.service';
 })
 export class NavbarComponent {
 
-  isAdmin:boolean;
   employee: Employee = new Employee();
-  role:string;
-  temp: Employee = new Employee;
-  isLoggedIn:boolean;
-  constructor(public loginService:LoginService, private employeeService:EmployeeService, private router: Router){};
+  role: string;
+  tempEmployeeToChange: Employee = new Employee;
 
-  ngOnInit(): void {
-    this.loginService.getCurrentUser().subscribe(data=>{
-      this.employee = data;
-      this.role = this.employee.role;
-      this.loginService.saveFromNav(this.role);
-    });
+  constructor(public loginService: LoginService, private employeeService: EmployeeService, private router: Router) {};
+
+  /* Should navigate to home page*/
+  home() {
+    this.router.navigate(['']);
   }
 
-  login(){
+  /* Should navigate to login page*/
+  login() {
     this.router.navigate(['/login']);
   }
 
-  signup(){
+  /* Should navigate to sign up page*/
+  signup() {
     this.router.navigate(['/signup']);
-  } 
+  }
 
-  main(){
-    this.saveEmployee();
+  /* Should navigate to home page*/
+  main() {
+    this.changeActive();
     this.loginService.logout();
     this.router.navigate(['/']);
-  }
+  } 
 
-  employeeList(){
+  /* Should navigate to employees page*/
+  employeeList() {
     this.router.navigate(['/employeelist']);
   }
-  employeeHome(){
+
+  /* Should navigate to employee details page*/
+  employeeHome() {
     this.router.navigate(['/employee']);
   }
 
-  saveEmployee() {
-    this.temp.id = this.employee.id;
-    this.temp.active = false;
-    this.employeeService.changeActive(this.temp.id,this.temp).subscribe(data => {
-    });
-  } 
+  /* Should change active to false */
+  changeActive() {
+    this.employee = this.loginService.getUser();
+    this.tempEmployeeToChange.id = this.employee.id;
+    this.tempEmployeeToChange.active = false;
+    this.employeeService.changeActive(this.tempEmployeeToChange.id, this.tempEmployeeToChange).subscribe(data => {});
+  }
 }

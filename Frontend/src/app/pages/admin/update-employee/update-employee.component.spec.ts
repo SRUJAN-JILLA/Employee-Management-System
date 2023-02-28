@@ -13,51 +13,51 @@ import { LoginService } from 'src/app/services/login.service';
 describe('UpdateEmployeeComponent', () => {
   let component: UpdateEmployeeComponent;
   let fixture: ComponentFixture<UpdateEmployeeComponent>;
-  let loginService:any;
-  let employeeService:any;
-  let router:any;
-  let routerSpy:{navigate:jasmine.Spy};
-  let loginServiceSpy:{getCurrentUser:jasmine.Spy,isLoggedIn:jasmine.Spy, logout:jasmine.Spy};
-  let employeeServiceSpy:{getEmployeeById:jasmine.Spy, emailExists:jasmine.Spy, changePassword:jasmine.Spy, updateEmployee:jasmine.Spy, addEmployee:jasmine.Spy, deleteEmployee:jasmine.Spy, getEmployeesList:jasmine.Spy, download:jasmine.Spy, changeActive:jasmine.Spy,  getCurrentUser:jasmine.Spy};
-  
-  let employees:Employee[]= [{"id":100003,"firstName":"Srujan","lastName":"Jilla","salary":900000.0,"email":"srujanjilla@gmail.com","job":"HR","password":"$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK","role":"ADMIN","active":false,"loginAttempts":0},
-  {"id":100004,"firstName":"Sravan","lastName":"Jilla","salary":900000.0,"email":"sravanjilla@gmail.com","job":"HR","password":"$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK","role":"ADMIN","active":false,"loginAttempts":0}];
-  let temp:Employee =  {"id":100004,"firstName":"Sravan","lastName":"Jilla","salary":900000.0,"email":"sravanjilla@gmail.com","job":"HR","password":"$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK","role":"ADMIN","active":false,"loginAttempts":0};
-  let currentEmployee2:Employee = {"id":100003,"firstName":"asdf","lastName":"Jilla","salary":900000.0,"email":"srujanjilla@gmail.com","job":"HR","password":"$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK","role":"ADMIN","active":false,"loginAttempts":0};
+  let loginService: any;
+  let employeeService: any;
+  let router: any;
+  let routerSpy: { navigate: jasmine.Spy };
+  let loginServiceSpy: { getCurrentUser: jasmine.Spy, isLoggedIn: jasmine.Spy, logout: jasmine.Spy };
+  let employeeServiceSpy: { getEmployeeById: jasmine.Spy, emailExists: jasmine.Spy, changePassword: jasmine.Spy, updateEmployee: jasmine.Spy, addEmployee: jasmine.Spy, deleteEmployee: jasmine.Spy, getEmployeesList: jasmine.Spy, download: jasmine.Spy, changeActive: jasmine.Spy, getCurrentUser: jasmine.Spy };
 
-  let currentEmployee:Employee = {"id":100003,"firstName":"Srujan","lastName":"Jilla","salary":900000.0,"email":"srujanjilla@gmail.com","job":"HR","password":"$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK","role":"ADMIN","active":false,"loginAttempts":0};
-  
+  let employees: Employee[] = [{ "id": 100003, "firstName": "Srujan", "lastName": "Jilla", "salary": 900000.0, "email": "srujanjilla@gmail.com", "job": "HR", "password": "$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK", "role": "ADMIN", "active": false, "loginAttempts": 0, "notifications": [] },
+  { "id": 100004, "firstName": "Sravan", "lastName": "Jilla", "salary": 900000.0, "email": "sravanjilla@gmail.com", "job": "HR", "password": "$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK", "role": "ADMIN", "active": false, "loginAttempts": 0, "notifications": [] }];
+  let temp: Employee = { "id": 100004, "firstName": "Sravan", "lastName": "Jilla", "salary": 900000.0, "email": "sravanjilla@gmail.com", "job": "HR", "password": "$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK", "role": "ADMIN", "active": false, "loginAttempts": 0, "notifications": [] };
+  let currentEmployee2: Employee = { "id": 100003, "firstName": "asdf", "lastName": "Jilla", "salary": 900000.0, "email": "srujanjilla@gmail.com", "job": "HR", "password": "$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK", "role": "ADMIN", "active": false, "loginAttempts": 0, "notifications": [] };
+
+  let currentEmployee: Employee = { "id": 100003, "firstName": "Srujan", "lastName": "Jilla", "salary": 900000.0, "email": "srujanjilla@gmail.com", "job": "HR", "password": "$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK", "role": "ADMIN", "active": false, "loginAttempts": 0, "notifications": [] };
+
   beforeEach(async () => {
-    loginServiceSpy= jasmine.createSpyObj(LoginService,{'getCurrentUser':of(currentEmployee),'logout':of(true),'isLoggedIn':of(false)});
-    employeeServiceSpy= jasmine.createSpyObj(EmployeeService,{'getEmployeeById':of(currentEmployee), 'emailExists':of(true),'changePassword':of(true), 'updateEmployee':of(true), 'addEmployee':of(true), 'deleteEmployee':of(true), 'getEmployeesList':of(employees), 'download':of(true), 'changeActive':of(true), 'getCurrentUser':of(currentEmployee)});
-    routerSpy= jasmine.createSpyObj(Router,{'navigate':of(true)});
+    loginServiceSpy = jasmine.createSpyObj(LoginService, { 'getCurrentUser': of(currentEmployee), 'logout': of(true), 'isLoggedIn': of(false) });
+    employeeServiceSpy = jasmine.createSpyObj(EmployeeService, { 'getEmployeeById': of(currentEmployee), 'emailExists': of(true), 'changePassword': of(true), 'updateEmployee': of(true), 'addEmployee': of(true), 'deleteEmployee': of(true), 'getEmployeesList': of(employees), 'download': of(true), 'changeActive': of(true), 'getCurrentUser': of(currentEmployee) });
+    routerSpy = jasmine.createSpyObj(Router, { 'navigate': of(true) });
 
     await TestBed.configureTestingModule({
-      imports:[FormsModule,NgxPaginationModule,MaterialModule,HttpClientTestingModule,NgxPaginationModule],
-      declarations:[UpdateEmployeeComponent],
-      providers:[
-        { provide: LoginService, useValue:loginServiceSpy},
-        { provide: EmployeeService, useValue:employeeServiceSpy},
-        { provide: Router, useValue:routerSpy},
-        { provide: ActivatedRoute, useValue: {'snapshot': {'params': {'id': 100003}}}}
+      imports: [FormsModule, NgxPaginationModule, MaterialModule, HttpClientTestingModule, NgxPaginationModule],
+      declarations: [UpdateEmployeeComponent],
+      providers: [
+        { provide: LoginService, useValue: loginServiceSpy },
+        { provide: EmployeeService, useValue: employeeServiceSpy },
+        { provide: Router, useValue: routerSpy },
+        { provide: ActivatedRoute, useValue: { 'snapshot': { 'params': { 'id': 100003 } } } }
       ]
     })
-    .compileComponents()
-    .then(() =>{
-      fixture = TestBed.createComponent(UpdateEmployeeComponent);
-      component = fixture.componentInstance;
-      loginService = TestBed.inject(LoginService);
-      employeeService =  TestBed.inject(EmployeeService);
-      router = TestBed.inject(Router);
-      fixture.detectChanges();
-    });
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(UpdateEmployeeComponent);
+        component = fixture.componentInstance;
+        loginService = TestBed.inject(LoginService);
+        employeeService = TestBed.inject(EmployeeService);
+        router = TestBed.inject(Router);
+        fixture.detectChanges();
+      });
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to login component', () => {
+  it('should check for admin role ', () => {
     component.currentEmployee = currentEmployee;
     component.employee = temp;
     employeeService.emailExists.and.returnValue(of(false));
@@ -65,7 +65,7 @@ describe('UpdateEmployeeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to login component', () => {
+  it('should check for employee role ', () => {
     component.currentEmployee = currentEmployee;
     component.employee = currentEmployee;
     employeeService.emailExists.and.returnValue(of(false));
@@ -74,8 +74,7 @@ describe('UpdateEmployeeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  
-  it('should navigate to login component', () => {
+  it('should submit successfully ', () => {
     component.currentEmployee = currentEmployee;
     component.employee = currentEmployee2;
     employeeService.emailExists.and.returnValue(of(false));

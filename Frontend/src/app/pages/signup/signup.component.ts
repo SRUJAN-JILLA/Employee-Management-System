@@ -1,4 +1,4 @@
-import { Component ,OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/classes/employee';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,40 +8,41 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent{
+export class SignupComponent implements OnInit {
 
-  public employee: Employee = new Employee();
-  checkEmail: boolean=false;
-  checkPassword: boolean=false;
-  confirmPassword:any;
-  
-  constructor(private employeeService:EmployeeService, private router: Router){};
+  employee: Employee = new Employee();
+  checkEmail: boolean;
+  checkPassword: boolean;
+  confirmPassword: any;
 
+  constructor(private employeeService: EmployeeService, private router: Router) { };
+
+  ngOnInit(): void { }
+
+  /* on Submit should validate and save Employee */
   async formSubmit() {
-    if(this.employee.password !== this.confirmPassword ){
+    if (this.employee.password !== this.confirmPassword) {
       this.checkPassword = true;
-    }else{
-     
-    this.checkPassword = false;
-    
-    //checking for email exists or not 
-    const emailExists: any = await this.employeeService.emailExists(this.employee.email).toPromise();
-    this.checkEmail = emailExists;
-    if (!emailExists) {
-      this.saveEmployee();
-      this.login();      
     } else {
-      console.log("Email already exists!!!");
+      this.checkPassword = false;
+      //checking for email exists or not 
+      const emailExists: any = await this.employeeService.emailExists(this.employee.email).toPromise();
+      this.checkEmail = emailExists;
+      if (!emailExists) {
+        this.saveEmployee();
+        this.login();
+      }
     }
   }
-   }
 
+  /* Should save a new Employee */
   saveEmployee() {
-    this.employeeService.addEmployee(this.employee).subscribe(data => {
+    this.employeeService.addEmployee(this.employee, "mail", 0).subscribe(data => {
     });
   }
 
-  login(){
+  /* Should navigate to login page*/
+  login() {
     this.router.navigate(['/login']);
   }
 }

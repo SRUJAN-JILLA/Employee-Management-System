@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -8,9 +8,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MainComponent {
 
-  constructor(private router: Router){};
+  constructor(private router: Router) { };
   
-  login(){
+  /* Should navigate to login page*/
+  login() {
     this.router.navigate(['/login']);
   }
 }

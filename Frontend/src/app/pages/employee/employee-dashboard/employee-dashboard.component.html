@@ -1,5 +1,7 @@
+
+<br>
+<br>
 <body>
-  <br><br><br>
   <div class="container ">
     <div class="row">
       <div>
@@ -9,8 +11,8 @@
 
         <tbody>
           <tr>
-            <th class="heading"> Employee  Id</th>
-            <td class="content id"> {{this.employee.id}} </td>
+            <th class="heading"> Employee Id</th>
+            <td class="content"> {{this.employee.id}} </td>
           </tr>
           <tr>
             <th class="heading"> First name</th>
@@ -40,8 +42,12 @@
       </table>
     </div>
     <div class="update">
-      <button (click)="updateDetails(this.employee.id)" class="btn btn-outline-dark btn-lg  btn-block " id="update"> <h3>Update Details</h3></button>
-      <button (click)="changePassword(this.employee.id)" class="btn btn-outline-dark btn-lg  btn-block " id="changepassowrd"> <h3>Change Password</h3></button>
+      <button (click)="updateDetails(this.employee.id)" class="btn btn-outline-dark btn-lg  btn-block ">
+        <h3>Update Details</h3>
+      </button>
+      <button (click)="changePassword(this.employee.id)" class="btn btn-outline-dark btn-lg  btn-block ">
+        <h3>Change Password</h3>
+      </button>
     </div>
   </div>
 </body>

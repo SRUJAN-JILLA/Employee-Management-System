@@ -1,116 +1,141 @@
-.signup{
-    cursor: pointer;
-    text-decoration: underline;
+.signup {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .modal-header {
-    border-bottom: none;
-    padding: 20px;
-		border-radius: 1px;
-		border: none;
-        position: relative;
-}
-.avatar {
-    color: #fff;
-    margin: 0 auto;
-    text-align: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: #4c535d;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-    font-size: 40px;
-}
-body {
-    color: #fff;
-    background: #4c535d;
-    font-family: 'Roboto', sans-serif;
-    height: 800px;
-}
-h2{
-    text-align: center;
-}
-.form-control {
-    min-height: 41px;
-    box-shadow: none;
-    border-color: #e1e4e5;
-}
-.form-control:focus {
-    border-color: #5fcaba;
-}
-.form-control, .btn {        
-    border-radius: 3px;
-}    
-.signup-form {
-    width: 400px;
-    margin: 0 auto;
-    padding: 30px 0;
-}	
-.signup-form form {
-    color: #9ba5a8;
-    border-radius: 3px;
-    margin-bottom: 15px;
-    background: #fff;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    padding: 30px;
-}
-.signup-form h2 {
-    color: #333;
-    font-weight: bold;
-    margin-top: 0;
-}
-.signup-form hr {
-    margin: 0 -30px 20px;
-}
-.signup-form .form-group {
-    margin-bottom: 20px;
-}
-.signup-form label {
-    font-weight: normal;
-    font-size: 13px;
-}
-.signup-form .btn {        
-    font-size: 16px;
-    font-weight: bold;
-    background: #5fcaba;
-    border: none;
-    min-width: 140px;
-}
-.signup-form .btn:hover, .signup-form .btn:focus {
-    background: #3fc0ad;
-    outline: none !important;
-}
-.signup-form a {
-    color: #fff;
-    text-decoration: underline;
-}
-.signup-form a:hover {
-    text-decoration: none;
-}
-.signup-form form a {
-    color: #5fcaba;
-    text-decoration: none;
-}	
-.signup-form form a:hover {
-    text-decoration: underline;
+  border-bottom: none;
+  padding: 20px;
+  border-radius: 1px;
+  border: none;
+  position: relative;
 }
 
-input{
-    font-size: 15px;
+.avatar {
+  color: #fff;
+  margin: 0 auto;
+  text-align: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #4c535d;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  font-size: 40px;
 }
-.navToLoginSign{
-    font-size: 12px;
+
+body {
+  margin-top: -28px;
+  color: #fff;
+  background: #4c535d;
+  font-family: 'Roboto', sans-serif;
+  height: 800px;
 }
-.timer{
-    /* margin-left: 35%; */
-    color: red;
-    font-size: small;
+
+h2 {
+  text-align: center;
 }
-button{
-    margin-top: 15px;
+
+.form-control {
+  min-height: 41px;
+  box-shadow: none;
+  border-color: #e1e4e5;
 }
-.timertimer{
-    margin-left: 28%;
-    color: red;
-    font-size: small;
+
+.form-control:focus {
+  border-color: #5fcaba;
+}
+
+.form-control,
+.btn {
+  border-radius: 3px;
+}
+
+.signup-form {
+  width: 400px;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+.signup-form form {
+  color: #9ba5a8;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  background: #fff;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+}
+
+.signup-form h2 {
+  color: #333;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.signup-form hr {
+  margin: 0 -30px 20px;
+}
+
+.signup-form .form-group {
+  margin-bottom: 20px;
+}
+
+.signup-form label {
+  font-weight: normal;
+  font-size: 13px;
+}
+
+.signup-form .btn {
+  font-size: 16px;
+  font-weight: bold;
+  background: #5fcaba;
+  border: none;
+  min-width: 140px;
+}
+
+.signup-form .btn:hover,
+.signup-form .btn:focus {
+  background: #3fc0ad;
+  outline: none !important;
+}
+
+.signup-form a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.signup-form a:hover {
+  text-decoration: none;
+}
+
+.signup-form form a {
+  color: #5fcaba;
+  text-decoration: none;
+}
+
+.signup-form form a:hover {
+  text-decoration: underline;
+}
+
+input {
+  font-size: 15px;
+}
+
+.navToLoginSign {
+  font-size: 12px;
+}
+
+.timer {
+  /* margin-left: 35%; */
+  color: red;
+  font-size: small;
+}
+
+button {
+  margin-top: 15px;
+}
+
+.timertimer {
+  margin-left: 28%;
+  color: red;
+  font-size: small;
 }

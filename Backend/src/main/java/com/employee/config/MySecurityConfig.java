@@ -29,24 +29,27 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private JwtAuthenticationEntryPoint unAuthorizedHandler;
-	
-	
+
+	/* Should return authentication manager */
 	@Override
 	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
 
+	/* Should configure Authentication, userDetailsServiceImpl & passwordEncoder */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(this.userDetailsServiceImpl).passwordEncoder(passwordEncoder());
 	}
 
+	/* Should configure Aurhorization, restricted urls and the unrestricted once */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().disable().authorizeRequests()
-		.antMatchers("/generate-token", "/employees/add","/subscribe","/employees/emailExists/**","/employees/loginAttempts/**"
-				,"/employees/lockTimeLeft/**","/employees/lockTime/**","/employees/notifications/**")
+				.antMatchers("/generate-token", "/employees/add/**", "/subscribe", "/employees/emailExists/**",
+						"/employees/loginAttempts/**", "/employees/lockTimeLeft/**", "/employees/lockTime/**",
+						"/employees/notifications/**")
 				.permitAll().antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated().and()
 				.exceptionHandling().authenticationEntryPoint(unAuthorizedHandler).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -54,6 +57,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
+	/* Should encode password using BCryptPasswordEncoder */
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

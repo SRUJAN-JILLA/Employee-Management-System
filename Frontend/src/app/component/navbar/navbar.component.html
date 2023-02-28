@@ -1,51 +1,50 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
 <div>
-    <nav  *ngIf="!loginService.isLoggedIn()" class="navbar navbar-expand-lg isLoggedIn">
-        <div class="container-fluid">
-            <mat-toolbar class="headingStart">
-                <h1>Employee Management System</h1>
-            </mat-toolbar>
-          <div class="collapse navbar-collapse navbarCompleteSection" id="navbarText">
-            <span class="navbar-text">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link logOut" id="main" (click)="main()">Home</a>
-                      </li>
-                    <li class="nav-item">
-                      <a class="nav-link logOut login" id="login" (click)="login()">Login</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link logOut signUp" id="signup" (click)="signup()">Sign Up</a>
-                    </li>
-                  </ul>
-            </span>
-          </div>
-        </div>
-      </nav>   
-    
-      <nav *ngIf="loginService.isLoggedIn()"  class="navbar navbar-expand-lg isAdmin">
-        <div class="container-fluid heading">
-            <mat-toolbar class="heading">
-                <h1>Employee Management System</h1>
-            </mat-toolbar>
-          <div class="collapse content navbar-collapse navbarCompleteSection" id="navbarText">
-            <span class="navbar-text">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item" >
-                      <a class="nav-link myprofile" aria-current="page" id="employee" (click)="employeeHome()">My Profile</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="employeeList" (click)="employeeList()">Employees</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="logout" (click)="main()">Logout</a>
-                    </li>
-                </ul>
-            </span>
-          </div>
-        </div>
-      </nav>    
+  <nav *ngIf="!loginService.isLoggedIn()" class="navbar navbar-expand-lg isLoggedIn">
+    <div class="container-fluid">
+      <mat-toolbar class="headingStart">
+        <h1>Employee Management System</h1>
+      </mat-toolbar>
+      <div class="collapse navbar-collapse navbarCompleteSection" id="navbarText">
+        <span class="navbar-text">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link logOut" (click)="home()">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link logOut" (click)="login()">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link logOut signUp" (click)="signup()">Sign Up</a>
+            </li>
+          </ul>
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <nav *ngIf="loginService.isLoggedIn()" class="navbar navbar-expand-lg isAdmin">
+    <div class="container-fluid heading">
+      <mat-toolbar class="heading">
+        <h1>Employee Management System</h1>
+      </mat-toolbar>
+      <div class="collapse content navbar-collapse navbarCompleteSection" id="navbarText">
+        <span class="navbar-text">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <app-notification></app-notification>
+            <li class="nav-item">
+              <a class="nav-link myprofile" aria-current="page" (click)="employeeHome()">My Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="employeeList()">Employees</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="main()">Logout</a>
+            </li>
+          </ul>
+        </span>
+      </div>
+    </div>
+  </nav>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>

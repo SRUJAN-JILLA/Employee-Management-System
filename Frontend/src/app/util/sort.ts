@@ -9,14 +9,29 @@ export class Sort {
     constructor() {
     }
 
-    public startSort(property:any, order:any, type = "") {
+    /* Should sort entire data */
+    public startSort(property: any, order: any, type = "") {
         if (order === "desc") {
             this.sortOrder = -1;
         }
-        return (a:any, b:any) => {
-          
+        return (a: any, b: any) => {
+            if (type === "date") {
+                return this.sortData(new Date(a[property]), new Date(b[property]));
+            }
+            else {
                 return this.collator.compare(a[property], b[property]) * this.sortOrder;
-            
+            }
+        }
+    }
+
+    /* Should sort data */
+    private sortData(a: any, b: any) {
+        if (a < b) {
+            return -1 * this.sortOrder;
+        } else if (a > b) {
+            return 1 * this.sortOrder;
+        } else {
+            return 0 * this.sortOrder;
         }
     }
 }

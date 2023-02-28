@@ -1,62 +1,65 @@
-.navbar{
-    margin-bottom: 1rem;
-    border-radius: 0%;
-}
-.myprofile{
-    width: 90px;
-}
-button{
-    margin-left: 10px;
-}
-h1{
-    font-size: 36px;
-    font-family: Roboto Slab;
-    font-weight: 500;
-    margin-top: 15px;
-}
-.heading{
-    background-color: #4C535D;color: white;
-    height: 60px;
+.navbar {
+  margin-bottom: 1rem;
+  border-radius: 0%;
 }
 
-a{
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 5px;
-    color: #e3edfa;
-}
-.headingStart{
-    background-color: #e3edfa;
-}
-.isAdmin , .isEmployee{
-    background-color: #4C535D;color: white;
-    height: 65px;
+.myprofile {
+  width: 90px;
 }
 
-.content{
-    width: 460px;
-}
-.linkadd{
-    width: 115px;
-}
-.logOut{
-    color: #4C535D;
-    width: 80px;
-}
-.signUp{
-    width: 70px;
-}
-.isLoggedIn{
-    height: 70px;
+button {
+  margin-left: 10px;
 }
 
-/* Extra     */
-.isLoggedIn{
-    background-color: #e3edfa;
+h1 {
+  font-size: 36px;
+  font-family: Roboto Slab;
+  font-weight: 500;
+  margin-top: 10px;
 }
-.isLoggedInAdmin,.isLoggedInEmployee{
-    background-color: #4C535D;color: white;
+
+.heading {
+  background-color: #4C535D;
+  color: white;
+  height: 60px;
 }
 
+a {
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 5px;
+  color: #e3edfa;
+}
 
+.headingStart {
+  background-color: #e3edfa;
+}
 
+.isAdmin,
+.isEmployee {
+  background-color: #4C535D;
+  color: white;
+  height: 65px;
+}
+
+.content {
+  width: 460px;
+}
+
+.linkadd {
+  width: 115px;
+}
+
+.logOut {
+  color: #4C535D;
+  width: 60px;
+}
+
+.signUp {
+  width: 70px;
+}
+
+.isLoggedIn {
+  height: 70px;
+  background-color: #e3edfa;
+}

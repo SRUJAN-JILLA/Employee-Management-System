@@ -11,21 +11,32 @@ import { Router } from '@angular/router';
 })
 export class EmployeeDashboardComponent {
   employee: Employee = new Employee();
-  temp: Employee = new Employee;
 
-  constructor(public loginService:LoginService, private router: Router){};
+  constructor(public loginService: LoginService, private employeeService: EmployeeService,
+    private router: Router) { };
 
   ngOnInit(): void {
-    this.loginService.getCurrentUser().subscribe(data=>{
+    this.loginService.getCurrentUser().subscribe(data => {
       this.employee = data;
     });
+
+    this.employeeService.getSubscription().subscribe({
+      next: (event: string) => {
+        this.ngOnInit();
+      }
+    });
+  }
+  user(): any {
+    return this.loginService.getUser();
   }
 
-  updateDetails(id:number){ 
+  /* Should navigate to update details page*/
+  updateDetails(id: number) {
     this.router.navigate(['updateEmployee', id]);
   }
-  
-  changePassword(id:number){
-    this.router.navigate(['/changePassword']);
+
+  /* Should navigate to change password page*/
+  changePassword(id: number) {
+    this.router.navigate(['changePassword']);
   }
 }

@@ -4,9 +4,10 @@ export class Employee {
     lastName: string;
     salary: number;
     email: string;
-    job:string;
-    password:string;
-    role:string;
-    active:boolean;
+    job: string;
+    password: string;
+    role: string;
+    active: boolean;
     loginAttempts: number;
+    notifications: string[];
 }

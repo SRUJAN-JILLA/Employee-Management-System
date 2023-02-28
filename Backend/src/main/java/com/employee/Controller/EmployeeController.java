@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,135 +18,140 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.supercsv.io.CsvBeanWriter;
-import org.supercsv.io.ICsvBeanWriter;
-import org.supercsv.prefs.CsvPreference;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.employee.Model.Employee;
-import com.employee.Service.EmployeeExcelExporter;
-import com.employee.Service.EmployeePdfExporter;
 import com.employee.Service.EmployeeService;
 
-@CrossOrigin(origins = "*", allowedHeaders="*")
+@CrossOrigin(origins = "*")
 @RestController
 public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
 
-	public EmployeeController(EmployeeService employeeService) {
-		super();
-		this.employeeService = employeeService;
+	/* Should return subscription for clients(browser) */
+	@RequestMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
+	public SseEmitter subscribe() {
+		return this.employeeService.subscribe();
 	}
 
+	/* Should return notifications based on id */
+	@GetMapping("/employees/notifications/{id}")
+	public List<String> getNotification(@PathVariable("id") long id) {
+		return this.employeeService.getNotifications(id);
+	}
+
+	/* Should delete notifications based on id */
+	@DeleteMapping("/employees/notifications/{id}")
+	public void deleteNotifications(@PathVariable("id") long id) {
+		this.employeeService.deleteNotifications(id);
+	}
+
+	/* Should return all employees */
 	@GetMapping("/employees")
 	public List<Employee> findAll() {
 		return this.employeeService.findAll();
 	}
 
+	/* Should delete employee based on id */
 	@DeleteMapping("/employees/{id}")
 	public void deleteEmployee(@PathVariable("id") long id) {
-		System.out.println(id);
 		this.employeeService.deleteEmployee(id);
 	}
 
-	@PostMapping("/employees/add")
-	public String addEmployee(@RequestBody Employee employee) throws ParseException {
-		return employeeService.addEmployee(employee);
+	/* Should update the notifications after delete */
+	@PutMapping("/employees/getNotificationsAfterDelete/{adminName}/{adminId}")
+	public String addToNotiListAdminDeleteEmployee(@PathVariable("adminName") String adminName,
+			@PathVariable("adminId") long adminId, @RequestBody List<Long> employeeIds) {
+		return this.employeeService.addToNotiListAdminDeleteEmployee(adminName, adminId, employeeIds);
 	}
 
+	/* Should add an employee */
+	@PostMapping("/employees/add/{adminName}/{adminId}")
+	public String addEmployee(@RequestBody Employee employee, @PathVariable("adminName") String adminName,
+			@PathVariable("adminId") long adminId) throws ParseException {
+		return employeeService.addEmployee(employee, adminName, adminId);
+	}
+
+	/* Should change password based on id */
 	@PutMapping("employees/changePassword/{id}")
 	public String changePassword(@PathVariable("id") long id, @RequestBody Employee employee) {
 		return this.employeeService.changePassword(id, employee);
 	}
 
+	/* Should change active based on id */
 	@PutMapping("employees/changeActive/{id}")
-	public String changeActive(@PathVariable("id") long id, @RequestBody Employee employee) {
-		return this.employeeService.changeActive(id, employee);
+	public void changeActive(@PathVariable("id") long id, @RequestBody Employee employee) {
+		this.employeeService.changeActive(id, employee);
 	}
 
+	/* Should change active based on email */
 	@PutMapping("employees/changeActive/mail/{mail}")
-	public String changeActiveByEmail(@PathVariable("mail") String mail, @RequestBody Employee employee) {
-		return this.employeeService.changeActiveByMail(mail, employee);
+	public void changeActiveByEmail(@PathVariable("mail") String mail, @RequestBody Employee employee) {
+		this.employeeService.changeActiveByMail(mail, employee);
 	}
 
-	@PutMapping("employees/update/{id}")
-	public String employeeUpdate(@PathVariable("id") long id,@RequestBody Employee employee) {
-		return this.employeeService.employeeUpdate( id, employee);
+	/* Should update employee based on id */
+	@PutMapping("employees/update/{id}/{adminName}/{adminId}/{employeeName}")
+	public String employeeUpdate(@PathVariable("id") long id, @PathVariable("adminName") String adminName,
+			@PathVariable("adminId") long adminId, @PathVariable("employeeName") String employeeName,
+			@RequestBody Employee employee) {
+		return this.employeeService.employeeUpdate(adminName, adminId, id, employee);
 	}
 
+	/* Should return if the email id exists or not */
 	@GetMapping("/employees/emailExists/{email}")
 	public boolean emailExists(@PathVariable("email") String email) {
 		return employeeService.findByEmail(email);
 	}
 
+	/* Should get employee based on id */
 	@GetMapping("/employees/{id}")
 	public Employee findById(@PathVariable("id") long id) {
 		return this.employeeService.findById(id);
 	}
 
+	/* Should return lock time based on mail */
 	@GetMapping("/employees/lockTime/{mail}")
 	public String setLockTime(@PathVariable("mail") String mail) {
 		this.employeeService.setLockTime(mail);
 		return "Locked";
 	}
 
+	/* Should return lock time left based on mail */
 	@GetMapping("/employees/lockTimeLeft/{mail}")
 	public long getLockTimeLeft(@PathVariable("mail") String mail) {
 		return this.employeeService.getRestOfLockTime(mail);
 	}
 
-	// get Login attempts
+	/* Should return login attempts based on mail */
 	@GetMapping("/employees/loginAttempts/{mail}")
 	public long getLoginAttempts(@PathVariable("mail") String mail) {
 		return this.employeeService.getLoginAttempts(mail);
 	}
 
-	// set login attempts
+	/* Should change login attempts based */
 	@PutMapping("/employees/loginAttempts")
-	public String setLoginAttempts(@RequestBody Employee employee) {
-		return this.employeeService.changeLoginAttempts(employee);
+	public void setLoginAttempts(@RequestBody Employee employee) {
+		this.employeeService.changeLoginAttempts(employee);
 	}
 
-	// Export all
+	/* Download in Pdf, csv or excel file */
 	@GetMapping("/employees/download/{form}")
-	public String download(@PathVariable("form") String form, HttpServletResponse response) throws IOException {
+	public void download(@PathVariable("form") String form, HttpServletResponse response) throws IOException {
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 		String currentDateTime = dateFormatter.format(new Date());
 		String headerKey = "Content-Disposition";
 		List<Employee> listEmployee = this.employeeService.findAll();
-
 		if (form.equals("pdf")) {
-			response.setContentType("application/pdf");
-			String headerValue = "attachment; filename=Employees_" + currentDateTime + ".pdf";
-			response.setHeader(headerKey, headerValue);
-			EmployeePdfExporter exporter = new EmployeePdfExporter(listEmployee);
-			exporter.export(response);
-
+			this.employeeService.downloadPdf(response, currentDateTime, headerKey, listEmployee);
 		} else if (form.equals("excel")) {
-			String headerValue = "attachment; filename=Employees_" + currentDateTime + ".xlsx";
-			response.setHeader(headerKey, headerValue);
-			EmployeeExcelExporter employeeExcelExporter = new EmployeeExcelExporter(listEmployee);
-			employeeExcelExporter.export(response);
+			this.employeeService.downloadExcel(response, currentDateTime, headerKey, listEmployee);
 		} else {
-			response.setContentType("text/csv");
-			String headerValue = "attachment; filename=Employees_" + currentDateTime + ".csv";
-			response.setHeader(headerKey, headerValue);
-			ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
-			String[] csvHeader = { "ID", "First Name", "Last Name", "E-mail", "Salary", "Job" };
-			String[] nameMapping = { "id", "firstName", "lastName", "email", "salary", "job" };
-
-			csvWriter.writeHeader(csvHeader);
-
-			for (Employee employee : listEmployee) {
-				csvWriter.write(employee, nameMapping);
-			}
-
-			csvWriter.close();
+			this.employeeService.downloadCsv(response, currentDateTime, headerKey, listEmployee);
 		}
-		return "Download";
-
 	}
-
 }

@@ -11,37 +11,37 @@ import { SignupComponent } from './signup.component';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
-  let fixture: ComponentFixture<SignupComponent>;  
-  let router:any;
-  let routerSpy:{navigate:jasmine.Spy};
-  let employeeService:any;
-  let employeeServiceSpy:{emailExists:jasmine.Spy,addEmployee:jasmine.Spy};
+  let fixture: ComponentFixture<SignupComponent>;
+  let router: any;
+  let routerSpy: { navigate: jasmine.Spy };
+  let employeeService: any;
+  let employeeServiceSpy: { emailExists: jasmine.Spy, addEmployee: jasmine.Spy };
 
-   let employees:Employee[]= [{"id":100003,"firstName":"Srujan","lastName":"Jilla","salary":900000.0,"email":"srhujanjilla@gmail.com","job":"HR","password":"$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK","role":"ADMIN","active":false,"loginAttempts":0},
-  {"id":100004,"firstName":"Sravan","lastName":"Jilla","salary":900000.0,"email":"sravanjilla@gmail.com","job":"HR","password":"$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK","role":"ADMIN","active":false,"loginAttempts":0}];
-  let currentEmployee:Employee = {"id":100003,"firstName":"Srujan","lastName":"Jilla","salary":900000.0,"email":"srujanjilla@gmail.com","job":"HR","password":"$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK","role":"ADMIN","active":false,"loginAttempts":0};
-  
+  let employees: Employee[] = [{ "id": 100003, "firstName": "Srujan", "lastName": "Jilla", "salary": 900000.0, "email": "srhujanjilla@gmail.com", "job": "HR", "password": "$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK", "role": "ADMIN", "active": false, "loginAttempts": 0, "notifications": [] },
+  { "id": 100004, "firstName": "Sravan", "lastName": "Jilla", "salary": 900000.0, "email": "sravanjilla@gmail.com", "job": "HR", "password": "$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK", "role": "ADMIN", "active": false, "loginAttempts": 0, "notifications": [] }];
+  let currentEmployee: Employee = { "id": 100003, "firstName": "Srujan", "lastName": "Jilla", "salary": 900000.0, "email": "srujanjilla@gmail.com", "job": "HR", "password": "$2a$10$BW9L/gFvBBMVd3BNQTDznOUz59c9hgCkn4UZ8CxxgVk59vKkUJBNK", "role": "ADMIN", "active": false, "loginAttempts": 0, "notifications": [] };
+
   beforeEach(async () => {
 
-    employeeServiceSpy= jasmine.createSpyObj(EmployeeService,{'emailExists':of(true), 'addEmployee':of(true)}),
-    routerSpy= jasmine.createSpyObj(Router,{'navigate':of(true)});
-    
-    await TestBed.configureTestingModule({      
-      imports:[FormsModule,MaterialModule,HttpClientTestingModule],
-      declarations:[SignupComponent],
-      providers:[
-        { provide: EmployeeService, useValue:employeeServiceSpy},
-        { provide: Router, useValue:routerSpy}
+    employeeServiceSpy = jasmine.createSpyObj(EmployeeService, { 'emailExists': of(true), 'addEmployee': of(true) }),
+      routerSpy = jasmine.createSpyObj(Router, { 'navigate': of(true) });
+
+    await TestBed.configureTestingModule({
+      imports: [FormsModule, MaterialModule, HttpClientTestingModule],
+      declarations: [SignupComponent],
+      providers: [
+        { provide: EmployeeService, useValue: employeeServiceSpy },
+        { provide: Router, useValue: routerSpy }
       ]
     })
-    .compileComponents()
-    .then(() =>{
-      fixture = TestBed.createComponent(SignupComponent);
-      component = fixture.componentInstance;
-      employeeService =  TestBed.inject(EmployeeService);
-      router = TestBed.inject(Router);
-      fixture.detectChanges();
-    });
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(SignupComponent);
+        component = fixture.componentInstance;
+        employeeService = TestBed.inject(EmployeeService);
+        router = TestBed.inject(Router);
+        fixture.detectChanges();
+      });
 
   });
 
@@ -65,8 +65,8 @@ describe('SignupComponent', () => {
 
   it('should not if passwords dont match navigate to login cosmponent', () => {
     employeeService.emailExists.and.returnValue(of(false));
-    component.employee.password="asdfasdf";
-    component.confirmPassword="asdfasgasfa";
+    component.employee.password = "asdfasdf";
+    component.confirmPassword = "asdfasgasfa";
     fixture.debugElement.nativeElement.querySelector('.btn').click()
     fixture.detectChanges();
     expect(component).toBeTruthy();

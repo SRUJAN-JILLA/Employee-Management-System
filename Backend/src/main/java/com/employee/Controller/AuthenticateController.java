@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.employee.Model.Employee;
 import com.employee.Model.JwtRequest;
 import com.employee.Model.JwtResponse;
-import com.employee.Repository.EmployeeRepository;
 import com.employee.Service.impl.UserDetailsServiceImpl;
 import com.employee.config.JwtUtil;
 
@@ -35,18 +34,14 @@ public class AuthenticateController {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-
-	@Autowired
-	private EmployeeRepository employeeRepository;
-
+	
+	/* Should return JWT token based on User Datails */
 	@PostMapping("/generate-token")
 	public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
 
 		try {
 			this.authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
-
 		} catch (UsernameNotFoundException e) {
-			e.printStackTrace();
 			throw new Exception("User Not Found");
 		}
 
@@ -55,12 +50,13 @@ public class AuthenticateController {
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
-	// returns the details of current user
+	/* Should return the details of current user */
 	@GetMapping("/current-user")
 	public Employee getCurrentEmployee(Principal principal) {
 		return ((Employee) this.userDetailsServiceImpl.loadUserByUsername(principal.getName()));
 	}
-
+	
+	/* Should authenticate based on User Details */
 	private void authenticate(String username, String password) throws Exception {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));

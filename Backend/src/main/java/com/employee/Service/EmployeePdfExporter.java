@@ -21,10 +21,12 @@ import com.lowagie.text.pdf.PdfWriter;
 public class EmployeePdfExporter {
 	private List<Employee> listEmployee;
 
+	/* Should the employees for PDF file */
 	public EmployeePdfExporter(List<Employee> listEmployee) {
 		this.listEmployee = listEmployee;
 	}
 
+	/* Should create the Header line for PDF file */
 	private void writeTableHeader(PdfPTable table) {
 		PdfPCell cell = new PdfPCell();
 		cell.setBackgroundColor(Color.BLUE);
@@ -52,6 +54,7 @@ public class EmployeePdfExporter {
 		table.addCell(cell);
 	}
 
+	/* Should write data for PDF file */
 	private void writeTableData(PdfPTable table) {
 		for (Employee employee : listEmployee) {
 			table.addCell(String.valueOf(employee.getId()));
@@ -63,6 +66,7 @@ public class EmployeePdfExporter {
 		}
 	}
 
+	/* Should export PDF File */
 	public void export(HttpServletResponse response) throws DocumentException, IOException {
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, response.getOutputStream());

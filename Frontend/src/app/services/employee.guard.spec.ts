@@ -8,7 +8,7 @@ describe('EmployeeGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule], 
+      imports: [HttpClientTestingModule],
       providers: [EmployeeGuard]
     });
     guard = TestBed.inject(EmployeeGuard);

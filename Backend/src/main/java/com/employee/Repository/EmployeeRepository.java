@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.employee.Model.Employee;
 
 @Repository
-public interface EmployeeRepository extends MongoRepository<Employee,Long> {
+public interface EmployeeRepository extends MongoRepository<Employee, Long> {
 	public Employee findByEmail(String email);
 }
